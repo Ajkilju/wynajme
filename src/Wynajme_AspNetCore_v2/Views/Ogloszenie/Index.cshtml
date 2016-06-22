@@ -6,6 +6,7 @@
 
 <div class="container">
 
+    @* ----------- top navbar ------------- *@
     <div class="LightGrayConteiner">
         <form asp-controller="Ogloszenie"
               asp-action="Index"
@@ -44,8 +45,9 @@
                 }
             </div>
         </div>
-    </div>
+    </div> @* top navbar *@
 
+    @* ----------- left navbar ------------- *@
     <div class="row col-md-3">
         <div class="LightGrayConteiner">
             <div class="dropdown">
@@ -642,8 +644,9 @@
                 </a>
             </p>
         </div>
-    </div>
+    </div> @* left navbar *@
 
+    @* ----------- lista ogloszen ------------- *@
     <div class="col-md-8">
         @foreach (var item in Model.Ogloszenia)
         {
@@ -699,7 +702,9 @@
          }
 
         <pager source="Model.Ogloszenia" />
-    </div>
+
+    </div> @* lista ogloszen *@
+
 </div>
 
 <div style="height:100px;"></div>
