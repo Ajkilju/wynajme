@@ -1,10 +1,6 @@
 @model Wynajme_AspNetCore_v2.Models.Ogloszenie
 
 @{
-    ViewData["Title"] = "Create";
-}
-
-@{
     ViewData["Title"] = "Dodaj";
     var kategorie = (IEnumerable<SelectListItem>)ViewData["KategoriaId"];
     var miasta = (IEnumerable<SelectListItem>)ViewData["MiastoId"];
@@ -12,7 +8,6 @@
 
 <div class="container">
     <h1>Dodaj ogloszenie</h1>
-
 
     <form asp-action="Create" id="CreateForm" enctype="multipart/form-data">
         <div class="form-horizontal">
@@ -81,104 +76,88 @@
                 </div>
             </div>
 
+            <h3>Wyposazenie</h3>
+            <hr />
 
-            
+            <div class="form-group">
+                <label class="col-md-2 control-label">Kuchnia</label>
+                <div class="col-md-2">
 
-    <h3>Wyposazenie</h3>
-    <hr/>
+                    <div class="checkbox">
+                        <label asp-for="Zmywarka">
+                            <input asp-for="Zmywarka" />
+                            @Html.DisplayNameFor(m => m.Zmywarka)
+                        </label>
+                    </div>
 
-    <div class="form-group">
-        <label class="col-md-2 control-label">Kuchnia</label>
-        <div class="col-md-2">
+                    <div class="checkbox">
+                        <label asp-for="Lodowka">
+                            <input asp-for="Lodowka" />
+                            @Html.DisplayNameFor(m => m.Lodowka)
+                        </label>
+                    </div>
 
-            <div class="checkbox">
-                <label asp-for="Zmywarka">
-                    <input asp-for="Zmywarka" />
-                    @Html.DisplayNameFor(m => m.Zmywarka)
-                </label>
+                    <div class="checkbox">
+                        <label asp-for="Mikrofala">
+                            <input asp-for="Mikrofala" />
+                            @Html.DisplayNameFor(m => m.Mikrofala)
+                        </label>
+                    </div>
+
+                    <div class="checkbox">
+                        <label asp-for="KuchniaGaz">
+                            <input asp-for="KuchniaGaz" />
+                            @Html.DisplayNameFor(m => m.KuchniaGaz)
+                        </label>
+                    </div>
+
+                    <div class="checkbox">
+                        <label asp-for="KuchniaEl">
+                            <input asp-for="KuchniaEl" />
+                            @Html.DisplayNameFor(m => m.KuchniaEl)
+                        </label>
+                    </div>
+
+                </div>
             </div>
 
+            <div class="form-group">
+                <label class="col-md-2 control-label">Lazienka</label>
+                <div class="col-md-2">
 
-    <div class="checkbox">
-        <label asp-for="Lodowka">
-            <input asp-for="Lodowka" />
-            @Html.DisplayNameFor(m => m.Lodowka)
-        </label>
-    </div>
+                    <div class="checkbox">
+                        <label asp-for="Pralka">
+                            <input asp-for="Pralka" />
+                            @Html.DisplayNameFor(m => m.Pralka)
+                        </label>
+                    </div>
 
-    <div class="checkbox">
-        <label asp-for="Mikrofala">
-            <input asp-for="Mikrofala" />
-            @Html.DisplayNameFor(m => m.Mikrofala)
-        </label>
-    </div>
+                    <div class="checkbox">
+                        <label asp-for="Wanna">
+                            <input asp-for="Wanna" />
+                            @Html.DisplayNameFor(m => m.Wanna)
+                        </label>
+                    </div>
 
-    <div class="checkbox">
-        <label asp-for="KuchniaGaz">
-            <input asp-for="KuchniaGaz" />
-            @Html.DisplayNameFor(m => m.KuchniaGaz)
-        </label>
-    </div>
+                    <div class="checkbox">
+                        <label asp-for="Prysznic">
+                            <input asp-for="Prysznic" />
+                            @Html.DisplayNameFor(m => m.Prysznic)
+                        </label>
+                    </div>
 
-    <div class="checkbox">
-        <label asp-for="KuchniaEl">
-            <input asp-for="KuchniaEl" />
-            @Html.DisplayNameFor(m => m.KuchniaEl)
-        </label>
-    </div>
-
-        </div>
-    </div>
-
-
-    <div class="form-group">
-        <label class="col-md-2 control-label">Lazienka</label>
-        <div class="col-md-2">
-
-            <div class="checkbox">
-                <label asp-for="Pralka">
-                    <input asp-for="Pralka" />
-                    @Html.DisplayNameFor(m => m.Pralka)
-                </label>
+                </div>
             </div>
 
-            <div class="checkbox">
-                <label asp-for="Wanna">
-                    <input asp-for="Wanna" />
-                    @Html.DisplayNameFor(m => m.Wanna)
-                </label>
-            </div>
-
-            <div class="checkbox">
-                <label asp-for="Prysznic">
-                    <input asp-for="Prysznic" />
-                    @Html.DisplayNameFor(m => m.Prysznic)
-                </label>
-            </div>
-
-        </div>
-    </div>
-
-
-
-            
-
-            
-
-
-@*
-    <div class="form-group">
-        <label asp-for="DodatkoweWyposazenie" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="DodatkoweWyposazenie" class="form-control" />
-            <span asp-validation-for="DodatkoweWyposazenie" class="text-danger" />
-        </div>
-    </div>
-*@
-
-
-            
-
+            @*
+                <div class="form-group">
+                    <label asp-for="DodatkoweWyposazenie" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="DodatkoweWyposazenie" class="form-control" />
+                        <span asp-validation-for="DodatkoweWyposazenie" class="text-danger" />
+                    </div>
+                </div>
+            *@
 
             <hr />
 
@@ -187,7 +166,6 @@
                     <input type="submit" value="Dodaj ogloszenie" class="btn btn-primary" />
                 </div>
             </div>
-
         </div>
     </form>
 
@@ -199,6 +177,6 @@
 <div style="height:300px"></div>
 
 
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

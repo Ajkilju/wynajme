@@ -23,10 +23,9 @@
     }
 }
 
-
 <div class="container" style="padding-top:10px">
 
-
+    @* ------------ Top navbar -------------- *@
     <div class="row">
         <h2>@Model.Tytul</h2>
         <hr />     
@@ -42,9 +41,7 @@
             <p><a asp-controller="Ogloszenie" asp-action="Index">Obserwuj</a></p>
             <p><a asp-controller="Ogloszenie" asp-action="Index">Podobne ogloszenia</a></p>
             <p><a asp-controller="Ogloszenie" asp-action="Index">Dodaj ogloszenie</a></p>
-        </div>
-
-             
+        </div>           
         <div class="col-md-1">
             <h4>@userName</h4>
             <a asp-controller="Ogloszenie" asp-action="Index" asp-route-userid="@Model.UserId"><p>Kontakt</p></a>
@@ -53,19 +50,16 @@
         <div class="col-md-2" style="text-align:center">
             <img src=@userPatch class="img-circle" style="width:100px; height:100px;" />
         </div>
-
         <div class="col-md-1"></div>
-
     </div>
 
     <hr />
 
-    
-
     <div class="col-md-1"></div>
 
+    @* ------------ content -------------- *@
     <div class="col-md-6">
-
+       
         <div class="fotorama"
              data-nav="thumbs"
              data-allowfullscreen="true"
@@ -97,7 +91,6 @@
 
         <div class="row"> 
             <div class="col-md-1"> </div>
-
             <div class="col-md-10" style="text-align:center">
                 <h3>Zapytaj o szczegoly!</h3>        
                 <input type="text"  placeholder="Twoj E-mail" class="form-control" />
@@ -111,9 +104,9 @@
             <div class="col-md-1"> </div>
         </div>
 
-
     </div>
 
+    @* ------------ right bar -------------- *@
     <div class="col-md-4">
 
         <div>
@@ -123,9 +116,6 @@
         <div class="LightGrayConteiner LightGrayConteiner-text">
             <h1 style="text-align:center"><strong>@Model.Cena zl</strong></h1>
         </div>
-
-
-
 
         <div class="LightGrayConteiner LightGrayConteiner-text">
             <p><span class="glyphicon glyphicon-home" aria-hidden="true"></span>    Powierzchnia: @Model.Powierzchnia mkw</p>
@@ -153,22 +143,16 @@
         </div>     
 
         <div style="text-align:center;" class="LightGrayConteiner">
-
-                <a asp-action="Create" asp-controller="Ogloszenie" class="btn button-purple-lg">
-                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>  Dodaj swoje ogloszenie
-                </a>
+            <a asp-action="Create" asp-controller="Ogloszenie" class="btn button-purple-lg">
+                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>  Dodaj swoje ogloszenie
+            </a>
         </div>
 
-        <div style="height:20px;"></div>
-
-        <div style="text-align:center;">
+        <div style="text-align:center; margin-top:20px; margin-bottom:20px;">
             <h2>Zobacz podobne ogloszenia</h2>
         </div>
 
-        <div style="height:20px;"></div>
-
-        @{
-            foreach (var item in podobneOgloszenia)
+        @foreach (var item in podobneOgloszenia)
             {
                 if (item.Miniature == null)
                 {
@@ -192,26 +176,21 @@
                         <p>
                             Lokalizacja:
                             <a asp-controller="Ogloszenie" asp-action="Index" asp-route-miasto="@Model.Miasto.Nazwa">@item.Miasto.Nazwa</a>
-                             <br />
-                            Kategoria: 
+                            <br />
+                            Kategoria:
                             <a asp-controller="Ogloszenie" asp-action="Index" asp-route-kategoria="@Model.Kategoria.Nazwa">@item.Kategoria.Nazwa</a>
                             <br />
                             <br />
                         </p>
                     </div>
-
-                   
-
-
                 </div>
-            }
         }
-
-    </div>
+           
+    </div> @* right bar *@
 
     <div class="col-md-1"></div>
 
-</div>
+</div> @* main conteiner *@
 
 
 
