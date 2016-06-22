@@ -1,0 +1,771 @@
+@model Wynajme_AspNetCore_v2.Models.OgloszenieViewModel.OgloszenieIndexViewModel
+
+@using Sakura.AspNetCore.Mvc
+@using Sakura.AspNetCore
+
+
+<div class="container">
+
+    <div class="LightGrayConteiner">
+        
+        <form asp-controller="Ogloszenie"
+              asp-action="Index"
+              asp-route-miasto="@Model.AktualneMiasto"
+              asp-route-cenaod="@Model.CenaOd"
+              asp-route-cenado="@Model.CenaDo"
+              asp-route-kategoria="@Model.AktualnaKategoria"
+              asp-route-sortorder="@Model.SortOrderRoute"
+              asp-route-zmywarka="@Model.Zmywarka"
+              asp-route-lodowka="@Model.Lodowka"
+              asp-route-mikrofala="@Model.Mikrofala"
+              asp-route-kuchniagaz="@Model.KuchniaGaz"
+              asp-route-kuchniael="@Model.KuchniaEl"
+              asp-route-pralka="@Model.Pralka"
+              asp-route-wanna="@Model.Wanna"
+              asp-route-prysznic="@Model.Prysznic"
+              method="get">
+            <div class="container" style="padding-top:20px; text-align:center">
+                <div class="btn-group">
+                    <input type="text" name="SearchString" class="PurpleTextImput" value="@Model.SearchString" style="width:300px;" />
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn button-purple-lg">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Szukaj
+                    </button>
+                </div>
+            </div>
+        </form>
+        
+        <div class="container" style="text-align:center;padding-top:10px">
+            <div>
+                @foreach (var item in Model.Kategorie)
+            {
+                    <a asp-controller="Ogloszenie" asp-action="Index" asp-route-kategoria="@item.Nazwa" class="btn button-purple">
+                        @item.Nazwa
+                    </a>
+                }
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="row col-md-3">
+
+        <div class="LightGrayConteiner">
+
+
+
+            <div class="dropdown">
+                <button class="btn button dropdown-toggle" type="button" id="dropdownMenu1"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+                    @{
+                        if (Model.AktualnaKategoria == null)
+                        {
+                            <span>Wszystkie kategorie</span>
+                        }
+                        else
+                        {
+                            @Model.AktualnaKategoria
+                        }
+                    }
+
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li>
+                        <a asp-controller="Ogloszenie"
+                           asp-action="Index"
+                           asp-route-searchString="@Model.SearchStringRoute"
+                           asp-route-miasto="@Model.AktualneMiasto"
+                           asp-route-cenaod="@Model.CenaOd"
+                           asp-route-cenado="@Model.CenaDo"
+                           asp-route-sortorder="@Model.SortOrderRoute"
+                           asp-route-pagesize="@Model.PageSize"
+                           asp-route-zmywarka="@Model.Zmywarka"
+                           asp-route-lodowka="@Model.Lodowka"
+                           asp-route-mikrofala="@Model.Mikrofala"
+                           asp-route-kuchniagaz="@Model.KuchniaGaz"
+                           asp-route-kuchniael="@Model.KuchniaEl"
+                           asp-route-pralka="@Model.Pralka"
+                           asp-route-wanna="@Model.Wanna"
+                           asp-route-prysznic="@Model.Prysznic">
+                            Wszystkie kategorie
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    @foreach (var k in Model.Kategorie)
+                    {
+                        <li>
+                            <a asp-controller="Ogloszenie"
+                               asp-action="Index"
+                               asp-route-searchString="@Model.SearchStringRoute"
+                               asp-route-kategoria="@k.Nazwa"
+                               asp-route-miasto="@Model.AktualneMiasto"
+                               asp-route-cenaod="@Model.CenaOd"
+                               asp-route-cenado="@Model.CenaDo"
+                               asp-route-sortorder="@Model.SortOrderRoute"
+                               asp-route-pagesize="@Model.PageSize"
+                               asp-route-zmywarka="@Model.Zmywarka"
+                               asp-route-lodowka="@Model.Lodowka"
+                               asp-route-mikrofala="@Model.Mikrofala"
+                               asp-route-kuchniagaz="@Model.KuchniaGaz"
+                               asp-route-kuchniael="@Model.KuchniaEl"
+                               asp-route-pralka="@Model.Pralka"
+                               asp-route-wanna="@Model.Wanna"
+                               asp-route-prysznic="@Model.Prysznic">
+                                @k.Nazwa
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            <p />
+
+            <div class="dropdown">
+                <button class="btn button dropdown-toggle" type="button" id="dropdownMenu2"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+                    @{
+                        if (Model.AktualneMiasto == null)
+                        {
+                            <span>Wszystkie miasta</span>
+                        }
+                        else
+                        {
+                            @Model.AktualneMiasto
+                        }
+                    }
+
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <li>
+                        <a asp-controller="Ogloszenie"
+                           asp-action="Index"
+                           asp-route-searchString="@Model.SearchStringRoute"
+                           asp-route-kategoria="@Model.AktualnaKategoria"
+                           asp-route-cenaod="@Model.CenaOd"
+                           asp-route-cenado="@Model.CenaDo"
+                           asp-route-sortorder="@Model.SortOrderRoute"
+                           asp-route-pagesize="@Model.PageSize"
+                           asp-route-zmywarka="@Model.Zmywarka"
+                           asp-route-lodowka="@Model.Lodowka"
+                           asp-route-mikrofala="@Model.Mikrofala"
+                           asp-route-kuchniagaz="@Model.KuchniaGaz"
+                           asp-route-kuchniael="@Model.KuchniaEl"
+                           asp-route-pralka="@Model.Pralka"
+                           asp-route-wanna="@Model.Wanna"
+                           asp-route-prysznic="@Model.Prysznic">
+                            Wszystkie miasta
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    @foreach (var m in Model.Miasta)
+                    {
+                        <li>
+                            <a asp-controller="Ogloszenie"
+                               asp-action="Index"
+                               asp-route-searchString="@Model.SearchStringRoute"
+                               asp-route-kategoria="@Model.AktualnaKategoria"
+                               asp-route-miasto="@m.Nazwa"
+                               asp-route-cenaod="@Model.CenaOd"
+                               asp-route-cenado="@Model.CenaDo"
+                               asp-route-sortorder="@Model.SortOrderRoute"
+                               asp-route-pagesize="@Model.PageSize"
+                               asp-route-zmywarka="@Model.Zmywarka"
+                               asp-route-lodowka="@Model.Lodowka"
+                               asp-route-mikrofala="@Model.Mikrofala"
+                               asp-route-kuchniagaz="@Model.KuchniaGaz"
+                               asp-route-kuchniael="@Model.KuchniaEl"
+                               asp-route-pralka="@Model.Pralka"
+                               asp-route-wanna="@Model.Wanna"
+                               asp-route-prysznic="@Model.Prysznic">
+                                @m.Nazwa
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <h4>Cena:</h4>
+            <div class="btn-group">
+                <div class="dropdown">
+                    <button class="btn button dropdown-toggle" type="button" id="dropdownMenu3"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+                        @{
+                            if (Model.CenaOd == null)
+                            {
+                                <span>--</span>
+                            }
+                            else
+                            {
+                                @Model.CenaOd.ToString()
+                            }
+                        }
+
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu3">
+                        <li>
+                            <a asp-controller="Ogloszenie"
+                               asp-action="Index"
+                               asp-route-searchString="@Model.SearchStringRoute"
+                               asp-route-kategoria="@Model.AktualnaKategoria"
+                               asp-route-miasto="@Model.AktualneMiasto"
+                               asp-route-cenado="@Model.CenaDo"
+                               asp-route-sortorder="@Model.SortOrderRoute"
+                               asp-route-pagesize="@Model.PageSize"
+                               asp-route-zmywarka="@Model.Zmywarka"
+                               asp-route-lodowka="@Model.Lodowka"
+                               asp-route-mikrofala="@Model.Mikrofala"
+                               asp-route-kuchniagaz="@Model.KuchniaGaz"
+                               asp-route-kuchniael="@Model.KuchniaEl"
+                               asp-route-pralka="@Model.Pralka"
+                               asp-route-wanna="@Model.Wanna"
+                               asp-route-prysznic="@Model.Prysznic">
+                                --
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        @foreach (var c in Model.CenaOdList)
+                        {
+                            <li>
+                                <a asp-controller="Ogloszenie"
+                                   asp-action="Index"
+                                   asp-route-searchString="@Model.SearchStringRoute"
+                                   asp-route-kategoria="@Model.AktualnaKategoria"
+                                   asp-route-miasto="@Model.AktualneMiasto"
+                                   asp-route-cenaod="@c"
+                                   asp-route-cenado="@Model.CenaDo"
+                                   asp-route-sortorder="@Model.SortOrderRoute"
+                                   asp-route-pagesize="@Model.PageSize"
+                                   asp-route-zmywarka="@Model.Zmywarka"
+                                   asp-route-lodowka="@Model.Lodowka"
+                                   asp-route-mikrofala="@Model.Mikrofala"
+                                   asp-route-kuchniagaz="@Model.KuchniaGaz"
+                                   asp-route-kuchniael="@Model.KuchniaEl"
+                                   asp-route-pralka="@Model.Pralka"
+                                   asp-route-wanna="@Model.Wanna"
+                                   asp-route-prysznic="@Model.Prysznic">
+                                    @c
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            -
+            <div class="btn-group">
+                <div class="dropdown">
+                    <button class="btn button dropdown-toggle" type="button" id="dropdownMenu4"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+                        @{
+                            if (Model.CenaDo == null)
+                            {
+                                <span>--</span>
+                            }
+                            else
+                            {
+                                @Model.CenaDo.ToString()
+                            }
+                        }
+
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu4">
+                        <li>
+                            <a asp-controller="Ogloszenie"
+                               asp-action="Index"
+                               asp-route-searchString="@Model.SearchStringRoute"
+                               asp-route-kategoria="@Model.AktualnaKategoria"
+                               asp-route-miasto="@Model.AktualneMiasto"
+                               asp-route-cenaod="@Model.CenaOd"
+                               asp-route-sortorder="@Model.SortOrderRoute"
+                               asp-route-pagesize="@Model.PageSize"
+                               asp-route-zmywarka="@Model.Zmywarka"
+                               asp-route-lodowka="@Model.Lodowka"
+                               asp-route-mikrofala="@Model.Mikrofala"
+                               asp-route-kuchniagaz="@Model.KuchniaGaz"
+                               asp-route-kuchniael="@Model.KuchniaEl"
+                               asp-route-pralka="@Model.Pralka"
+                               asp-route-wanna="@Model.Wanna"
+                               asp-route-prysznic="@Model.Prysznic">
+                                --
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        @foreach (var c in Model.CenaDoList)
+                        {
+                            if (c > Model.CenaOd || Model.CenaOd == null)
+                            {
+                                <li>
+                                    <a asp-controller="Ogloszenie"
+                                       asp-action="Index"
+                                       asp-route-searchString="@Model.SearchStringRoute"
+                                       asp-route-kategoria="@Model.AktualnaKategoria"
+                                       asp-route-miasto="@Model.AktualneMiasto"
+                                       asp-route-cenaod="@Model.CenaOd"
+                                       asp-route-cenado="@c"
+                                       asp-route-sortorder="@Model.SortOrderRoute"
+                                       asp-route-pagesize="@Model.PageSize"
+                                       asp-route-zmywarka="@Model.Zmywarka"
+                                       asp-route-lodowka="@Model.Lodowka"
+                                       asp-route-mikrofala="@Model.Mikrofala"
+                                       asp-route-kuchniagaz="@Model.KuchniaGaz"
+                                       asp-route-kuchniael="@Model.KuchniaEl"
+                                       asp-route-pralka="@Model.Pralka"
+                                       asp-route-wanna="@Model.Wanna"
+                                       asp-route-prysznic="@Model.Prysznic">
+                                        @c
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+
+            <h4>Sortuj wedlug:</h4>
+            <div class="btn-group">
+                <div class="dropdown">
+                    <button class="btn button dropdown-toggle" type="button" id="dropdownMenu5"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        @Model.SortOrder
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu5">
+                        @for (int i = 0; i < Model.SortOrderList.Count; i++)
+                        {
+                            <li>
+                                <a asp-controller="Ogloszenie"
+                                   asp-action="Index"
+                                   asp-route-searchString="@Model.SearchStringRoute"
+                                   asp-route-kategoria="@Model.AktualnaKategoria"
+                                   asp-route-miasto="@Model.AktualneMiasto"
+                                   asp-route-cenaod="@Model.CenaOd"
+                                   asp-route-cenado="@Model.CenaDo"
+                                   asp-route-sortorder="@i"
+                                   asp-route-pagesize="@Model.PageSize"
+                                   asp-route-zmywarka="@Model.Zmywarka"
+                                   asp-route-lodowka="@Model.Lodowka"
+                                   asp-route-mikrofala="@Model.Mikrofala"
+                                   asp-route-kuchniagaz="@Model.KuchniaGaz"
+                                   asp-route-kuchniael="@Model.KuchniaEl"
+                                   asp-route-pralka="@Model.Pralka"
+                                   asp-route-wanna="@Model.Wanna"
+                                   asp-route-prysznic="@Model.Prysznic">
+                                    @Model.SortOrderList[i]
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+            <h4>Ogloszen na stronie:</h4>
+            <div class="btn-group">
+                <div class="dropdown">
+                    <button class="btn button dropdown-toggle" type="button" id="dropdownMenu5"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        @Model.PageSize
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu5">
+                        @for (int i = 0; i < Model.PageSizeList.Count; i++)
+                        {
+                            <li>
+                                <a asp-controller="Ogloszenie"
+                                   asp-action="Index"
+                                   asp-route-searchString="@Model.SearchStringRoute"
+                                   asp-route-kategoria="@Model.AktualnaKategoria"
+                                   asp-route-miasto="@Model.AktualneMiasto"
+                                   asp-route-cenaod="@Model.CenaOd"
+                                   asp-route-cenado="@Model.CenaDo"
+                                   asp-route-sortorder="@Model.SortOrderRoute"
+                                   asp-route-pagesize="@Model.PageSizeList[i]"
+                                   asp-route-zmywarka="@Model.Zmywarka"
+                                   asp-route-lodowka="@Model.Lodowka"
+                                   asp-route-mikrofala="@Model.Mikrofala"
+                                   asp-route-kuchniagaz="@Model.KuchniaGaz"
+                                   asp-route-kuchniael="@Model.KuchniaEl"
+                                   asp-route-pralka="@Model.Pralka"
+                                   asp-route-wanna="@Model.Wanna"
+                                   asp-route-prysznic="@Model.Prysznic">
+                                    @Model.PageSizeList[i]
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+
+        </div>
+
+
+        <div class="LightGrayConteiner">
+            <a asp-action="Create" asp-controller="Ogloszenie" class="btn button-purple-lg">
+                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>  Dodaj ogloszenie
+            </a>
+        </div>
+
+
+        <div class="LightGrayConteiner">
+            <h4>Wyposazenie:</h4>
+
+            <p>
+                @{
+                    Boolean? zmywarkaRoute = null;
+                    if (Model.Zmywarka == true)
+                    {
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    }
+                    else
+                    {
+                        <span>--</span>
+                        zmywarkaRoute = true;
+                    }
+                }
+
+                <a asp-controller="Ogloszenie"
+                   asp-action="Index"
+                   asp-route-searchString="@Model.SearchStringRoute"
+                   asp-route-kategoria="@Model.AktualnaKategoria"
+                   asp-route-miasto="@Model.AktualneMiasto"
+                   asp-route-cenaod="@Model.CenaOd"
+                   asp-route-cenado="@Model.CenaDo"
+                   asp-route-sortorder="@Model.SortOrderRoute"
+                   asp-route-pagesize="@Model.PageSize"
+                   asp-route-zmywarka="@zmywarkaRoute"
+                   asp-route-lodowka="@Model.Lodowka"
+                   asp-route-mikrofala="@Model.Mikrofala"
+                   asp-route-kuchniagaz="@Model.KuchniaGaz"
+                   asp-route-kuchniael="@Model.KuchniaEl"
+                   asp-route-pralka="@Model.Pralka"
+                   asp-route-wanna="@Model.Wanna"
+                   asp-route-prysznic="@Model.Prysznic">
+                    Zmywarka
+                </a>
+                <br />
+                @{
+                    Boolean? lodowkaRoute = null;
+                    if (Model.Lodowka == true)
+                    {
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    }
+                    else
+                    {
+                        <span>--</span>
+                        lodowkaRoute = true;
+                    }
+                }
+
+                <a asp-controller="Ogloszenie"
+                   asp-action="Index"
+                   asp-route-searchString="@Model.SearchStringRoute"
+                   asp-route-kategoria="@Model.AktualnaKategoria"
+                   asp-route-miasto="@Model.AktualneMiasto"
+                   asp-route-cenaod="@Model.CenaOd"
+                   asp-route-cenado="@Model.CenaDo"
+                   asp-route-sortorder="@Model.SortOrderRoute"
+                   asp-route-pagesize="@Model.PageSize"
+                   asp-route-zmywarka="@Model.Zmywarka"
+                   asp-route-lodowka="@lodowkaRoute"
+                   asp-route-mikrofala="@Model.Mikrofala"
+                   asp-route-kuchniagaz="@Model.KuchniaGaz"
+                   asp-route-kuchniael="@Model.KuchniaEl"
+                   asp-route-pralka="@Model.Pralka"
+                   asp-route-wanna="@Model.Wanna"
+                   asp-route-prysznic="@Model.Prysznic">
+                    Lodowka
+                </a>
+                <br />
+                @{
+                    Boolean? mikrofalaRoute = null;
+                    if (Model.Mikrofala == true)
+                    {
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    }
+                    else
+                    {
+                        <span>--</span>
+                        mikrofalaRoute = true;
+                    }
+                }
+
+                <a asp-controller="Ogloszenie"
+                   asp-action="Index"
+                   asp-route-searchString="@Model.SearchStringRoute"
+                   asp-route-kategoria="@Model.AktualnaKategoria"
+                   asp-route-miasto="@Model.AktualneMiasto"
+                   asp-route-cenaod="@Model.CenaOd"
+                   asp-route-cenado="@Model.CenaDo"
+                   asp-route-sortorder="@Model.SortOrderRoute"
+                   asp-route-pagesize="@Model.PageSize"
+                   asp-route-zmywarka="@Model.Zmywarka"
+                   asp-route-lodowka="@Model.Lodowka"
+                   asp-route-mikrofala="@mikrofalaRoute"
+                   asp-route-kuchniagaz="@Model.KuchniaGaz"
+                   asp-route-kuchniael="@Model.KuchniaEl"
+                   asp-route-pralka="@Model.Pralka"
+                   asp-route-wanna="@Model.Wanna"
+                   asp-route-prysznic="@Model.Prysznic">
+                    Mikrofalowka
+                </a>
+                <br />
+                @{
+                    Boolean? kuchniaGazRoute = null;
+                    if (Model.KuchniaGaz == true)
+                    {
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    }
+                    else
+                    {
+                        <span>--</span>
+                        kuchniaGazRoute = true;
+                    }
+                }
+
+                <a asp-controller="Ogloszenie"
+                   asp-action="Index"
+                   asp-route-searchString="@Model.SearchStringRoute"
+                   asp-route-kategoria="@Model.AktualnaKategoria"
+                   asp-route-miasto="@Model.AktualneMiasto"
+                   asp-route-cenaod="@Model.CenaOd"
+                   asp-route-cenado="@Model.CenaDo"
+                   asp-route-sortorder="@Model.SortOrderRoute"
+                   asp-route-pagesize="@Model.PageSize"
+                   asp-route-zmywarka="@Model.Zmywarka"
+                   asp-route-lodowka="@Model.Lodowka"
+                   asp-route-mikrofala="@Model.Mikrofala"
+                   asp-route-kuchniagaz="@kuchniaGazRoute"
+                   asp-route-kuchniael="@Model.KuchniaEl"
+                   asp-route-pralka="@Model.Pralka"
+                   asp-route-wanna="@Model.Wanna"
+                   asp-route-prysznic="@Model.Prysznic">
+                    Kuchnia Gazowa
+                </a>
+                <br />
+                @{
+                    Boolean? kuchniaElRoute = null;
+                    if (Model.KuchniaEl == true)
+                    {
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    }
+                    else
+                    {
+                        <span>--</span>
+                        kuchniaElRoute = true;
+                    }
+                }
+
+                <a asp-controller="Ogloszenie"
+                   asp-action="Index"
+                   asp-route-searchString="@Model.SearchStringRoute"
+                   asp-route-kategoria="@Model.AktualnaKategoria"
+                   asp-route-miasto="@Model.AktualneMiasto"
+                   asp-route-cenaod="@Model.CenaOd"
+                   asp-route-cenado="@Model.CenaDo"
+                   asp-route-sortorder="@Model.SortOrderRoute"
+                   asp-route-pagesize="@Model.PageSize"
+                   asp-route-zmywarka="@Model.Zmywarka"
+                   asp-route-lodowka="@Model.Lodowka"
+                   asp-route-mikrofala="@Model.Mikrofala"
+                   asp-route-kuchniagaz="@Model.KuchniaGaz"
+                   asp-route-kuchniael="@kuchniaElRoute"
+                   asp-route-pralka="@Model.Pralka"
+                   asp-route-wanna="@Model.Wanna"
+                   asp-route-prysznic="@Model.Prysznic">
+                    Kuchnia Elektryczna
+                </a>
+                <br />
+                @{
+                    Boolean? pralkaRoute = null;
+                    if (Model.Pralka == true)
+                    {
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    }
+                    else
+                    {
+                        <span>--</span>
+                        pralkaRoute = true;
+                    }
+                }
+
+                <a asp-controller="Ogloszenie"
+                   asp-action="Index"
+                   asp-route-searchString="@Model.SearchStringRoute"
+                   asp-route-kategoria="@Model.AktualnaKategoria"
+                   asp-route-miasto="@Model.AktualneMiasto"
+                   asp-route-cenaod="@Model.CenaOd"
+                   asp-route-cenado="@Model.CenaDo"
+                   asp-route-sortorder="@Model.SortOrderRoute"
+                   asp-route-pagesize="@Model.PageSize"
+                   asp-route-zmywarka="@Model.Zmywarka"
+                   asp-route-lodowka="@Model.Lodowka"
+                   asp-route-mikrofala="@Model.Mikrofala"
+                   asp-route-kuchniagaz="@Model.KuchniaGaz"
+                   asp-route-kuchniael="@Model.KuchniaEl"
+                   asp-route-pralka="@pralkaRoute"
+                   asp-route-wanna="@Model.Wanna"
+                   asp-route-prysznic="@Model.Prysznic">
+                    Pralka
+                </a>
+                <br />
+                @{
+                    Boolean? wannaRoute = null;
+                    if (Model.Wanna == true)
+                    {
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    }
+                    else
+                    {
+                        <span>--</span>
+                        wannaRoute = true;
+                    }
+                }
+
+                <a asp-controller="Ogloszenie"
+                   asp-action="Index"
+                   asp-route-searchString="@Model.SearchStringRoute"
+                   asp-route-kategoria="@Model.AktualnaKategoria"
+                   asp-route-miasto="@Model.AktualneMiasto"
+                   asp-route-cenaod="@Model.CenaOd"
+                   asp-route-cenado="@Model.CenaDo"
+                   asp-route-sortorder="@Model.SortOrderRoute"
+                   asp-route-pagesize="@Model.PageSize"
+                   asp-route-zmywarka="@Model.Zmywarka"
+                   asp-route-lodowka="@Model.Lodowka"
+                   asp-route-mikrofala="@Model.Mikrofala"
+                   asp-route-kuchniagaz="@Model.KuchniaGaz"
+                   asp-route-kuchniael="@Model.KuchniaEl"
+                   asp-route-pralka="@Model.Pralka"
+                   asp-route-wanna="@wannaRoute"
+                   asp-route-prysznic="@Model.Prysznic">
+                    Wanna
+                </a>
+                <br />
+                @{
+                    Boolean? prysznicRoute = null;
+                    if (Model.Prysznic == true)
+                    {
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    }
+                    else
+                    {
+                        <span>--</span>
+                        prysznicRoute = true;
+                    }
+                }
+
+                <a asp-controller="Ogloszenie"
+                   asp-action="Index"
+                   asp-route-searchString="@Model.SearchStringRoute"
+                   asp-route-kategoria="@Model.AktualnaKategoria"
+                   asp-route-miasto="@Model.AktualneMiasto"
+                   asp-route-cenaod="@Model.CenaOd"
+                   asp-route-cenado="@Model.CenaDo"
+                   asp-route-sortorder="@Model.SortOrderRoute"
+                   asp-route-pagesize="@Model.PageSize"
+                   asp-route-zmywarka="@Model.Zmywarka"
+                   asp-route-lodowka="@Model.Lodowka"
+                   asp-route-mikrofala="@Model.Mikrofala"
+                   asp-route-kuchniagaz="@Model.KuchniaGaz"
+                   asp-route-kuchniael="@Model.KuchniaEl"
+                   asp-route-pralka="@Model.Pralka"
+                   asp-route-wanna="@Model.Wanna"
+                   asp-route-prysznic="@prysznicRoute">
+                    Prysznic
+                </a>
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="col-md-8">
+
+        @foreach (var item in Model.Ogloszenia)
+        {
+
+            if (item.Miniature == null)
+            {
+                ViewData["imgSrc"] = "~/images/DefaultOglPhoto.png";
+            }
+            else
+            {
+                var base64 = Convert.ToBase64String(item.Miniature);
+                ViewData["imgSrc"] = String.Format("data:image/gif;base64,{0}", base64);
+            }
+
+            <div class="row">
+
+                <hr />
+
+                <div class="col-md-4">
+                    <img src='@ViewData["imgSrc"]' style="max-width:100%; max-height:180px;" asp-append-version="true" />
+                </div>
+
+                <div class="col-md-8">
+                    <div class="row">
+                        <a asp-action="Details" asp-route-id="@item.OgloszenieId"><h4 style="color:#4a94a3"><strong>@item.Tytul</strong></h4></a>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <p>
+                                @item.Miasto.Nazwa<br />
+                                @item.Kategoria.Nazwa<br />
+                            </p>
+
+                            <p>
+                                @{
+                                    if (item.Zmywarka == true)
+                                    {<span class="glyphicon glyphicon-glass" aria-hidden="true"></span>}
+                                    if (item.Lodowka == true)
+                                    {<span class="glyphicon glyphicon-apple" aria-hidden="true"></span>}
+                                    if (item.Mikrofala == true)
+                                    {<span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>}
+                                    if (item.KuchniaGaz == true || item.KuchniaEl == true)
+                                    {<span class="glyphicon glyphicon-flash" aria-hidden="true"></span>}
+                                    if (item.Pralka == true)
+                                    {<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>}
+                                    if (item.Wanna == true || item.Prysznic == true)
+                                    {<span class="glyphicon glyphicon-tint" aria-hidden="true"></span>}
+                                }
+                            </p>
+                            @Html.DisplayFor(modelItem => item.DataDodania)
+                        </div>
+                        <h3 class="col-md-4" style="text-align:right"><strong>@item.Cena zl</strong></h3>
+                    </div>
+                </div>
+
+
+            </div>
+
+                                    }
+
+        <pager source="Model.Ogloszenia" />
+
+    </div>
+
+
+</div>
+
+<div style="height:100px;"></div>
+
+<div style="background-color:#116597; height:80px;">
+
+</div>
+<div style="background-color:#262626; height:300px;">
+    <div class="container" style="padding-top:100px">
+        <h5 style="color:#a89999">Wynajme.pl</h5>
+        <h5 style="color:#a89999">2016 - Gann Projects</h5>
+        <a class="btn btn-primary">Facebook</a>
+    </div>
+</div>
+
+

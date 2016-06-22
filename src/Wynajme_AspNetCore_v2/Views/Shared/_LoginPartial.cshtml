@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Wynajme_AspNetCore_v2.Models
+@using Wynajme_AspNetCore_v2.Repository
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+     
+
+    <form asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a asp-controller="Manage" asp-action="Index" title="Manage">@UserManager.GetUserName(User)</a>
+            </li>
+            <li>
+                <button type="submit" class="btn btn-link navbar-btn navbar-link">Wyloguj</button>
+            </li>
+        </ul>
+    </form> 
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a asp-controller="Account" asp-action="Register">Rejestruj</a></li>
+        <li><a asp-controller="Account" asp-action="Login">Zaloguj</a></li>
+    </ul>
+}

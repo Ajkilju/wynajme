@@ -1,0 +1,90 @@
+﻿@model IndexViewModel
+
+<div class="container">
+
+    <div class="LightGrayConteiner">
+
+        <h3 class="col-md-2">@Model.Name @Model.LastName</h3>
+
+        @{
+            if (Model.Image.Length < 10)
+            {
+                <img src="~/images/DefaultUserPhoto.png" class="img-circle" style="width:100px; height:100px;" />
+            }
+            else
+            {
+                var base64 = Convert.ToBase64String(Model.Image);
+                var patch = String.Format("data:image/gif;base64,{0}", base64);
+                <img src='@patch' class="img-circle" style="width:100px; height:100px;" />
+            }
+        }
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <div class="LightGrayConteiner">
+                    <a asp-controller="Ogloszenie" class="btn button-purple" style="margin-bottom:5px; margin-top:5px"><strong>Moje ogloszenia</strong></a>
+                    <a asp-controller="Ogloszenie" class="btn button-purple" style="margin-bottom:5px; margin-top:5px"><strong>Obserwowane</strong></a>              
+            </div>
+            <div class="LightGrayConteiner">
+                <a asp-action="Ustawienia" class="btn button-purple"><strong>Ustawienia</strong></a>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <table class="table">
+
+                @foreach (var item in Model.Ogloszenia)
+            {
+
+                if (item.Miniature == null)
+                {
+                    ViewData["imgSrc"] = "~/images/DefaultOglPhoto.png";
+                }
+                else
+                {
+                    var base64 = Convert.ToBase64String(item.Miniature);
+                    ViewData["imgSrc"] = String.Format("data:image/gif;base64,{0}", base64);
+                }
+
+                <tr>
+                    <td class="col-lg-1 col-md-1 col-sm-2">
+                        <img src='@ViewData["imgSrc"]' style="max-width:180px; max-height:180px;" asp-append-version="true" />
+                    </td>
+                    <td>
+                        <div>
+                            <a asp-controller="Ogloszenie" asp-action="Details" asp-route-id="@item.OgloszenieId"><h4 style="color:#4a94a3"><strong>@item.Tytul</strong></h4></a>
+                        </div>
+                        <div>
+                            @Html.DisplayFor(modelItem => item.Kategoria.Nazwa)
+                        </div>
+                        <div>
+                            @Html.DisplayFor(modelItem => item.Miasto.Nazwa)
+                        </div>
+                        <div>
+                            @Html.DisplayFor(modelItem => item.Cena)
+                        </div>
+                        <p />
+                        <div>
+                            @Html.DisplayFor(modelItem => item.DataDodania)
+                        </div>
+                    </td>
+                    <td>
+                        <a asp-controller="Ogloszenie" asp-action="Edit" asp-route-id="@item.OgloszenieId">Edytuj</a> |
+                        <a asp-controller="Ogloszenie" asp-action="Delete" asp-route-id="@item.OgloszenieId">Usun</a>
+                    </td>
+                </tr>
+                }
+            </table>
+        </div>
+
+    </div>
+
+
+
+
+</div>
+
+

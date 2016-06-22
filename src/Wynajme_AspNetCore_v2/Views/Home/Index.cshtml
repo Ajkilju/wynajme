@@ -1,0 +1,159 @@
+﻿@model Wynajme_AspNetCore_v2.Models.HomeViewModels.NewHomeViewModel
+
+@{
+    ViewData["Title"] = "New Home";
+}
+
+
+<div style="background-color:#36424a; height:500px;">
+    <div class="container">
+        <div class="row" style="padding-top:150px;text-align: center">
+            <div class="MainPageHeader"><strong>Znajdź już dziś!</strong></div>
+        </div>
+        <div class="row" style="text-align: center">
+            <div class="MainPageParagraph">miszkanie, dom, lub miejsce na weekendowy wypoczynek ze znajomymi</div>
+        </div>
+        <div class="row" style="padding-top:15px; text-align:center">
+            <a asp-action="Index" asp-controller="Ogloszenie" class="btn MainPageButton"><strong>SZUKAJ OGŁOSZEŃ</strong></a>
+        </div>
+        <h4>@ViewData["user"]</h4>
+    </div>
+</div>
+
+<div class="container" style="padding-top:200px">
+
+    <div class="row">
+        <div class="col-md-4" style="text-align: center">
+            <img src="~/images/miasta/torun.png" class="img-circle" style="height:175px; width:175px;" asp-append-version="true" />
+            <div style="padding-top:10px">
+                <a asp-action="Index" asp-controller="Ogloszenie" asp-route-miasto="Toruń" class="btn MainPageButton2"><strong>Toruń</strong></a>
+            </div>
+        </div>
+        <div class="col-md-4" style="text-align: center">
+            <img src="~/images/miasta/warszawa.png" class="img-circle" style="height:175px; width:175px;" asp-append-version="true" />
+            <div style="padding-top:10px">
+                <a asp-action="Index" asp-controller="Ogloszenie" asp-route-miasto="Warszawa" class="btn MainPageButton2"><strong>Warszawa</strong></a>
+            </div>
+        </div>
+        <div class="col-md-4" style="text-align: center">
+            <img src="~/images/miasta/gdansk.png" class="img-circle" style="height:175px; width:175px;" asp-append-version="true" />
+            <div style="padding-top:10px">
+                <a asp-action="Index" asp-controller="Ogloszenie" asp-route-miasto="Gdańsk" class="btn MainPageButton2"><strong>Gdańsk</strong></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top:100px">
+        <div class="col-md-4" style="text-align: center">
+            <img src="~/images/miasta/zakopane.png" class="img-circle" style="height:175px; width:175px;" asp-append-version="true" />
+            <div style="padding-top:10px">
+                <a asp-action="Index" asp-controller="Ogloszenie" asp-route-miasto="Zakopane" class="btn MainPageButton2"><strong>Zakopane</strong></a>
+            </div>
+        </div>
+        <div class="col-md-4" style="text-align: center">
+            <img src="~/images/miasta/krakow.png" class="img-circle" style="height:175px; width:175px;" asp-append-version="true" />
+            <div style="padding-top:10px">
+                <a asp-action="Index" asp-controller="Ogloszenie" asp-route-miasto="Toruń" class="btn MainPageButton2"><strong>Kraków</strong></a>
+            </div>
+        </div>
+        <div class="col-md-4" style="text-align: center">
+            <img src="~/images/miasta/wroclaw.png" class="img-circle" style="height:175px; width:175px;" asp-append-version="true" />
+            <div style="padding-top:10px">
+                <a asp-action="Index" asp-controller="Ogloszenie" asp-route-miasto="Wrocław" class="btn MainPageButton2"><strong>Wrocław</strong></a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div style="height:200px;"></div>
+
+<div style="background-color:#f0f0f0; height:300px">
+    <div class="container" style="text-align:center">
+        <div style="height:50px;"></div>
+        <h2><strong>Kategorie</strong></h2>
+        <h4><strong>Przeglądaj ogłoszenia z jednej z poniższych kategorii</strong></h4>
+
+        <div>
+            @foreach (var item in Model.Kategorie)
+            {
+                <a asp-controller="Ogloszenie" asp-action="Index" asp-route-kategoria="@item.Nazwa" class="btn btn-primary btn-lg" style="width:150px;">
+                    @item.Nazwa
+                </a>
+            }
+        </div>
+
+    </div>
+</div>
+
+<div style="height:120px;"></div>
+
+<div class="container">
+    <div style="text-align:center">
+
+        <h2><strong>Ostatnio dodane ogłoszenia</strong></h2>
+        <div style="height:50px;"></div>
+    </div>
+
+    @{
+        foreach (var item in Model.Ogloszenia)
+        {
+            if (item.Miniature == null)
+            {
+                ViewData["imgSrc"] = "~/images/defaultoglphoto.png";
+            }
+            else
+            {
+                var base64 = Convert.ToBase64String(item.Miniature);
+                ViewData["imgSrc"] = String.Format("data:image/gif;base64,{0}", base64);
+            }
+
+            <div class="col-md-4" style="height:500px;">
+                <div style="height:260px;">
+                    <img src='@ViewData["imgSrc"]' class="img-thumbnail" style="width:100%; height:inherit;" asp-append-version="true"  />
+                </div>
+                <div>
+                    <a asp-controller="Ogloszenie" asp-action="Details" asp-route-id="@item.OgloszenieId"><h4 style="color:#358796;">@item.Tytul</h4></a>
+                </div>
+                
+                <div class="col-md-3">
+                    <p>
+                        Lokalizacja:<br />
+                        Kategoria:<br />
+                        Cena:<br />
+                        Dodano:
+                        <br />
+                    </p>
+                </div>
+                <div class="col-md-8">
+                    <p>
+                        @item.Miasto.Nazwa<br />
+                        @item.Kategoria.Nazwa<br />
+                        @item.Cena<br />
+                        @Html.DisplayFor(modelItem => item.DataDodania)
+                        <br />
+                    </p>
+                </div>
+                <div>
+                    <a asp-controller="Ogloszenie" asp-action="Details" asp-route-id="@item.OgloszenieId" class="btn MainPageButton2"><strong>Szczegóły</strong></a>
+                </div>
+
+                
+            </div>
+        }
+    }
+    
+
+
+</div>
+
+<div style="height:200px;"></div>
+
+<div style="background-color:#116597; height:80px;"></div>
+<div style="background-color:#262626; height:300px;">
+    <div class="container" style="padding-top:100px">
+        <h5 style="color:#a89999">Wynajme.pl</h5>
+        <h5 style="color:#a89999">2016 - Gann Projects</h5>
+        <a class="btn btn-primary">Facebook</a>
+    </div>
+</div>

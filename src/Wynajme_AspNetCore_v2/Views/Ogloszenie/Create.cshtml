@@ -1,0 +1,204 @@
+@model Wynajme_AspNetCore_v2.Models.Ogloszenie
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@{
+    ViewData["Title"] = "Dodaj";
+    var kategorie = (IEnumerable<SelectListItem>)ViewData["KategoriaId"];
+    var miasta = (IEnumerable<SelectListItem>)ViewData["MiastoId"];
+}
+
+<div class="container">
+    <h1>Dodaj ogloszenie</h1>
+
+
+    <form asp-action="Create" id="CreateForm" enctype="multipart/form-data">
+        <div class="form-horizontal">
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Tytul" class="col-md-2 control-label"></label>
+                <div class="col-md-5">
+                    <input asp-for="Tytul" placeholder="Tytul ogloszenia..." class="form-control" />
+                    <span asp-validation-for="Tytul" class="text-danger" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Tresc" class="col-md-2 control-label"></label>
+                <div class="col-md-5">
+                    <textarea asp-for="Tresc" style="height:250px;" placeholder="Tresc ogloszenia..." class="form-control"></textarea>
+                    <span asp-validation-for="Tresc" class="text-danger" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-5">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <label class="btn btn-default btn-file" for="multiple_input_group">
+                                <input id="multiple_input_group" type="file" name="images" multiple /> Dodaj zdjecia
+                            </label>
+                        </span>
+                        <span class="file-input-label"></span>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Szczegoly</h3>
+            <hr />
+
+            <div class="form-group">
+                <label asp-for="Cena" class="col-md-2 control-label"></label>
+                <div class="col-md-2">
+                    <input asp-for="Cena" placeholder="100" class="form-control" />
+                    <span asp-validation-for="Cena" class="text-danger" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="KategoriaId" class="col-md-2 control-label"></label>
+                <div class="col-md-2">
+                    <select asp-for="KategoriaId" asp-items="kategorie" class="form-control"></select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MiastoId" class="col-md-2 control-label"></label>
+                <div class="col-md-2">
+                    <select asp-for="MiastoId" asp-items="miasta" class="form-control"></select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Powierzchnia" class="col-md-2 control-label"></label>
+                <div class="col-md-2">
+                    <input asp-for="Powierzchnia" placeholder="30" class="form-control" />
+                    <span asp-validation-for="Powierzchnia" class="text-danger" />
+                </div>
+            </div>
+
+
+            
+
+    <h3>Wyposazenie</h3>
+    <hr/>
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">Kuchnia</label>
+        <div class="col-md-2">
+
+            <div class="checkbox">
+                <label asp-for="Zmywarka">
+                    <input asp-for="Zmywarka" />
+                    @Html.DisplayNameFor(m => m.Zmywarka)
+                </label>
+            </div>
+
+
+    <div class="checkbox">
+        <label asp-for="Lodowka">
+            <input asp-for="Lodowka" />
+            @Html.DisplayNameFor(m => m.Lodowka)
+        </label>
+    </div>
+
+    <div class="checkbox">
+        <label asp-for="Mikrofala">
+            <input asp-for="Mikrofala" />
+            @Html.DisplayNameFor(m => m.Mikrofala)
+        </label>
+    </div>
+
+    <div class="checkbox">
+        <label asp-for="KuchniaGaz">
+            <input asp-for="KuchniaGaz" />
+            @Html.DisplayNameFor(m => m.KuchniaGaz)
+        </label>
+    </div>
+
+    <div class="checkbox">
+        <label asp-for="KuchniaEl">
+            <input asp-for="KuchniaEl" />
+            @Html.DisplayNameFor(m => m.KuchniaEl)
+        </label>
+    </div>
+
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">Lazienka</label>
+        <div class="col-md-2">
+
+            <div class="checkbox">
+                <label asp-for="Pralka">
+                    <input asp-for="Pralka" />
+                    @Html.DisplayNameFor(m => m.Pralka)
+                </label>
+            </div>
+
+            <div class="checkbox">
+                <label asp-for="Wanna">
+                    <input asp-for="Wanna" />
+                    @Html.DisplayNameFor(m => m.Wanna)
+                </label>
+            </div>
+
+            <div class="checkbox">
+                <label asp-for="Prysznic">
+                    <input asp-for="Prysznic" />
+                    @Html.DisplayNameFor(m => m.Prysznic)
+                </label>
+            </div>
+
+        </div>
+    </div>
+
+
+
+            
+
+            
+
+
+@*
+    <div class="form-group">
+        <label asp-for="DodatkoweWyposazenie" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="DodatkoweWyposazenie" class="form-control" />
+            <span asp-validation-for="DodatkoweWyposazenie" class="text-danger" />
+        </div>
+    </div>
+*@
+
+
+            
+
+
+            <hr />
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input type="submit" value="Dodaj ogloszenie" class="btn btn-primary" />
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+    <div>
+        <a asp-action="Index" class="btn btn-primary">Wroc do listy ogloszen</a>
+    </div>
+</div>
+
+<div style="height:300px"></div>
+
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

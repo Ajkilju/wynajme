@@ -1,0 +1,248 @@
+﻿body {
+    padding-top: 31px;
+    padding-bottom: 0px;
+    background-color: #ffffff
+}
+
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  background: red;
+  cursor: inherit;
+  display: block;
+}
+.file-input-label {
+	padding: 0px 10px;
+	display: table-cell;
+	vertical-align: middle;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+input[readonly] {
+  background-color: white !important;
+  cursor: text !important;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set widths on the form inputs since otherwise they're 100% wide */
+input,
+textarea {
+    max-width: 500px;
+}
+
+select,
+textarea {
+    max-width: 500px;
+}
+
+/* Carousel */
+.carousel-caption {
+    z-index: 10 !important;
+}
+
+    .carousel-caption p {
+        font-size: 20px;
+        line-height: 1.4;
+    }
+
+
+@media (min-width: 768px) {
+    .carousel-caption {
+        z-index: 10 !important;
+    }
+}
+
+
+.MainPageButton {
+	background-color:#167aa3;
+	border-radius:4px;	
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Verdana;
+	font-size:18px;
+	padding:10px 70px;
+	text-decoration:solid;
+	text-shadow:0px 1px 0px #263e63;
+}
+.MainPageButton:hover {
+	background-color:#1e82a7;
+    color:#ffffff;
+}
+
+.MainPageHeader {
+    color:#ffffff;
+	font-family:Verdana;
+	font-size:45px;
+	padding:10px;
+	text-decoration:solid;
+	text-shadow: 0px 1px 0px #263e63;
+}
+
+.MainPageParagraph {
+    color:#d0d0d0;
+	font-family:Verdana;
+	font-size:20px;
+	padding:7px 100px;
+	text-decoration:solid;
+}
+
+.MainPageParagraph2 {
+    color:#606060;
+	font-family:Verdana;
+	font-size:16px;
+	padding:5px;
+	text-decoration:solid;
+}
+
+.MainPageButton2 {
+	background-color:#ffffff;
+    border:2px solid #358796;
+	border-radius:2px;
+	cursor:pointer;
+	color:#358796;
+	font-family:Verdana;
+	font-size:15px;
+	padding:3px 10px;
+    width:125px;
+	text-decoration:solid;
+}
+
+.MainPageButton2:hover {
+    color:#606060;
+    border:2px solid #606060;
+}
+
+.MainPageConteiner {
+    border:2px solid #c0c0c0;
+	border-radius:2px;
+}
+
+
+.PurpleTextImput {
+	background-color:#f8f8f8;
+    border:3px solid #358796;
+	border-radius:1px;
+	cursor:pointer;
+	color:#358796;
+	font-family:Verdana;
+	font-size:17px;
+	padding:5px 10px;
+	text-decoration:solid;
+}
+
+/*
+.PurpleTextImput:hover {
+
+}
+
+.PurpleTextImput:active {
+
+}
+
+.PurpleTextImput:focus {
+
+}
+*/
+
+
+
+
+
+/*-------------------------------------------------------------------------------
+--------------------------- na czysto -------------------------------------------
+---------------------------------------------------------------------------------
+*/
+
+/* conteiners */
+.LightGrayConteiner {
+    background-color:#f8f8f8; 
+    border-radius: 6px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    margin-bottom: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 10px;
+}
+
+.LightGrayConteiner-text {
+    font-family:Verdana; 
+    font-size:17px; 
+    text-align:left;
+}
+
+
+/* buttons */
+.button {
+	background-color:#f8f8f8;
+    border:2px solid #358796;
+	border-radius:2px;
+	cursor:pointer;
+	color:#358796;
+	font-family:Verdana;
+	font-size:15px;
+	padding:3px 10px;
+	text-decoration:solid;
+}
+
+.button:hover {
+    color:#606060;
+    border:2px solid #606060;
+}
+
+.button-purple {
+	background-color:#f8f8f8;
+    border:2px solid #358796;
+	border-radius:1px;
+	cursor:pointer;
+	color:#358796;
+	font-family:Verdana;
+	font-size:15px;
+	padding:3px 10px;
+	text-decoration:solid;
+}
+
+.button-purple:hover {
+    color:#ffffff;
+    border:2px solid #920063;
+    background-color:#920063;
+}
+
+.button-purple-lg {
+	background-color:#f8f8f8;
+    border:3px solid #358796;
+	border-radius:1px;
+	cursor:pointer;
+	color:#358796;
+	font-family:Verdana;
+	font-size:17px;
+	padding:5px 10px;
+	text-decoration:solid;
+}
+
+.button-purple-lg:hover {
+    color:#ffffff;
+    border:3px solid #920063;
+    background-color:#920063;
+}
+
