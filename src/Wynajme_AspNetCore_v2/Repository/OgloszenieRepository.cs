@@ -156,7 +156,7 @@ namespace Wynajme_AspNetCore_v2.Repository
             return ogloszenie;
         }
 
-        public IEnumerable<Ogloszenie> GetOgloszenia (int howMany)
+        public IQueryable<Ogloszenie> GetOgloszenia (int howMany)
         {
             return _context.Ogloszenie
                 .Include(m => m.Miasto)
@@ -166,7 +166,7 @@ namespace Wynajme_AspNetCore_v2.Repository
                 .Take(howMany);
         }
 
-        public IEnumerable<Ogloszenie> GetOgloszenia(int howMany, string kategoria, string miasto)
+        public IQueryable<Ogloszenie> GetOgloszenia(int howMany, string kategoria, string miasto)
         {
             return _context.Ogloszenie
                 .Include(m => m.Miasto)
@@ -178,7 +178,7 @@ namespace Wynajme_AspNetCore_v2.Repository
                 .Take(howMany);
         }
 
-        public IEnumerable<Ogloszenie> GetSimmlarOgloszenia(int howMany, Ogloszenie ogloszenie)
+        public IQueryable<Ogloszenie> GetSimmlarOgloszenia(int howMany, Ogloszenie ogloszenie)
         {
             return _context.Ogloszenie
                 .Include(m => m.Miasto)
@@ -231,12 +231,12 @@ namespace Wynajme_AspNetCore_v2.Repository
             _context.SaveChanges();
         }
 
-        public IEnumerable<Kategoria> GetKategorie()
+        public IQueryable<Kategoria> GetKategorie()
         {
             return _context.Kategoria;
         }
 
-        public IEnumerable<Miasto> GetMiasta()
+        public IQueryable<Miasto> GetMiasta()
         {
             return _context.Miasto;
         }

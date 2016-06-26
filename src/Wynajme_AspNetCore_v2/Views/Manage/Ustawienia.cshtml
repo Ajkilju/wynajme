@@ -22,54 +22,73 @@
 
     </div>
 
-    <div class="row" style="margin-top:40px">
+    <div class="row">
 
-        <form asp-action="Ustawienia" enctype="multipart/form-data">
+        <div class="col-md-3">
+            <div class="LightGrayConteiner">
+                <a asp-controller="Manage" asp-action="Index" class="btn button-purple" style="margin-bottom:5px; margin-top:5px"><strong>Moje ogloszenia</strong></a>
+                <a asp-controller="Manage" asp-action="Index" class="btn button-purple" style="margin-bottom:5px; margin-top:5px"><strong>Obserwowane</strong></a>
+            </div>
+            <div class="LightGrayConteiner">
+                <a asp-action="Ustawienia" class="btn button-purple"><strong>Ustawienia</strong></a>
+            </div>
+        </div>
 
-            <div class="form-horizontal">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-md-7">
+            <form asp-action="Ustawienia" enctype="multipart/form-data">
 
-                <div class="form-group">
-                    <label asp-for="Name" class="col-md-2 control-label"></label>
-                    <div class="col-md-4">
-                        <input asp-for="Name" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger" />
-                    </div>
-                </div>
+                <div class="form-horizontal">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                <div class="form-group">
-                    <label asp-for="LastName" class="col-md-2 control-label"></label>
-                    <div class="col-md-4">
-                        <input asp-for="LastName" class="form-control" />
-                        <span asp-validation-for="LastName" class="text-danger" />
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-4">
-                        <div class="input-group">
-                            <span class="input-group-btn">
-                                <label class="btn btn-default btn-file" for="multiple_input_group">
-                                    <input id="multiple_input_group" type="file" name="image" /> Dodaj zdjecie
-                                </label>
-                            </span>
-                            <span class="file-input-label"></span>
+                    <div class="form-group">
+                        <label asp-for="Name" class="col-md-2 control-label"></label>
+                        <div class="col-md-5">
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger" />
                         </div>
                     </div>
-                </div>
 
-                <hr />
-
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Zapisz zmiany" class="btn button-purple" />
+                    <div class="form-group">
+                        <label asp-for="LastName" class="col-md-2 control-label"></label>
+                        <div class="col-md-5">
+                            <input asp-for="LastName" class="form-control" />
+                            <span asp-validation-for="LastName" class="text-danger" />
+                        </div>
                     </div>
+
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" class="col-md-2 control-label"></label>
+                        <div class="col-md-5">
+                            <input asp-for="PhoneNumber" class="form-control" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-5">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <label class="btn btn-default btn-file" for="multiple_input_group">
+                                        <input id="multiple_input_group" type="file" name="image" /> Dodaj zdjecie
+                                    </label>
+                                </span>
+                                <span class="file-input-label"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Zapisz zmiany" class="btn button-purple" />
+                        </div>
+                    </div>
+
                 </div>
+            </form>
 
-            </div>
-        </form>
-
-
+        </div>
     </div>
 </div>
 

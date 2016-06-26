@@ -29,15 +29,15 @@ namespace Wynajme_AspNetCore_v2.Repository
         Ogloszenie GetOgloszenieById(int? id);
         Ogloszenie GetNakedOgloszenieById(int? id);
 
-        IEnumerable<Ogloszenie> GetOgloszenia(int howMany);
-        IEnumerable<Ogloszenie> GetOgloszenia(int howMany, string kategoria, string miasto);
-        IEnumerable<Ogloszenie> GetSimmlarOgloszenia(int howMany, Ogloszenie ogloszenie);
+        IQueryable<Ogloszenie> GetOgloszenia(int howMany);
+        IQueryable<Ogloszenie> GetOgloszenia(int howMany, string kategoria, string miasto);
+        IQueryable<Ogloszenie> GetSimmlarOgloszenia(int howMany, Ogloszenie ogloszenie);
 
         void DodajOgloszenie(Ogloszenie ogloszenie, IList<IFormFile> images);
         void UpdateOgloszenie(Ogloszenie ogloszenie);
         void DeleteOgloszenie(int? id);
 
-        IEnumerable<Kategoria> GetKategorie();
-        IEnumerable<Miasto> GetMiasta();
+        IQueryable<Kategoria> GetKategorie();
+        IQueryable<Miasto> GetMiasta();
     }
 }

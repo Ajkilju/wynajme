@@ -10,8 +10,8 @@ namespace Wynajme_AspNetCore_v2.Models.OgloszenieViewModel
     public class OgloszenieIndexViewModel
     {
         public IPagedList<Ogloszenie> Ogloszenia { get; set; }
-        public IEnumerable<Kategoria> Kategorie { get; set; }
-        public IEnumerable<Miasto> Miasta { get; set; }
+        public IQueryable<Kategoria> Kategorie { get; set; }
+        public IQueryable<Miasto> Miasta { get; set; }
         public string AktualnaKategoria { get; set; }
         public string AktualneMiasto { get; set; }
         public string SearchString { get; set; }
@@ -36,5 +36,6 @@ namespace Wynajme_AspNetCore_v2.Models.OgloszenieViewModel
         public Boolean? Wanna { get; set; }
         public Boolean? Prysznic { get; set; }
 
+        //public  OgloszenieIndexViewModel 
     }
 }

@@ -1,26 +1,7 @@
-@model Wynajme_AspNetCore_v2.Models.Ogloszenie
+@model Wynajme_AspNetCore_v2.Models.OgloszenieViewModel.OgloszenieDetailsViewModel
 
 @{
     ViewData["Title"] = "Szczegoly";
-    string base64;
-    string patch;
-    string userPatch = "~/images/DefaultUserPhoto.png";
-    string userName = "Unknown user";
-    IEnumerable<Ogloszenie> podobneOgloszenia = (IEnumerable<Ogloszenie>)ViewData["Podobne"];
-
-    if (Model.UserId != null)
-    {
-        userName = Model.User.Name;
-        if (Model.User.Image.Length < 10)
-        {
-
-        }
-        else
-        {
-            base64 = Convert.ToBase64String(Model.User.Image);
-            userPatch = String.Format("data:image/gif;base64,{0}", base64);
-        }
-    }
 }
 
 <div class="container" style="padding-top:10px">
@@ -28,10 +9,10 @@
     @* ------------ Top navbar -------------- *@
     <div class="row">
         <h2>@Model.Tytul</h2>
-        <hr />     
+        <hr />
         <div class="col-md-1">
             <p>Lokalizacja:</p>
-            <p>Kategoria:</p>                    
+            <p>Kategoria:</p>
         </div>
         <div class="col-md-3">
             <p><a asp-controller="Ogloszenie" asp-action="Index" asp-route-miasto="@Model.Miasto.Nazwa">@Model.Miasto.Nazwa</a></p>
@@ -39,16 +20,16 @@
         </div>
         <div class="col-md-4">
             <p><a asp-controller="Ogloszenie" asp-action="Index">Obserwuj</a></p>
-            <p><a asp-controller="Ogloszenie" asp-action="Index">Podobne ogloszenia</a></p>
-            <p><a asp-controller="Ogloszenie" asp-action="Index">Dodaj ogloszenie</a></p>
-        </div>           
+            <p><a asp-controller="Ogloszenie" asp-route-miasto="@Model.Miasto.Nazwa" asp-route-kategoria="@Model.Kategoria.Nazwa" asp-action="Index">Podobne ogloszenia</a></p>
+            <p><a asp-controller="Ogloszenie" asp-action="Create">Dodaj ogloszenie</a></p>
+        </div>
         <div class="col-md-1">
-            <h4>@userName</h4>
+            <h4>@Model.UserName</h4>
             <a asp-controller="Ogloszenie" asp-action="Index" asp-route-userid="@Model.UserId"><p>Kontakt</p></a>
             <a asp-controller="Ogloszenie" asp-action="Index" asp-route-userid="@Model.UserId"><p>Ogloszenia</p></a>
         </div>
         <div class="col-md-2" style="text-align:center">
-            <img src=@userPatch class="img-circle" style="width:100px; height:100px;" />
+            <img src=@Model.UserImageString class="img-circle" style="width:100px; height:100px;" />
         </div>
         <div class="col-md-1"></div>
     </div>
@@ -59,7 +40,7 @@
 
     @* ------------ content -------------- *@
     <div class="col-md-6">
-       
+
         <div class="fotorama"
              data-nav="thumbs"
              data-allowfullscreen="true"
@@ -68,35 +49,32 @@
              data-width="100%"
              data-ratio="800/600">
 
-            @if (Model.Image.Count == 0)
+            @foreach (var img in Model.ImageString)
             {
-                <img src="~/images/defaultoglphoto.png" />
+                <img src="@img" />
             }
-            else
-            {
-                @foreach (var image in Model.Image)
-                {
-                    base64 = Convert.ToBase64String(image.ImageContent);
-                    patch = String.Format("data:image/gif;base64,{0}", base64);
-                    <img src='@patch' />
-                }
-            }
+
         </div>
 
-        <div class="LightGrayConteiner LightGrayConteiner-text"> 
+        <div class="LightGrayConteiner LightGrayConteiner-text">
             @Model.Tresc
         </div>
 
-        <hr/>
+        <div class="LightGrayConteiner LightGrayConteiner-text">
+            <p><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> Telefon: <span style="color:#1f5660">@Model.Telefon</span></p>
+            <p><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> E-mail: <span style="color:#1f5660">@Model.Email</span></p>
+        </div>
 
-        <div class="row"> 
+        <hr />
+
+        <div class="row">
             <div class="col-md-1"> </div>
             <div class="col-md-10" style="text-align:center">
-                <h3>Zapytaj o szczegoly!</h3>        
-                <input type="text"  placeholder="Twoj E-mail" class="form-control" />
+                <h3>Zapytaj o szczegoly!</h3>
+                <input type="text" placeholder="Twoj E-mail" class="form-control" />
                 <div style="padding-top:10px;"></div>
                 <input type="text" placeholder="Tytul wiadomosci" class="form-control" />
-                <div style="padding-top:10px;"></div> 
+                <div style="padding-top:10px;"></div>
                 <textarea style="height:250px;" placeholder="Tresc wiadomosci" class="form-control"></textarea>
                 <div style="padding-top:10px;"></div>
                 <a asp-controller="Ogloszenie" asp-action="Index" class="btn button-purple-lg" style="width:50%">Wyslij</a>
@@ -137,10 +115,14 @@
                 if (Model.Prysznic == true)
                 {<p><span class="glyphicon glyphicon-tint" aria-hidden="true"></span>  Prysznic</p>}
 
-                @*<p><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>  @Model.DodatkoweWyposazenie</p>*@
+                if (@Model.DodatkoweWyposazenie != null)
+                {
+                    <p><span class="glyphicon glyphicon-star" aria-hidden="true"></span> @Model.DodatkoweWyposazenie</p>
+                }
+
 
             }
-        </div>     
+        </div>
 
         <div style="text-align:center;" class="LightGrayConteiner">
             <a asp-action="Create" asp-controller="Ogloszenie" class="btn button-purple-lg">
@@ -152,40 +134,30 @@
             <h2>Zobacz podobne ogloszenia</h2>
         </div>
 
-        @foreach (var item in podobneOgloszenia)
-            {
-                if (item.Miniature == null)
-                {
-                    ViewData["imgSrc"] = "~/images/defaultoglphoto.png";
-                }
-                else
-                {
-                    base64 = Convert.ToBase64String(item.Miniature);
-                    ViewData["imgSrc"] = String.Format("data:image/gif;base64,{0}", base64);
-                }
-
-                <div class="col-md-12" style="text-align:center">
-                    <div style="height:175px;">
-                        <img src='@ViewData["imgSrc"]' class="img-thumbnail" style="height:inherit;" asp-append-version="true" />
-                    </div>
-                    <div>
-                        <a asp-controller="Ogloszenie" asp-action="Details" asp-route-id="@item.OgloszenieId"><h4 style="color:#358796;">@item.Tytul</h4></a>
-                    </div>
-
-                    <div>
-                        <p>
-                            Lokalizacja:
-                            <a asp-controller="Ogloszenie" asp-action="Index" asp-route-miasto="@Model.Miasto.Nazwa">@item.Miasto.Nazwa</a>
-                            <br />
-                            Kategoria:
-                            <a asp-controller="Ogloszenie" asp-action="Index" asp-route-kategoria="@Model.Kategoria.Nazwa">@item.Kategoria.Nazwa</a>
-                            <br />
-                            <br />
-                        </p>
-                    </div>
+        @foreach (var item in Model.PodobneOgloszenia)
+        {
+            <div class="col-md-12" style="text-align:center">
+                <div style="height:175px;">
+                    <img src='@item.MiniatureString' class="img-thumbnail" style="height:inherit;" asp-append-version="true" />
                 </div>
+                <div>
+                    <a asp-controller="Ogloszenie" asp-action="Details" asp-route-id="@item.OgloszenieId"><h4 style="color:#358796;">@item.Tytul</h4></a>
+                </div>
+
+                <div>
+                    <p>
+                        Lokalizacja:
+                        <a asp-controller="Ogloszenie" asp-action="Index" asp-route-miasto="@Model.Miasto.Nazwa">@item.Miasto.Nazwa</a>
+                        <br />
+                        Kategoria:
+                        <a asp-controller="Ogloszenie" asp-action="Index" asp-route-kategoria="@Model.Kategoria.Nazwa">@item.Kategoria.Nazwa</a>
+                        <br />
+                        <br />
+                    </p>
+                </div>
+            </div>
         }
-           
+
     </div> @* right bar *@
 
     <div class="col-md-1"></div>

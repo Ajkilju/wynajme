@@ -20,7 +20,8 @@ namespace Wynajme_AspNetCore_v2.Controllers
         private readonly IOgloszenieRepository _repository;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public OgloszenieController(UserManager<ApplicationUser> userManager, IOgloszenieRepository repository)
+        public OgloszenieController (UserManager<ApplicationUser> userManager, 
+            IOgloszenieRepository repository)
         {
             _userManager = userManager;
             _repository = repository;
@@ -87,7 +88,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
                 CenaDo = cenaDo,
                 SortOrderList = new List<string>
                 {
-                    "Data malejaco","Data rosnaco", "Cena malejaco","Cena rosnaco"
+                    "Data malejaco","Data rosnaco","Cena malejaco","Cena rosnaco"
                 },
                 SortOrderRoute = sortOrder,
                 PageSizeList = new List<int>
@@ -119,21 +120,35 @@ namespace Wynajme_AspNetCore_v2.Controllers
                 //return HttpNotFound();
             }
 
-            Ogloszenie ogloszenie = _repository.GetOgloszenieById(id);
+            var ogloszenie = _repository.GetOgloszenieById(id);
 
             if (ogloszenie == null)
             {
-                //return HttpNotFound();
+                // return HttpNotFound();
             }
 
-            ViewData["Podobne"] = _repository.GetSimmlarOgloszenia(4, ogloszenie);
+            OgloszenieDetailsViewModel model = 
+                new OgloszenieDetailsViewModel(ogloszenie);
 
-            return View(ogloszenie);
+            model.SetSimmlarOgloszenia(_repository.GetSimmlarOgloszenia(4, ogloszenie));
+
+            return View(model);
         }
 
         // GET: Ogloszenies/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            ViewData["UserEmail"] = "";
+            ViewData["UserPhone"] = "";
+
+            if (user != null)
+            {
+                ViewData["UserEmail"] = user.Email;
+                ViewData["UserPhone"] = user.PhoneNumber;
+            }
+
             ViewData["KategoriaId"] = new SelectList(_repository.GetKategorie(), "KategoriaId", "Nazwa");
             ViewData["MiastoId"] = new SelectList(_repository.GetMiasta(), "MiastoId", "Nazwa");
 
@@ -219,9 +234,5 @@ namespace Wynajme_AspNetCore_v2.Controllers
             return RedirectToAction("Index");
         }
 
-        private Task<ApplicationUser> GetCurrentUserAsync()
-        {
-            return _userManager.GetUserAsync(HttpContext.User);
-        }    
     }
 }

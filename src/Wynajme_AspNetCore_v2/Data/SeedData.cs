@@ -163,7 +163,7 @@ namespace Wynajme_AspNetCore_v2.Data
                 tytulTmp += " " + tytulPart[r.Next(1, 4), r.Next(0, 10)];
 
                 trescTmp = "";
-                for (int j = 0; j < r.Next(40, 150); j++)
+                for (int j = 0; j < r.Next(40, 300); j++)
                 {
                     trescTmp += tytulPart[r.Next(0, 4), r.Next(0, 10)] + " ";
                 }

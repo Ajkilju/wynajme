@@ -12,7 +12,7 @@
     <form asp-action="Create" id="CreateForm" enctype="multipart/form-data">
         <div class="form-horizontal">
             <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="All" class="text-danger"></div>
 
             <div class="form-group">
                 <label asp-for="Tytul" class="col-md-2 control-label"></label>
@@ -49,7 +49,7 @@
             <div class="form-group">
                 <label asp-for="Cena" class="col-md-2 control-label"></label>
                 <div class="col-md-2">
-                    <input asp-for="Cena" placeholder="100" class="form-control" />
+                    <input asp-for="Cena" class="form-control" />
                     <span asp-validation-for="Cena" class="text-danger" />
                 </div>
             </div>
@@ -71,7 +71,7 @@
             <div class="form-group">
                 <label asp-for="Powierzchnia" class="col-md-2 control-label"></label>
                 <div class="col-md-2">
-                    <input asp-for="Powierzchnia" placeholder="30" class="form-control" />
+                    <input asp-for="Powierzchnia" class="form-control" />
                     <span asp-validation-for="Powierzchnia" class="text-danger" />
                 </div>
             </div>
@@ -149,15 +149,34 @@
                 </div>
             </div>
 
-            @*
+            
                 <div class="form-group">
                     <label asp-for="DodatkoweWyposazenie" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
+                    <div class="col-md-5">
                         <input asp-for="DodatkoweWyposazenie" class="form-control" />
                         <span asp-validation-for="DodatkoweWyposazenie" class="text-danger" />
                     </div>
                 </div>
-            *@
+            
+
+            <h3>Kontakt</h3>
+            <hr />
+
+            <div class="form-group">
+                <label asp-for="Email" class="col-md-2 control-label"></label>
+                <div class="col-md-5">
+                    <input asp-for="Email" value="@ViewData["UserEmail"]" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Telefon" class="col-md-2 control-label"></label>
+                <div class="col-md-2">
+                    <input asp-for="Telefon" value="@ViewData["UserPhone"]" class="form-control" />
+                    <span asp-validation-for="Telefon" class="text-danger"></span>
+                </div>
+            </div>
 
             <hr />
 

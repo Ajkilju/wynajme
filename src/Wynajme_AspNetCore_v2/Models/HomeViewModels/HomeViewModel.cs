@@ -7,8 +7,8 @@ namespace Wynajme_AspNetCore_v2.Models.HomeViewModels
 {
     public class NewHomeViewModel
     {
-        public IEnumerable<Ogloszenie> Ogloszenia { get; set; }
-        public IEnumerable<Kategoria> Kategorie { get; set; }
-        public IEnumerable<Miasto> Miasta { get; set; }
+        public IQueryable<Ogloszenie> Ogloszenia { get; set; }
+        public IQueryable<Kategoria> Kategorie { get; set; }
+        public IQueryable<Miasto> Miasta { get; set; }
     }
 }

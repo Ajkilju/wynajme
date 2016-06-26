@@ -58,7 +58,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
             
             var user = await GetCurrentUserAsync();
             var repoUser = _repository.GetUser(user.Id);
-            
+
             var model = new IndexViewModel
             {
                 HasPassword = await _userManager.HasPasswordAsync(user),
@@ -81,13 +81,13 @@ namespace Wynajme_AspNetCore_v2.Controllers
         public async Task<IActionResult> Ustawienia()
         {
             var user = await GetCurrentUserAsync();
-            var repoUser = _repository.GetUser(user.Id);
 
             var model = new UstawieniaViewModel
             {
                 Name = user.Name,
                 LastName = user.LastName,
-                Image = user.Image
+                Image = user.Image,
+                PhoneNumber = user.PhoneNumber          
             };
             return View(model);
         }
@@ -100,22 +100,23 @@ namespace Wynajme_AspNetCore_v2.Controllers
             if (ModelState.IsValid)
             {
                 var user = await GetCurrentUserAsync();
-                var repoUser = _repository.GetUser(user.Id);
+                //var repoUser = _repository.GetUser(user.Id);
 
-                repoUser.Name = model.Name;
-                repoUser.LastName = model.LastName;
+                user.Name = model.Name;
+                user.LastName = model.LastName;
+                user.PhoneNumber = model.PhoneNumber;
 
                 if (image != null)
                 {
                     using (var reader = new BinaryReader(image.OpenReadStream()))
                     {
                         var fileContent = reader.ReadBytes((int)image.Length);
-                        repoUser.Image = new byte[fileContent.Length];
-                        repoUser.Image = fileContent;
+                        user.Image = new byte[fileContent.Length];
+                        user.Image = fileContent;
                     }
                 }
 
-                _repository.UpdateUser(repoUser);
+                _repository.UpdateUser(user);
                 return RedirectToAction("Index");
             }
             return View(model);
