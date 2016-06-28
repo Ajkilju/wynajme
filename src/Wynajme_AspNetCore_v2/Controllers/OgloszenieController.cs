@@ -28,6 +28,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
         }
 
         // GET: Ogloszenies
+        [ResponseCache(Location = ResponseCacheLocation.Client, Duration = 120)]
         public IActionResult Index(
             int? cenaOd, int? cenaDo, 
             int? sortOrder, 
@@ -113,6 +114,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
 
         // GET: Ogloszenies/Details/5
 
+        [ResponseCache(Location = ResponseCacheLocation.Client, Duration = 120)]
         public IActionResult Details(int? id)
         {
             if (id == null)
@@ -140,13 +142,17 @@ namespace Wynajme_AspNetCore_v2.Controllers
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
-            ViewData["UserEmail"] = "";
-            ViewData["UserPhone"] = "";
-
             if (user != null)
             {
+                ViewData["IsUserLoggIn"] = 1;
                 ViewData["UserEmail"] = user.Email;
                 ViewData["UserPhone"] = user.PhoneNumber;
+            }
+            else
+            {
+                ViewData["IsUserLoggIn"] = 0;
+                ViewData["UserEmail"] = "";
+                ViewData["UserPhone"] = "";
             }
 
             ViewData["KategoriaId"] = new SelectList(_repository.GetKategorie(), "KategoriaId", "Nazwa");

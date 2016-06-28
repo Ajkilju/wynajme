@@ -46,8 +46,8 @@ namespace Wynajme_AspNetCore_v2.Repository
                 //.Include(o => o.Image)
                 //.Include(o => o.User)
                 .Include(o => o.Miasto)
-                .Where(c => c.Cena >= cenaOd && c.Cena <= cenaDo)
-                .AsNoTracking();
+                .Where(c => c.Cena >= cenaOd && c.Cena <= cenaDo);
+                //.AsNoTracking();
 
             if (UserId != null) 
             {
@@ -128,7 +128,7 @@ namespace Wynajme_AspNetCore_v2.Repository
                     break;
             }
 
-            return ogloszenia;
+            return ogloszenia.AsNoTracking();
         }
 
         public ApplicationUser GetUser(string Id)

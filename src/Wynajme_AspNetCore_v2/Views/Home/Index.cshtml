@@ -7,16 +7,16 @@
 
 <div style="background-color:#36424a; height:500px;">
     <div class="container">
-        <div class="row" style="padding-top:150px;text-align: center">
-            <div class="MainPageHeader"><strong>Znajdź już dziś!</strong></div>
+        <div class="row" style="padding-top:130px;text-align: center">
+            <div class="header-lg"><strong>Znajdź już dziś!</strong></div>
         </div>
         <div class="row" style="text-align: center">
-            <div class="MainPageParagraph">miszkanie, dom, lub miejsce na weekendowy wypoczynek ze znajomymi</div>
+            <div class="paragraph">miszkanie, dom, lub miejsce na weekendowy wypoczynek ze znajomymi</div>
         </div>
         <div class="row" style="padding-top:15px; text-align:center">
-            <a asp-action="Index" asp-controller="Ogloszenie" class="btn MainPageButton"><strong>SZUKAJ OGŁOSZEŃ</strong></a>
+            <a asp-action="Index" asp-controller="Ogloszenie" class="btn button-blueBack-lg"><strong>SZUKAJ OGŁOSZEŃ</strong></a>
+            <a asp-action="Create" asp-controller="Ogloszenie" class="btn button-purpleBack-lg"><strong>DODAJ OGŁOSZENIE</strong></a>
         </div>
-        <h4>@ViewData["user"]</h4>
     </div>
 </div>
 
@@ -53,7 +53,7 @@
         <div class="col-md-4" style="text-align: center">
             <img src="~/images/miasta/krakow.png" class="img-circle" style="height:175px; width:175px;" asp-append-version="true" />
             <div style="padding-top:10px">
-                <a asp-action="Index" asp-controller="Ogloszenie" asp-route-miasto="Toruń" class="btn MainPageButton2"><strong>Kraków</strong></a>
+                <a asp-action="Index" asp-controller="Ogloszenie" asp-route-miasto="Kraków" class="btn MainPageButton2"><strong>Kraków</strong></a>
             </div>
         </div>
         <div class="col-md-4" style="text-align: center">
@@ -137,13 +137,3 @@
     }
 </div>
 
-<div style="height:200px;"></div>
-
-<div style="background-color:#116597; height:80px;"></div>
-<div style="background-color:#262626; height:300px;">
-    <div class="container" style="padding-top:100px">
-        <h5 style="color:#a89999">Wynajme.pl</h5>
-        <h5 style="color:#a89999">2016 - Gann Projects</h5>
-        <a class="btn btn-primary">Facebook</a>
-    </div>
-</div>

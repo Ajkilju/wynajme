@@ -4,6 +4,23 @@
     ViewData["Title"] = "Dodaj";
     var kategorie = (IEnumerable<SelectListItem>)ViewData["KategoriaId"];
     var miasta = (IEnumerable<SelectListItem>)ViewData["MiastoId"];
+    var IsUserIn = (int)ViewData["IsUserLoggIn"];
+}
+
+@if (IsUserIn == 0)
+{
+    <div style="background-color:#116597;">
+        <div class="container">
+            <div class="col-md-7" style="padding-top:20px;text-align: left">
+                <div class="header"><strong>Nie jestes zalogowany!</strong></div>
+                <div class="paragraph">Zaloguj sie aby moc pozniej edytowac swoje ogloszenia!</div>
+            </div>
+            <div class="col-md-5" style="padding-top:20px;text-align: center">
+                <a asp-action="Login" asp-controller="Account" class="btn button-blueBack-lg" style="margin:5px; width:260px;"><strong>ZALOGUJ</strong></a>
+                <a asp-action="Register" asp-controller="Account" class="btn button-purpleBack-lg" style="margin:5px; margin-bottom:20px; width:260px;"><strong>REJESTRUJ</strong></a>
+            </div>
+        </div>
+    </div>
 }
 
 <div class="container">
@@ -192,8 +209,6 @@
         <a asp-action="Index" class="btn btn-primary">Wroc do listy ogloszen</a>
     </div>
 </div>
-
-<div style="height:300px"></div>
 
 
 @section Scripts {
