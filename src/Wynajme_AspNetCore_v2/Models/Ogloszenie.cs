@@ -59,7 +59,7 @@ namespace Wynajme_AspNetCore_v2.Models
         public string UserId { get; set; }
         [ForeignKey("UserId")]
         public ApplicationUser User { get; set; }
-    
+
         public int Powierzchnia { get; set; }
 
         //kontakt
@@ -91,6 +91,7 @@ namespace Wynajme_AspNetCore_v2.Models
         [Display(Name = "Dodatkowe wyposażenie")]
         [StringLength(100)]
         public string DodatkoweWyposazenie { get; set; }
-        
+
+        public List<Obserwowane> Obserwowane { get; set; }
     }
 }

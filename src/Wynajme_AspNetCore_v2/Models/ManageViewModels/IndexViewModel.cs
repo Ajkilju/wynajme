@@ -23,5 +23,6 @@ namespace Wynajme_AspNetCore_v2.Models.ManageViewModels
         public byte[] Image { get; set; }
         public string ImageMimeType { get; set; }
         public List<Ogloszenie> Ogloszenia { get; set; }
+        public List<Obserwowane> Obserwowane { get; set; }
     }
 }

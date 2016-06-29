@@ -25,6 +25,15 @@ namespace Wynajme_AspNetCore_v2.Repository
                 .Single(m => m.Id == Id);
         }
 
+        public ApplicationUser GetUserAllData(string Id)
+        {
+            return _context.Users
+                .Include(m => m.Ogloszenia).ThenInclude(k => k.Kategoria)
+                .Include(m => m.Ogloszenia).ThenInclude(k => k.Miasto)
+                .Include(m => m.Obserwowane).ThenInclude(k => k.Ogloszenie)
+                .Single(m => m.Id == Id);
+        }
+
         public void UpdateUser(ApplicationUser user)
         {
             _context.Update(user);

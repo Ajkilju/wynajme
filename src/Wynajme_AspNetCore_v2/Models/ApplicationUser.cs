@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Authentication;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Wynajme_AspNetCore_v2.Models
 {
@@ -18,7 +19,9 @@ namespace Wynajme_AspNetCore_v2.Models
         public string LastName { get; set; }
         public List<Ogloszenie> Ogloszenia { get; set; }
         public byte[] Image { get; set; }
-        public string ImageMimeType { get; set; }      
+        public string ImageMimeType { get; set; }
+
+        public List<Obserwowane> Obserwowane { get; set; }
     }
  
 }

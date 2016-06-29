@@ -9,6 +9,7 @@ namespace Wynajme_AspNetCore_v2.Repository
     public interface IManageRepository
     {
         ApplicationUser GetUser(string Id);
+        ApplicationUser GetUserAllData(string Id);
         void UpdateUser(ApplicationUser user);
     }
 }

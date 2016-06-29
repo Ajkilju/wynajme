@@ -5,13 +5,12 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Wynajme_AspNetCore_v2.Data;
 
-namespace Wynajme_AspNetCore_v2.Data.Migrations
+namespace Wynajme_AspNetCore_v2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160605160315_ApplicationUserUpdate2")]
-    partial class ApplicationUserUpdate2
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rc2-20901")
@@ -226,32 +225,76 @@ namespace Wynajme_AspNetCore_v2.Data.Migrations
                     b.ToTable("Miasto");
                 });
 
+            modelBuilder.Entity("Wynajme_AspNetCore_v2.Models.Obserwowane", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("OgloszenieId");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OgloszenieId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Obserwowane");
+                });
+
             modelBuilder.Entity("Wynajme_AspNetCore_v2.Models.Ogloszenie", b =>
                 {
                     b.Property<int>("OgloszenieId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("Cena");
+                    b.Property<int>("Cena");
 
                     b.Property<DateTime>("DataDodania");
 
+                    b.Property<string>("DodatkoweWyposazenie")
+                        .HasAnnotation("MaxLength", 100);
+
+                    b.Property<string>("Email")
+                        .IsRequired();
+
                     b.Property<int>("KategoriaId");
 
+                    b.Property<bool>("KuchniaEl");
+
+                    b.Property<bool>("KuchniaGaz");
+
+                    b.Property<bool>("Lodowka");
+
                     b.Property<int>("MiastoId");
+
+                    b.Property<bool>("Mikrofala");
 
                     b.Property<byte[]>("Miniature");
 
                     b.Property<string>("MiniatureMimeType");
 
+                    b.Property<int>("Powierzchnia");
+
+                    b.Property<bool>("Pralka");
+
+                    b.Property<bool>("Prysznic");
+
+                    b.Property<string>("Telefon");
+
                     b.Property<string>("Tresc")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 1000);
+                        .HasAnnotation("MaxLength", 4000);
 
                     b.Property<string>("Tytul")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 100);
+                        .HasAnnotation("MaxLength", 50);
 
                     b.Property<string>("UserId");
+
+                    b.Property<bool>("Wanna");
+
+                    b.Property<bool>("Zmywarka");
 
                     b.HasKey("OgloszenieId");
 
@@ -307,6 +350,18 @@ namespace Wynajme_AspNetCore_v2.Data.Migrations
                         .WithMany()
                         .HasForeignKey("OgloszenieId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Wynajme_AspNetCore_v2.Models.Obserwowane", b =>
+                {
+                    b.HasOne("Wynajme_AspNetCore_v2.Models.Ogloszenie")
+                        .WithMany()
+                        .HasForeignKey("OgloszenieId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Wynajme_AspNetCore_v2.Models.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Wynajme_AspNetCore_v2.Models.Ogloszenie", b =>

@@ -26,8 +26,9 @@ namespace Wynajme_AspNetCore_v2.Repository
             Boolean? prysznic,
             string UserId);
 
-        Ogloszenie GetOgloszenieById(int? id);
-        Ogloszenie GetNakedOgloszenieById(int? id);
+        Ogloszenie GetOgloszenie(int? id);
+        Ogloszenie GetNakedOgloszenie(int? id);
+        Ogloszenie GetOgloszenieAsNoTracking(int? id);
 
         IQueryable<Ogloszenie> GetOgloszenia(int howMany);
         IQueryable<Ogloszenie> GetOgloszenia(int howMany, string kategoria, string miasto);
@@ -36,6 +37,7 @@ namespace Wynajme_AspNetCore_v2.Repository
         void DodajOgloszenie(Ogloszenie ogloszenie, IList<IFormFile> images);
         void UpdateOgloszenie(Ogloszenie ogloszenie);
         void DeleteOgloszenie(int? id);
+        void SaveChages();
 
         IQueryable<Kategoria> GetKategorie();
         IQueryable<Miasto> GetMiasta();

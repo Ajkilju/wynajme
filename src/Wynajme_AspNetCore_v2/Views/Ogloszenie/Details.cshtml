@@ -19,7 +19,7 @@
             <p><a asp-controller="Ogloszenie" asp-action="Index" asp-route-kategoria="@Model.Kategoria.Nazwa">@Model.Kategoria.Nazwa</a></p>
         </div>
         <div class="col-md-4">
-            <p><a asp-controller="Ogloszenie" asp-action="Index">Obserwuj</a></p>
+            <p><a asp-controller="Ogloszenie" asp-action="Obserwuj" asp-route-id="@Model.OgloszenieId">Obserwuj</a></p>
             <p><a asp-controller="Ogloszenie" asp-route-miasto="@Model.Miasto.Nazwa" asp-route-kategoria="@Model.Kategoria.Nazwa" asp-action="Index">Podobne ogloszenia</a></p>
             <p><a asp-controller="Ogloszenie" asp-action="Create">Dodaj ogloszenie</a></p>
         </div>

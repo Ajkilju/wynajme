@@ -136,7 +136,7 @@ namespace Wynajme_AspNetCore_v2.Repository
             return _context.Users.Single(i => i.Id == Id);
         }
 
-        public Ogloszenie GetNakedOgloszenieById(int? id)
+        public Ogloszenie GetNakedOgloszenie(int? id)
         {
             Ogloszenie ogloszenie = _context.Ogloszenie
                 .Single(m => m.OgloszenieId == id);
@@ -144,7 +144,18 @@ namespace Wynajme_AspNetCore_v2.Repository
             return ogloszenie;
         }
 
-        public Ogloszenie GetOgloszenieById(int? id)
+        public Ogloszenie GetOgloszenie(int? id)
+        {
+            Ogloszenie ogloszenie = _context.Ogloszenie
+                .Include(o => o.Kategoria)
+                .Include(o => o.Miasto)
+                .Include(o => o.Image)
+                .Include(o => o.User)
+                .Single(m => m.OgloszenieId == id);
+            return ogloszenie;
+        }
+
+        public Ogloszenie GetOgloszenieAsNoTracking(int? id)
         {
             Ogloszenie ogloszenie = _context.Ogloszenie
                 .Include(o => o.Kategoria)
@@ -228,6 +239,11 @@ namespace Wynajme_AspNetCore_v2.Repository
         {
             Ogloszenie ogloszenie = _context.Ogloszenie.Single(m => m.OgloszenieId == id);
             _context.Ogloszenie.Remove(ogloszenie);
+            _context.SaveChanges();
+        }
+
+        public void SaveChages()
+        {
             _context.SaveChanges();
         }
 

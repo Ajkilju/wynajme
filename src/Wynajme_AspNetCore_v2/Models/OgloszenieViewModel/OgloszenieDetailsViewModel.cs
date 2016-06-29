@@ -59,6 +59,7 @@ namespace Wynajme_AspNetCore_v2.Models.OgloszenieViewModel
 
         public OgloszenieDetailsViewModel(Ogloszenie ogloszenie)
         {
+            OgloszenieId = ogloszenie.OgloszenieId;
             Tytul = ogloszenie.Tytul;
             Tresc = ogloszenie.Tresc;
             DataDodania = ogloszenie.DataDodania;

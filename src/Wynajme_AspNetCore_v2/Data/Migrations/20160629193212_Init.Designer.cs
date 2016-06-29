@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Wynajme_AspNetCore_v2.Data;
 
-namespace Wynajme_AspNetCore_v2.Data.Migrations
+namespace Wynajme_AspNetCore_v2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160626155010_DataAnnotationsUpdate2")]
-    partial class DataAnnotationsUpdate2
+    [Migration("20160629193212_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -226,6 +226,24 @@ namespace Wynajme_AspNetCore_v2.Data.Migrations
                     b.ToTable("Miasto");
                 });
 
+            modelBuilder.Entity("Wynajme_AspNetCore_v2.Models.Obserwowane", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("OgloszenieId");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OgloszenieId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Obserwowane");
+                });
+
             modelBuilder.Entity("Wynajme_AspNetCore_v2.Models.Ogloszenie", b =>
                 {
                     b.Property<int>("OgloszenieId")
@@ -333,6 +351,18 @@ namespace Wynajme_AspNetCore_v2.Data.Migrations
                         .WithMany()
                         .HasForeignKey("OgloszenieId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Wynajme_AspNetCore_v2.Models.Obserwowane", b =>
+                {
+                    b.HasOne("Wynajme_AspNetCore_v2.Models.Ogloszenie")
+                        .WithMany()
+                        .HasForeignKey("OgloszenieId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Wynajme_AspNetCore_v2.Models.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Wynajme_AspNetCore_v2.Models.Ogloszenie", b =>

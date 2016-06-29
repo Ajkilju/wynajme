@@ -19,12 +19,16 @@ namespace Wynajme_AspNetCore_v2.Controllers
     {
         private readonly IOgloszenieRepository _repository;
         private readonly UserManager<ApplicationUser> _userManager;
+        private IManageRepository _managerRepo;
 
-        public OgloszenieController (UserManager<ApplicationUser> userManager, 
-            IOgloszenieRepository repository)
+        public OgloszenieController (
+            UserManager<ApplicationUser> userManager, 
+            IOgloszenieRepository repository,
+            IManageRepository managerRepo)
         {
             _userManager = userManager;
             _repository = repository;
+            _managerRepo = managerRepo;
         }
 
         // GET: Ogloszenies
@@ -122,7 +126,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
                 //return HttpNotFound();
             }
 
-            var ogloszenie = _repository.GetOgloszenieById(id);
+            var ogloszenie = _repository.GetOgloszenieAsNoTracking(id);
 
             if (ogloszenie == null)
             {
@@ -185,7 +189,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
                // return HttpNotFound();
             }
 
-            Ogloszenie ogloszenie = _repository.GetOgloszenieById(id);
+            Ogloszenie ogloszenie = _repository.GetOgloszenie(id);
 
             if (ogloszenie == null)
             {
@@ -222,7 +226,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
                // return HttpNotFound();
             }
 
-            Ogloszenie ogloszenie = _repository.GetNakedOgloszenieById(id);
+            Ogloszenie ogloszenie = _repository.GetNakedOgloszenie(id);
             if (ogloszenie == null)
             {
                // return HttpNotFound();
@@ -237,6 +241,31 @@ namespace Wynajme_AspNetCore_v2.Controllers
         public IActionResult DeleteConfirmed(int id)
         {
             _repository.DeleteOgloszenie(id);
+            return RedirectToAction("Index");
+        }
+
+        // POST: Ogloszenies/Obserwuj
+        //[HttpPost]
+        public async Task<IActionResult> Obserwuj(int id)
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var repoUser = _managerRepo.GetUserAllData(user.Id);
+
+            if (user != null)
+            {
+                Obserwowane obs = new Obserwowane
+                {
+                    Ogloszenie = _repository.GetOgloszenie(id),
+                };
+
+                if (repoUser.Obserwowane.Count == 0) repoUser.Obserwowane = new List<Obserwowane>();
+                repoUser.Obserwowane.Add(obs);
+                _repository.SaveChages();
+                _managerRepo.UpdateUser(repoUser);
+
+                return RedirectToAction("Details", new { id = id } );
+            }
+
             return RedirectToAction("Index");
         }
 

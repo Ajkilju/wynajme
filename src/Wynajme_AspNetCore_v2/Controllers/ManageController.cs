@@ -76,6 +76,39 @@ namespace Wynajme_AspNetCore_v2.Controllers
             return View(model);
         }
 
+        // GET: /Manage/Obserwowane
+        [HttpGet]
+        public async Task<IActionResult> Obserwowane(ManageMessageId? message = null)
+        {
+            ViewData["StatusMessage"] =
+                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
+                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
+                : message == ManageMessageId.Error ? "An error has occurred."
+                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
+                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                : "";
+
+            var user = await GetCurrentUserAsync();
+            var repoUser = _repository.GetUserAllData(user.Id);
+
+            var model = new IndexViewModel
+            {
+                HasPassword = await _userManager.HasPasswordAsync(user),
+                PhoneNumber = await _userManager.GetPhoneNumberAsync(user),
+                TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),
+                Logins = await _userManager.GetLoginsAsync(user),
+                BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user),
+
+                Name = user.Name,
+                LastName = user.LastName,
+                Image = user.Image,
+                Obserwowane = repoUser.Obserwowane
+            };
+
+            return View(model);
+        }
+
         //
         // GET: /Manage/Ustawienia
         public async Task<IActionResult> Ustawienia()

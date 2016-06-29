@@ -37,9 +37,12 @@
                     <li><a asp-controller="Ogloszenie" asp-action="Index">Ogłoszenia</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
-            </div>
+            </div>   
         </div>
     </div>
+
+    @*<div style="background-color:#222222; height:50px;"></div>*@
+
     @RenderBody()
 
     <div style="height:200px;"></div>
