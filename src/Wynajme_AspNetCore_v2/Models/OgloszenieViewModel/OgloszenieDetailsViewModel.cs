@@ -35,6 +35,7 @@ namespace Wynajme_AspNetCore_v2.Models.OgloszenieViewModel
         public string UserName { get; set; }
         public string UserLastName { get; set; }
         public string UserImageString { get; set; }
+        public bool Obserwowane { get; set; }
         public int Powierzchnia { get; set; }
         [DataType(DataType.PhoneNumber)]
         public string Telefon { get; set; }
@@ -66,6 +67,7 @@ namespace Wynajme_AspNetCore_v2.Models.OgloszenieViewModel
             Cena = ogloszenie.Cena;
             Kategoria = ogloszenie.Kategoria;
             Miasto = ogloszenie.Miasto;
+            Obserwowane = false;
             Powierzchnia = ogloszenie.Powierzchnia;
             Telefon = ogloszenie.Telefon;
             Email = ogloszenie.Email;
@@ -84,7 +86,7 @@ namespace Wynajme_AspNetCore_v2.Models.OgloszenieViewModel
                 UserId = null;
                 UserImageString = "/images/DefaultUserPhoto.png";
                 UserName = "Unknown";
-                UserLastName = "Unknown";
+                UserLastName = "Unknown"; 
             }
             else
             {

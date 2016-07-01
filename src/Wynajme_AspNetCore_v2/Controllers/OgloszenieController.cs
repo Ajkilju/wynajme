@@ -117,9 +117,8 @@ namespace Wynajme_AspNetCore_v2.Controllers
         }
 
         // GET: Ogloszenies/Details/5
-
         [ResponseCache(Location = ResponseCacheLocation.Client, Duration = 120)]
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -133,10 +132,18 @@ namespace Wynajme_AspNetCore_v2.Controllers
                 // return HttpNotFound();
             }
 
-            OgloszenieDetailsViewModel model = 
-                new OgloszenieDetailsViewModel(ogloszenie);
-
+            OgloszenieDetailsViewModel model = new OgloszenieDetailsViewModel(ogloszenie);
             model.SetSimmlarOgloszenia(_repository.GetSimmlarOgloszenia(4, ogloszenie));
+
+            var user = _managerRepo.GetUserAllData(_userManager.GetUserId(HttpContext.User));
+            foreach(var item in user.Obserwowane)
+            {
+                if(item.OgloszenieId == ogloszenie.OgloszenieId)
+                {
+                    model.Obserwowane = true;
+                    break;
+                }
+            }         
 
             return View(model);
         }
