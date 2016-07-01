@@ -1,4 +1,5 @@
 # Wynajme
 Portal z ogłoszeniami wynajmu mieszkań, domów, domków na weekend itp.
 
-Asp.Net Core RC2
+Pokazowa aplikacja napisana w technologi Asp.Net Core RC2.
+
