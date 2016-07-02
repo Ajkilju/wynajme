@@ -197,6 +197,25 @@ textarea {
     background-color:#920063;
 }
 
+.button-purple-selected {
+    color:#ffffff;
+    border:2px solid #920063;
+    background-color:#920073;
+
+	border-radius:1px;
+	cursor:pointer;
+	font-family:Verdana;
+	font-size:15px;
+	padding:3px 10px;
+	text-decoration:solid;
+}
+
+.button-purple-selected:hover {
+    color:#ffffff;
+    border:2px solid #920063;
+    background-color:#920063;
+}
+
 .button-purple-lg {
 	background-color:#f8f8f8;
     border:3px solid #358796;
