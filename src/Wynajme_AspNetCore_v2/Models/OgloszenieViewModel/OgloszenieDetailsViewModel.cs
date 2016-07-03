@@ -80,18 +80,18 @@ namespace Wynajme_AspNetCore_v2.Models.OgloszenieViewModel
             Wanna = ogloszenie.Wanna;
             Prysznic = ogloszenie.Prysznic;
             DodatkoweWyposazenie = ogloszenie.DodatkoweWyposazenie;
+            UserId = ogloszenie.UserId;
 
-            if (ogloszenie.UserId == null)
+            if (UserId == null)
             {
-                UserId = null;
                 UserImageString = "/images/DefaultUserPhoto.png";
-                UserName = "Unknown";
-                UserLastName = "Unknown"; 
             }
             else
-            {
-                UserId = ogloszenie.UserId;
-                UserImageString = GetImageString(ogloszenie.User.Image);
+            {        
+                if(ogloszenie.User.Image.Length < 10)
+                    UserImageString = "/images/DefaultUserPhoto.png";
+                else
+                    UserImageString = GetImageString(ogloszenie.User.Image);
                 UserName = ogloszenie.User.Name;
                 UserLastName = ogloszenie.User.LastName;
             }

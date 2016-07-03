@@ -13,6 +13,7 @@ using Wynajme_AspNetCore_v2.Models.AccountViewModels;
 using Wynajme_AspNetCore_v2.Services;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Wynajme_AspNetCore_v2.Repository;
 
 namespace Wynajme_AspNetCore_v2.Controllers
 {
@@ -24,19 +25,23 @@ namespace Wynajme_AspNetCore_v2.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        //private IManageRepository _repository;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory
+            //IManageRepository repository
+            )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            //_repository = repository;
         }
 
         //
@@ -65,6 +70,11 @@ namespace Wynajme_AspNetCore_v2.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, "User logged in.");
+
+                    //var user = await GetCurrentUserAsync();
+                    //user.LastLogIn = DateTime.Now;
+                    //_repository.UpdateUser(user);
+
                     return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -128,6 +138,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
                     Email = model.Email,
                     LastName = model.LastName,
                     Image = model.Image,
+                    RegisterDate = DateTime.Now
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

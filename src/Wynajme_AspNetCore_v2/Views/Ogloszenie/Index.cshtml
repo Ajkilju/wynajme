@@ -379,12 +379,6 @@
         </div>
 
         <div class="LightGrayConteiner">
-            <a asp-action="Create" asp-controller="Ogloszenie" class="btn button-purple-lg">
-                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>  Dodaj ogloszenie
-            </a>
-        </div>
-
-        <div class="LightGrayConteiner">
             <h4>Wyposazenie:</h4>
             <p>
                 @{
@@ -643,7 +637,63 @@
                     Prysznic
                 </a>
             </p>
+
+            @if (Model.Zmywarka != true || Model.Lodowka != true || Model.Mikrofala != true ||
+                Model.KuchniaGaz != true || Model.KuchniaEl != true || Model.Pralka != true || Model.Wanna != true)
+            {
+
+                <a class="btn button" style="margin-top:5px; margin-bottom:5px;"
+                   asp-action="Index"
+                   asp-route-searchString="@Model.SearchStringRoute"
+                   asp-route-kategoria="@Model.AktualnaKategoria"
+                   asp-route-miasto="@Model.AktualneMiasto"
+                   asp-route-cenaod="@Model.CenaOd"
+                   asp-route-cenado="@Model.CenaDo"
+                   asp-route-sortorder="@Model.SortOrderRoute"
+                   asp-route-pagesize="@Model.PageSize"
+                   asp-route-zmywarka=@true
+                   asp-route-lodowka=@true
+                   asp-route-mikrofala=@true
+                   asp-route-kuchniagaz=@true
+                   asp-route-kuchniael=@true
+                   asp-route-pralka=@true
+                   asp-route-wanna=@true
+                   asp-route-prysznic=@true>
+                    Zaznacz wszystkie
+                </a>
+            }
+
+            @if (Model.Zmywarka == true || Model.Lodowka == true || Model.Mikrofala == true ||
+                Model.KuchniaGaz == true || Model.KuchniaEl == true || Model.Pralka == true || Model.Wanna == true)
+            {
+                <a class="btn button" style="margin-top:5px; margin-bottom:5px;"
+                   asp-action="Index"
+                   asp-route-searchString="@Model.SearchStringRoute"
+                   asp-route-kategoria="@Model.AktualnaKategoria"
+                   asp-route-miasto="@Model.AktualneMiasto"
+                   asp-route-cenaod="@Model.CenaOd"
+                   asp-route-cenado="@Model.CenaDo"
+                   asp-route-sortorder="@Model.SortOrderRoute"
+                   asp-route-pagesize="@Model.PageSize"
+                   asp-route-zmywarka=@null
+                   asp-route-lodowka=@null
+                   asp-route-mikrofala=@null
+                   asp-route-kuchniagaz=@null
+                   asp-route-kuchniael=@null
+                   asp-route-pralka=@null
+                   asp-route-wanna=@null
+                   asp-route-prysznic=@null>
+                    Odznacz wszystkie
+                </a>
+            }
         </div>
+
+        <div class="LightGrayConteiner">
+            <a asp-action="Create" asp-controller="Ogloszenie" class="btn button-purple-lg">
+                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>  Dodaj ogloszenie
+            </a>
+        </div>
+
     </div> @* left navbar *@
 
     @* ----------- lista ogloszen ------------- *@

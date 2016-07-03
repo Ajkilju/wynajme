@@ -24,18 +24,36 @@
                 {
                     <p>Obserwujesz <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></p>
                 }
-                else
+                else if(Model.UserId != null)
                 {
                     <p><a asp-controller="Ogloszenie" asp-action="Obserwuj" asp-route-id="@Model.OgloszenieId"> Obserwuj</a></p>
+                }
+                else if (Model.UserId == null)
+                {
+                    <p><a asp-controller="Account" asp-action="Login" asp-route-id="@Model.OgloszenieId"> Obserwuj</a></p>
                 }
             }         
             <p><a asp-controller="Ogloszenie" asp-route-miasto="@Model.Miasto.Nazwa" asp-route-kategoria="@Model.Kategoria.Nazwa" asp-action="Index">Podobne ogloszenia</a></p>
             <p><a asp-controller="Ogloszenie" asp-action="Create">Dodaj ogloszenie</a></p>
         </div>
         <div class="col-md-1">
-            <h4>@Model.UserName</h4>
-            <a asp-controller="Ogloszenie" asp-action="Index" asp-route-userid="@Model.UserId"><p>Kontakt</p></a>
-            <a asp-controller="Ogloszenie" asp-action="Index" asp-route-userid="@Model.UserId"><p>Ogloszenia</p></a>
+            @{
+                if (Model.UserId != null)
+                {
+                    <h4>@Model.UserName</h4>
+                    <a asp-controller="User" asp-action="Index" asp-route-userid="@Model.UserId"><p>Profil</p></a>
+                    <a asp-controller="User" asp-action="Index" asp-route-userid="@Model.UserId"><p>Ogloszenia</p></a>
+                }
+                else
+                {
+                    <h4>Dodane przez</h4>
+                    <h5>Nieznanego</h5>
+                    <h5>Uzytkownika</h5>
+                }
+
+            }
+            
+            
         </div>
         <div class="col-md-2" style="text-align:center">
             <img src=@Model.UserImageString class="img-circle" style="width:100px; height:100px;" />

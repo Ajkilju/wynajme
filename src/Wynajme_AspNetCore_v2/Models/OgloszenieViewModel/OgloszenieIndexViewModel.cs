@@ -35,7 +35,5 @@ namespace Wynajme_AspNetCore_v2.Models.OgloszenieViewModel
         public Boolean? Pralka { get; set; }
         public Boolean? Wanna { get; set; }
         public Boolean? Prysznic { get; set; }
-
-        //public  OgloszenieIndexViewModel 
     }
 }

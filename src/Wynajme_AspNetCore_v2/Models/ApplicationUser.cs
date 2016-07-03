@@ -21,6 +21,9 @@ namespace Wynajme_AspNetCore_v2.Models
         public byte[] Image { get; set; }
         public string ImageMimeType { get; set; }
 
+        public DateTime RegisterDate { get; set; }
+        public DateTime LastLogIn { get; set; }
+
         public List<Obserwowane> Obserwowane { get; set; }
     }
  

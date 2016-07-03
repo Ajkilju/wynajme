@@ -52,6 +52,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
             string UserId = null)
         {
             if (pageSize < 10) pageSize = 10;
+            if (page == 0) page = 1;
 
             OgloszenieIndexViewModel model = new OgloszenieIndexViewModel
             {
@@ -77,7 +78,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
                 Miasta = _repository.GetMiasta(),
                 AktualnaKategoria = kategoria,
                 AktualneMiasto = miasto,
-                SearchString = searchString == null ? "Szukaj..." : searchString,
+                SearchString = searchString == null ? "" : searchString,
                 SearchStringRoute = searchString,
                 CenaOdList = new List<int?>
                 {
@@ -133,7 +134,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
             }
 
             OgloszenieDetailsViewModel model = new OgloszenieDetailsViewModel(ogloszenie);
-            model.SetSimmlarOgloszenia(_repository.GetSimmlarOgloszenia(4, ogloszenie));
+            model.SetSimmlarOgloszenia(_repository.GetSimmlarOgloszenia(3, ogloszenie));
 
             var userId = _userManager.GetUserId(HttpContext.User);
             if (userId != null)
