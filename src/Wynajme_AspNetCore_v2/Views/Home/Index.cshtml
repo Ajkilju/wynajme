@@ -104,35 +104,28 @@
             ViewData["imgSrc"] = String.Format("data:image/gif;base64,{0}", base64);
         }
 
-        <div class="col-md-4" style="height:500px;">
-            <div style="height:260px;">
-                <img src='@ViewData["imgSrc"]' class="img-thumbnail" style="width:100%; height:inherit;" asp-append-version="true" />
-            </div>
-            <div>
-                <a asp-controller="Ogloszenie" asp-action="Details" asp-route-id="@item.OgloszenieId"><h4 style="color:#358796;">@item.Tytul</h4></a>
-            </div>
+        <div class="col-md-4" style="min-height:300px; text-align:center">
 
-            <div class="col-md-3">
+                <img src='@ViewData["imgSrc"]' class="img-rounded" style="width:100%; height:260px;" asp-append-version="true" />
+                <a asp-controller="Ogloszenie" asp-action="Details" asp-route-id="@item.OgloszenieId"><h4 style="color:#358796;"><strong>@item.Tytul</strong> </h4></a>
+
+            <div>
                 <p>
-                    Lokalizacja:<br />
-                    Kategoria:<br />
-                    Cena:<br />
-                    Dodano:
+                    Lokalizacja:
+                    <a asp-controller="Ogloszenie" asp-action="Index" asp-route-miasto="@item.Miasto.Nazwa">@item.Miasto.Nazwa</a>
                     <br />
-                </p>
-            </div>
-            <div class="col-md-8">
-                <p>
-                    @item.Miasto.Nazwa<br />
-                    @item.Kategoria.Nazwa<br />
-                    @item.Cena<br />
+                     Kategoria:
+                    <a asp-controller="Ogloszenie" asp-action="Index" asp-route-kategoria="@item.Kategoria.Nazwa">@item.Kategoria.Nazwa</a>
+                    <br />
+                    Cena: <strong>@item.Cena</strong> 
+                    <br />
+                    <br />
                     @Html.DisplayFor(modelItem => item.DataDodania)
                     <br />
+                    <br />
                 </p>
             </div>
-            <div>
-                <a asp-controller="Ogloszenie" asp-action="Details" asp-route-id="@item.OgloszenieId" class="btn MainPageButton2"><strong>Szczegóły</strong></a>
-            </div>
+ 
         </div>
     }
 </div>

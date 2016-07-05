@@ -13,6 +13,7 @@ using Wynajme_AspNetCore_v2.Data;
 using Wynajme_AspNetCore_v2.Repository;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Sakura.AspNetCore;
 
 namespace Wynajme_AspNetCore_v2.Controllers
 {
@@ -45,7 +46,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
         //
         // GET: /Manage/Index
         [HttpGet]
-        public async Task<IActionResult> Index(ManageMessageId? message = null)
+        public async Task<IActionResult> Index(ManageMessageId? message = null, int page = 1)
         {
             ViewData["StatusMessage"] =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
@@ -55,7 +56,10 @@ namespace Wynajme_AspNetCore_v2.Controllers
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
-            
+
+            var pageSize = 10;
+            if (page == 0) page = 1;
+
             var user = await GetCurrentUserAsync();
             var repoUser = _repository.GetUser(user.Id);
 
@@ -69,7 +73,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
 
                 Name = user.Name,
                 LastName = user.LastName,
-                Ogloszenia = repoUser.Ogloszenia,
+                Ogloszenia = repoUser.Ogloszenia.ToPagedList(pageSize, page),
                 Image = user.Image            
             };
          
@@ -78,7 +82,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
 
         // GET: /Manage/Obserwowane
         [HttpGet]
-        public async Task<IActionResult> Obserwowane(ManageMessageId? message = null)
+        public async Task<IActionResult> Obserwowane(ManageMessageId? message = null, int page = 1)
         {
             ViewData["StatusMessage"] =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
@@ -88,6 +92,9 @@ namespace Wynajme_AspNetCore_v2.Controllers
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
+
+            var pageSize = 10;
+            if (page == 0) page = 1;
 
             var user = await GetCurrentUserAsync();
             var repoUser = _repository.GetUserAllData(user.Id);
@@ -102,8 +109,9 @@ namespace Wynajme_AspNetCore_v2.Controllers
 
                 Name = user.Name,
                 LastName = user.LastName,
+                Obserwowane = repoUser.Obserwowane.ToPagedList(pageSize, page),
                 Image = user.Image,
-                Obserwowane = repoUser.Obserwowane
+                
             };
 
             return View(model);

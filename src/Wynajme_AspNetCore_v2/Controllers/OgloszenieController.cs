@@ -12,6 +12,7 @@ using Wynajme_AspNetCore_v2.Models.OgloszenieViewModel;
 using Microsoft.AspNetCore.Http;
 using Sakura.AspNetCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Wynajme_AspNetCore_v2.Controllers
 {
@@ -194,6 +195,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
         }
 
         // GET: Ogloszenies/Edit/5
+        [Authorize]
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -216,11 +218,14 @@ namespace Wynajme_AspNetCore_v2.Controllers
 
         // POST: Ogloszenies/Edit/5
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Ogloszenie ogloszenie)
         {
             if (ModelState.IsValid)
             {
+                ogloszenie.DataDodania = DateTime.Now;
+                ogloszenie.UserId = _userManager.GetUserId(HttpContext.User);
                 _repository.UpdateOgloszenie(ogloszenie);
                 return RedirectToAction("Index");
             }

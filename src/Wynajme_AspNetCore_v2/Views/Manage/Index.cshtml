@@ -1,5 +1,8 @@
 ﻿@model IndexViewModel
 
+@using Sakura.AspNetCore.Mvc
+@using Sakura.AspNetCore
+
 @if (Model.Image.Length < 10 || Model.PhoneNumber == "")
 {
     <div style="background-color:#116597;">
@@ -63,7 +66,7 @@
 
         <div class="col-md-7">
 
-            @if(Model.Ogloszenia.Count == 0)
+            @if(Model.Ogloszenia.TotalCount == 0)
             {
                 <div style="text-align:center">
                     <h3>Brak dodanych ogłoszeń</h3>
@@ -89,7 +92,7 @@
 
                 <tr>
                     <td class="col-lg-1 col-md-1 col-sm-2">
-                        <img src='@ViewData["imgSrc"]' style="max-width:180px; max-height:180px;" asp-append-version="true" />
+                        <img src='@ViewData["imgSrc"]' class="img-rounded" style="max-width:180px; max-height:180px;" asp-append-version="true" />
                     </td>
                     <td>
                         <div>
@@ -116,6 +119,9 @@
                 </tr>
                 }
             </table>
+
+            <pager source="Model.Ogloszenia" />
+
         </div>
 
     </div>
