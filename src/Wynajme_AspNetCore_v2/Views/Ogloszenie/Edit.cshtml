@@ -4,80 +4,84 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
+<div class="container">
 
-<form asp-action="Edit">
-    <div class="form-horizontal">
-        <h4>Ogloszenie</h4>
-        <hr />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="OgloszenieId" />
-        <div class="form-group">
-            <label asp-for="Cena" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Cena" class="form-control" />
-                <span asp-validation-for="Cena" class="text-danger" />
+    <h2>Edit</h2>
+
+    <form asp-action="Edit">
+        <div class="form-horizontal">
+            <h4>Ogloszenie</h4>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="OgloszenieId" />
+            <div class="form-group">
+                <label asp-for="Cena" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Cena" class="form-control" />
+                    <span asp-validation-for="Cena" class="text-danger" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataDodania" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="DataDodania" class="form-control" />
+                    <span asp-validation-for="DataDodania" class="text-danger" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="KategoriaId" class="control-label col-md-2"></label>
+                <div class="col-md-10">
+                    <select asp-for="KategoriaId" class="form-control" asp-items="ViewBag.KategoriaId"></select>
+                    <span asp-validation-for="KategoriaId" class="text-danger" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="MiastoId" class="control-label col-md-2"></label>
+                <div class="col-md-10">
+                    <select asp-for="MiastoId" class="form-control" asp-items="ViewBag.MiastoId"></select>
+                    <span asp-validation-for="MiastoId" class="text-danger" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Miniature" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Miniature" class="form-control" />
+                    <span asp-validation-for="Miniature" class="text-danger" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="MiniatureMimeType" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="MiniatureMimeType" class="form-control" />
+                    <span asp-validation-for="MiniatureMimeType" class="text-danger" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tresc" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Tresc" class="form-control" />
+                    <span asp-validation-for="Tresc" class="text-danger" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tytul" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Tytul" class="form-control" />
+                    <span asp-validation-for="Tytul" class="text-danger" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label asp-for="DataDodania" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="DataDodania" class="form-control" />
-                <span asp-validation-for="DataDodania" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="KategoriaId" class="control-label col-md-2"></label>
-            <div class="col-md-10">
-                <select asp-for="KategoriaId" class="form-control" asp-items="ViewBag.KategoriaId"></select>
-                <span asp-validation-for="KategoriaId" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="MiastoId" class="control-label col-md-2"></label>
-            <div class="col-md-10">
-                <select asp-for="MiastoId" class="form-control" asp-items="ViewBag.MiastoId"></select>
-                <span asp-validation-for="MiastoId" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Miniature" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Miniature" class="form-control" />
-                <span asp-validation-for="Miniature" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="MiniatureMimeType" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="MiniatureMimeType" class="form-control" />
-                <span asp-validation-for="MiniatureMimeType" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Tresc" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Tresc" class="form-control" />
-                <span asp-validation-for="Tresc" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Tytul" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Tytul" class="form-control" />
-                <span asp-validation-for="Tytul" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
+    </form>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
     </div>
-</form>
 
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
