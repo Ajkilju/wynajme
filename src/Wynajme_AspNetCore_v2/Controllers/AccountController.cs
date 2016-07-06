@@ -25,15 +25,15 @@ namespace Wynajme_AspNetCore_v2.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
-        //private IManageRepository _repository;
+        private IOgloszenieRepository _repository;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory
-            //IManageRepository repository
+            ILoggerFactory loggerFactory,
+            IOgloszenieRepository repository
             )
         {
             _userManager = userManager;
@@ -41,7 +41,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
-            //_repository = repository;
+            _repository = repository;
         }
 
         //
@@ -51,7 +51,11 @@ namespace Wynajme_AspNetCore_v2.Controllers
         public IActionResult Login(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            return View();
+            LoginViewModel model = new LoginViewModel
+            {
+                Ogloszenia = _repository.GetOgloszenia(9)
+            };
+            return View(model);
         }
 
         //
@@ -104,7 +108,11 @@ namespace Wynajme_AspNetCore_v2.Controllers
         public IActionResult Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            return View();
+            RegisterViewModel model = new RegisterViewModel
+            {
+                Ogloszenia = _repository.GetOgloszenia(9)
+            };
+            return View(model);
         }
 
         //
@@ -112,34 +120,21 @@ namespace Wynajme_AspNetCore_v2.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model, IFormFile image, string returnUrl = null)
+        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-
-                if (image!=null)
+                var user = new ApplicationUser
                 {
-                    using (var reader = new BinaryReader(image.OpenReadStream()))
-                    {
-                        var fileContent = reader.ReadBytes((int)image.Length);
-                        model.Image = new byte[fileContent.Length];
-                        model.Image = fileContent;
-                    }
-                }
-                else
-                {
-                    model.Image = new byte[1];
-                }
-
-                var user = new ApplicationUser {
                     UserName = model.Email,
                     Name = model.Name,
                     Email = model.Email,
                     LastName = model.LastName,
-                    Image = model.Image,
+                    Image = new byte[1],
                     RegisterDate = DateTime.Now
                 };
+
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

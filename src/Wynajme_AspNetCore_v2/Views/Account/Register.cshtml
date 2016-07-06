@@ -1,73 +1,114 @@
 ﻿@model RegisterViewModel
 
+<div style="background-color:#116597;">
+    <div class="container">
+        <div class="col-md-7" style="padding-top:30px; padding-bottom:30px; text-align: left">
+            <div class="header"><strong>Otwórz przed sobą nowe możliwości!</strong></div>
+            <div class="paragraph">Posiadanie konta umożliwia Ci edycję swoich ogłoszeń oraz obserwacje tych, które Cię interesują!</div>
+        </div>
+        <div class="col-md-5" style="padding-top:95px;text-align: center">
+            <a asp-action="Login" class="btn button-blueBack-lg" style="margin:5px; width:300px;"><strong>Mam już konto</strong></a>
+        </div>
+    </div>
+</div>
+
 
 <div class="container">
 
-    <h2>Zarejestruj sie</h2>
-    <hr />
+    <div class="row" style="margin-top:100px;">
+        <div class="col-md-6 col-md-offset-3">
 
-    <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" enctype="multipart/form-data">
+            <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" enctype="multipart/form-data">
 
-        <div asp-validation-summary="All" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="Email" class="col-md-2 control-label"></label>
-            <div class="col-md-3">
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-2 control-label">Haslo</label>
-            <div class="col-md-3">
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-2 control-label">Potwierdz haslo</label>
-            <div class="col-md-3">
-                <input asp-for="ConfirmPassword" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-md-2 control-label">Imie</label>
-            <div class="col-md-3">
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-md-2 control-label">Nazwisko</label>
-            <div class="col-md-3">
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-3">
-                <div class="input-group">
-                    <span class="input-group-btn">
-                        <label class="btn btn-default btn-file" for="multiple_input_group">
-                            <input id="multiple_input_group" type="file" name="image" /> Dodaj zdjecie
-                        </label>
-                    </span>
-                    <span class="file-input-label"></span>
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Email" class="col-md-2 control-label"></label>
+                    <div class="col-md-8">
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Haslo</label>
+                    <div class="col-md-8">
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Potwierdz haslo</label>
+                    <div class="col-md-8">
+                        <input asp-for="ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Imie</label>
+                    <div class="col-md-8">
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div style="text-align:center;">
+
+                    <button type="submit" class="btn button-purpleBack" style="width:250px;">Rejestruj</button>
+
+                </div>
+            </form>
         </div>
 
-        <hr />
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <button type="submit" class="btn btn-primary">Rejestruj</button>
-            </div>
+
+
+    </div>
+
+    <div class="row" style="margin-top:100px;">
+
+        <div style="text-align:center">
+            <h2><strong>Ostatnio dodane ogłoszenia</strong></h2>
+            <div style="height:50px;"></div>
         </div>
-    </form>
+
+        @foreach (var item in Model.Ogloszenia)
+            {
+                if (item.Miniature == null)
+                {
+                    ViewData["imgSrc"] = "~/images/defaultoglphoto.png";
+                }
+                else
+                {
+                    var base64 = Convert.ToBase64String(item.Miniature);
+                    ViewData["imgSrc"] = String.Format("data:image/gif;base64,{0}", base64);
+                }
+
+                <div class="col-md-4" style="min-height:300px; text-align:center">
+
+                    <img src='@ViewData["imgSrc"]' class="img-rounded" style="width:100%; height:260px;" asp-append-version="true" />
+                    <a asp-controller="Ogloszenie" asp-action="Details" asp-route-id="@item.OgloszenieId"><h4 style="color:#358796;"><strong>@item.Tytul</strong> </h4></a>
+
+                    <div>
+                        <p>
+                            Lokalizacja:
+                            <a asp-controller="Ogloszenie" asp-action="Index" asp-route-miasto="@item.Miasto.Nazwa">@item.Miasto.Nazwa</a>
+                            <br />
+                            Kategoria:
+                            <a asp-controller="Ogloszenie" asp-action="Index" asp-route-kategoria="@item.Kategoria.Nazwa">@item.Kategoria.Nazwa</a>
+                            <br />
+                            Cena: <strong>@item.Cena</strong>
+                            <br />
+                            <br />
+                            @Html.DisplayFor(modelItem => item.DataDodania)
+                            <br />
+                            <br />
+                        </p>
+                    </div>
+
+                </div>
+        }
+    </div>
+
 
 
 </div>

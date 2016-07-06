@@ -35,40 +35,47 @@
 
     <div class="LightGrayConteiner">
 
-        <h3 class="col-md-2">@Model.Name @Model.LastName</h3>
+        <div class="row">
 
-        @{
-            if (Model.Image.Length < 10)
-            {
-                <img src="~/images/DefaultUserPhoto.png" class="img-circle" style="width:100px; height:100px;" />
+            <div class="col-md-2">
+                <h3>Witaj @Model.Name </h3>
+            </div>
+
+            @{
+                if (Model.Image.Length < 10)
+                {
+                    <div class="col-md-1">
+                        <img src="~/images/DefaultUserPhoto.png" class="img-circle" style="width:100px; height:100px;" />
+                    </div>
+                }
+                else
+                {
+                    var base64 = Convert.ToBase64String(Model.Image);
+                    var patch = String.Format("data:image/gif;base64,{0}", base64);
+                    <div class="col-md-1">
+                        <img src='@patch' class="img-circle" style="width:100px; height:100px;" />
+                    </div>
+                }
             }
-            else
-            {
-                var base64 = Convert.ToBase64String(Model.Image);
-                var patch = String.Format("data:image/gif;base64,{0}", base64);
-                <img src='@patch' class="img-circle" style="width:100px; height:100px;" />
-            }
-        }
+
+
+            <div class="col-md-7" style="text-align:center; padding-top:30px">
+                <a asp-controller="Manage" asp-action="Index" class="btn button-purple-selected" style="margin-bottom:5px; margin-top:5px"><strong>Moje ogloszenia</strong></a>
+                <a asp-controller="Manage" asp-action="Obserwowane" class="btn button-purple" style="margin-bottom:5px; margin-top:5px"><strong>Obserwowane</strong></a>
+                <a asp-action="Ustawienia" class="btn button-purple"><strong>Ustawienia</strong></a>
+            </div>
+
+        </div>
 
     </div>
 
     <div class="row">
 
-        <div class="col-md-3">
-            <div class="LightGrayConteiner">
-                    <a asp-controller="Manage" asp-action="Index" class="btn button-purple-selected" style="margin-bottom:5px; margin-top:5px"><strong>Moje ogloszenia</strong></a>
-                    <a asp-controller="Manage" asp-action="Obserwowane" class="btn button-purple" style="margin-bottom:5px; margin-top:5px"><strong>Obserwowane</strong></a>              
-            </div>
-            <div class="LightGrayConteiner">
-                <a asp-action="Ustawienia" class="btn button-purple"><strong>Ustawienia</strong></a>
-            </div>
-        </div>
-
-        <div class="col-md-7">
+        <div class="col-md-offset-2 col-md-8">
 
             @if(Model.Ogloszenia.TotalCount == 0)
             {
-                <div style="text-align:center">
+                <div style="text-align:center; margin-top:40px;">
                     <h3>Brak dodanych ogłoszeń</h3>
                     <a asp-action="Create" asp-controller="Ogloszenie" class="btn button-blueBack-lg"><strong>DODAJ OGŁOSZENIE</strong></a>
                 </div>
@@ -120,7 +127,15 @@
                 }
             </table>
 
-            <pager source="Model.Ogloszenia" />
+            @if (Model.Ogloszenia.TotalCount > 0)
+            {
+
+                <div style="text-align:center">
+                    <pager source="Model.Ogloszenia" />
+                </div>
+                
+            }
+            
 
         </div>
 

@@ -18,5 +18,7 @@ namespace Wynajme_AspNetCore_v2.Models.AccountViewModels
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
+
+        public IQueryable<Ogloszenie> Ogloszenia { get; set; }
     }
 }

@@ -26,7 +26,6 @@ namespace Wynajme_AspNetCore_v2.Models.AccountViewModels
 
         public string Name { get; set; }
         public string LastName { get; set; }
-        public byte[] Image { get; set; }
-        public string ImageMimeType { get; set; }
+        public IQueryable<Ogloszenie> Ogloszenia { get; set; }
     }
 }
