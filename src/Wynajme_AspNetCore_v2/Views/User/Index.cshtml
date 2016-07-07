@@ -68,48 +68,11 @@
 
         <div class="col-md-8">
 
-            <table class="table">
+            @Html.Partial("_OgloszenieTablePartial", Model.Ogloszenia)
 
-                @foreach (var item in Model.Ogloszenia)
-            {
-
-                if (item.Miniature == null)
-                {
-                    ViewData["imgSrc"] = "~/images/DefaultOglPhoto.png";
-                }
-                else
-                {
-                    var base64 = Convert.ToBase64String(item.Miniature);
-                    ViewData["imgSrc"] = String.Format("data:image/gif;base64,{0}", base64);
-                }
-
-                <tr>
-                    <td class="col-lg-1 col-md-1 col-sm-2">
-                        <img src='@ViewData["imgSrc"]' class="img-rounded" style="max-width:180px; max-height:180px;" asp-append-version="true" />
-                    </td>
-                    <td>
-                        <div>
-                            <a asp-controller="Ogloszenie" asp-action="Details" asp-route-id="@item.OgloszenieId"><h4 style="color:#4a94a3"><strong>@item.Tytul</strong></h4></a>
-                        </div>
-                        <div>
-                            @Html.DisplayFor(modelItem => item.Kategoria.Nazwa)
-                        </div>
-                        <div>
-                            @Html.DisplayFor(modelItem => item.Miasto.Nazwa)
-                        </div>
-                        <div>
-                            @Html.DisplayFor(modelItem => item.Cena)
-                        </div>
-                        <p />
-                        <div>
-                            @Html.DisplayFor(modelItem => item.DataDodania)
-                        </div>
-                    </td>
-                </tr>
-                }
-            </table>
-
-            <pager source="Model.Ogloszenia" />
+            <div style="text-align:center">
+                <pager source="Model.Ogloszenia" />
+            </div>
 
         </div>
 

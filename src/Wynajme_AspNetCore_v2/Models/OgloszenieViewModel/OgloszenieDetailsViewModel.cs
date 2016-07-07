@@ -57,6 +57,7 @@ namespace Wynajme_AspNetCore_v2.Models.OgloszenieViewModel
         [Display(Name = "Dodatkowe wyposażenie")]
         public string DodatkoweWyposazenie { get; set; }
         public IEnumerable<SimmlarOgloszenieViewModel> PodobneOgloszenia { get; set; }
+        public string LogInUserId { get; set; }
 
         public OgloszenieDetailsViewModel(Ogloszenie ogloszenie)
         {

@@ -3,7 +3,7 @@
 @using Sakura.AspNetCore.Mvc
 @using Sakura.AspNetCore
 
-@if (Model.Image.Length < 10 || Model.PhoneNumber == "")
+@if (Model.Image.Length < 10 || Model.PhoneNumber == null)
 {
     <div style="background-color:#116597;">
         <div class="container">

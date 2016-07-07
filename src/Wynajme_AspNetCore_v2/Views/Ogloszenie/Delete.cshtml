@@ -2,45 +2,67 @@
 
 @{
     ViewData["Title"] = "Delete";
+
+    if (Model.Miniature == null)
+    {
+        ViewData["imgSrc"] = "~/images/defaultoglphoto.png";
+    }
+    else
+    {
+        var base64 = Convert.ToBase64String(Model.Miniature);
+        ViewData["imgSrc"] = String.Format("data:image/gif;base64,{0}", base64);
+    }
 }
 
-<h2>Delete</h2>
+<div class="container">
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Ogloszenie</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Cena)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Cena)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.DataDodania)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DataDodania)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Tresc)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Tresc)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Tytul)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Tytul)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            <a asp-action="Index">Back to List</a>
+    <div class="row" style="margin-top:150px; text-align:center">
+        <h2>Czy jestes pewien ze chcesz usunac ogloszenie?</h2>
+    </div>
+
+    <div class="row" style="margin-top:30px;">
+
+        <div class="col-md-4"></div>
+
+        <div class="col-md-4" style="min-height:300px; text-align:center">
+
+            <img src='@ViewData["imgSrc"]' class="img-rounded" style="width:100%; height:260px;" asp-append-version="true" />
+            <a asp-controller="Ogloszenie" asp-action="Details" asp-route-id="@Model.OgloszenieId"><h4 style="color:#358796;"><strong>@Model.Tytul</strong> </h4></a>
+
+            <div>
+                <p>
+                    Lokalizacja:
+                    <a asp-controller="Ogloszenie" asp-action="Index" asp-route-miasto="@Model.Miasto.Nazwa">@Model.Miasto.Nazwa</a>
+                    <br />
+                    Kategoria:
+                    <a asp-controller="Ogloszenie" asp-action="Index" asp-route-kategoria="@Model.Kategoria.Nazwa">@Model.Kategoria.Nazwa</a>
+                    <br />
+                    Cena: <strong>@Model.Cena</strong>
+                    <br />
+                    <br />
+                    @Html.DisplayFor(modelItem => Model.DataDodania)
+                    <br />
+                    <br />
+                </p>
+            </div>
+
         </div>
-    </form>
+
+        <div class="col-md-4"></div>
+
+
+
+
+    </div>
+
+    <div class="row" style="margin-top:30px;">
+
+        <form asp-action="Delete">
+            <div style="text-align:center">
+                <input type="submit" value="Usun" class="btn button-blueBack-lg" style="width:250px;" />
+                <a asp-action="Index" class="btn button-purpleBack-lg" style="width:250px;">Wroc</a>
+            </div>
+        </form>
+
+    </div>
 </div>

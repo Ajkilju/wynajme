@@ -317,3 +317,29 @@ textarea {
     padding-top:7px;
 	text-decoration:solid;
 }
+
+/*---------------------------- */
+
+.verticallAlignDiv {
+  width: 150px;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+}
+
+.verticallAlignSpan {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;      
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.vertical-align {
+    display: flex;
+    align-items: center;
+}

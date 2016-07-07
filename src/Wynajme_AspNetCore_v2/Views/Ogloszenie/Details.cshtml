@@ -24,13 +24,13 @@
                 {
                     <p>Obserwujesz <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></p>
                 }
-                else if(Model.UserId != null)
+                else if(Model.LogInUserId != null)
                 {
                     <p><a asp-controller="Ogloszenie" asp-action="Obserwuj" asp-route-id="@Model.OgloszenieId"> Obserwuj</a></p>
                 }
-                else if (Model.UserId == null)
+                else if (Model.LogInUserId == null)
                 {
-                    <p><a asp-controller="Account" asp-action="Login" asp-route-id="@Model.OgloszenieId"> Obserwuj</a></p>
+                    <p><a asp-controller="Account" asp-action="Login"> Obserwuj</a></p>
                 }
             }         
             <p><a asp-controller="Ogloszenie" asp-route-miasto="@Model.Miasto.Nazwa" asp-route-kategoria="@Model.Kategoria.Nazwa" asp-action="Index">Podobne ogloszenia</a></p>

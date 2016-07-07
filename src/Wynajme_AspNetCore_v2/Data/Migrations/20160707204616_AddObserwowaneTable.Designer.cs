@@ -8,9 +8,10 @@ using Wynajme_AspNetCore_v2.Data;
 namespace Wynajme_AspNetCore_v2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160707204616_AddObserwowaneTable")]
+    partial class AddObserwowaneTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")

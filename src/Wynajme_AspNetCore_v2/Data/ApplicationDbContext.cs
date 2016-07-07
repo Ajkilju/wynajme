@@ -29,5 +29,6 @@ namespace Wynajme_AspNetCore_v2.Data
         public DbSet<Kategoria> Kategoria { get; set; }
         public DbSet<Miasto> Miasto { get; set; }
         public DbSet<Image> Image { get; set; }
+        public DbSet<Obserwowane> Obserwowane { get; set; }
     }
 }

@@ -242,6 +242,13 @@ namespace Wynajme_AspNetCore_v2.Repository
             _context.SaveChanges();
         }
 
+        public void NieObserwuj(int? id)
+        {
+            Obserwowane obs = _context.Obserwowane.Single(m => m.Id == id);
+            _context.Obserwowane.Remove(obs);
+            _context.SaveChanges();
+        }
+
         public void SaveChages()
         {
             _context.SaveChanges();

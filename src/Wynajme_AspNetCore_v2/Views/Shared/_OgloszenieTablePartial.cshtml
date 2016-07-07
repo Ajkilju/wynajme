@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Ogloszenie>
+
+@foreach (var item in Model)
+{
+    if (item.Miniature == null)
+    {
+        ViewData["imgSrc"] = "~/images/DefaultOglPhoto.png";
+    }
+    else
+    {
+        var base64 = Convert.ToBase64String(item.Miniature);
+        ViewData["imgSrc"] = String.Format("data:image/gif;base64,{0}", base64);
+    }
+
+    <hr />
+
+    <div class="row vertical-align">
+
+        <div class="col-md-3">
+            <img src='@ViewData["imgSrc"]' class="img-rounded" style="width:100%; height:100%;" asp-append-version="true" />
+        </div>
+
+        <div class="col-md-9">
+            <div class="row">
+                <a asp-action="Details" asp-route-id="@item.OgloszenieId"><h4 style="color:#4a94a3"><strong>@item.Tytul</strong></h4></a>
+            </div>
+            <div class="row vertical-align">
+                <div class="col-md-8">
+                    <p>
+                        @item.Miasto.Nazwa<br />
+                        @item.Kategoria.Nazwa<br />
+                    </p>
+                    <p>
+                        @{
+                            if (item.Zmywarka == true)
+                            {<span class="glyphicon glyphicon-glass" aria-hidden="true"></span>}
+                            if (item.Lodowka == true)
+                            {<span class="glyphicon glyphicon-apple" aria-hidden="true"></span>}
+                            if (item.Mikrofala == true)
+                            {<span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>}
+                            if (item.KuchniaGaz == true || item.KuchniaEl == true)
+                            {<span class="glyphicon glyphicon-flash" aria-hidden="true"></span>}
+                            if (item.Pralka == true)
+                            {<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>}
+                            if (item.Wanna == true || item.Prysznic == true)
+                            {<span class="glyphicon glyphicon-tint" aria-hidden="true"></span>}
+                        }
+                    </p>
+                    @Html.DisplayFor(modelItem => item.DataDodania)
+                </div>
+                <div class="col-md-4" style="text-align:right">
+                    <h3><strong>@item.Cena zł</strong></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<hr />

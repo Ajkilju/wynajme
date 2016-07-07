@@ -137,10 +137,12 @@ namespace Wynajme_AspNetCore_v2.Controllers
             OgloszenieDetailsViewModel model = new OgloszenieDetailsViewModel(ogloszenie);
             model.SetSimmlarOgloszenia(_repository.GetSimmlarOgloszenia(3, ogloszenie));
 
-            var userId = _userManager.GetUserId(HttpContext.User);
-            if (userId != null)
+            var logInUserId = _userManager.GetUserId(HttpContext.User);
+            model.LogInUserId = logInUserId;
+
+            if (logInUserId != null)
             {
-                var user = _managerRepo.GetUserAllData(userId);
+                var user = _managerRepo.GetUserAllData(logInUserId);
                 foreach (var item in user.Obserwowane)
                 {
                     if (item.OgloszenieId == ogloszenie.OgloszenieId)
@@ -243,7 +245,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
                // return HttpNotFound();
             }
 
-            Ogloszenie ogloszenie = _repository.GetNakedOgloszenie(id);
+            Ogloszenie ogloszenie = _repository.GetOgloszenie(id);
             if (ogloszenie == null)
             {
                // return HttpNotFound();
@@ -281,6 +283,30 @@ namespace Wynajme_AspNetCore_v2.Controllers
                 _managerRepo.UpdateUser(repoUser);
 
                 return RedirectToAction("Details", new { id = id } );
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        // POST: Ogloszenies/Obserwuj
+        //[HttpPost]
+        public async Task<IActionResult> NieObserwuj(int id)
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var repoUser = _managerRepo.GetUserAllData(user.Id);
+
+            if (user != null)
+            {
+
+                _repository.NieObserwuj(id);
+
+                /*
+                repoUser.Obserwowane.Remove()
+                _repository.SaveChages();
+                _managerRepo.UpdateUser(repoUser);
+                */
+
+                return RedirectToAction("Obserwowane","Manage");
             }
 
             return RedirectToAction("Index");

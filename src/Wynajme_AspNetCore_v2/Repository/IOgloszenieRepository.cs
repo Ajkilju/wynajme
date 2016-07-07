@@ -37,6 +37,7 @@ namespace Wynajme_AspNetCore_v2.Repository
         void DodajOgloszenie(Ogloszenie ogloszenie, IList<IFormFile> images);
         void UpdateOgloszenie(Ogloszenie ogloszenie);
         void DeleteOgloszenie(int? id);
+        void NieObserwuj(int? id);
         void SaveChages();
 
         IQueryable<Kategoria> GetKategorie();
