@@ -68,10 +68,7 @@ namespace Wynajme_AspNetCore_v2
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
-            //co jest wydajniejsze?
             services.AddScoped<IOgloszenieRepository, OgloszenieRepository>();
-            //services.AddTransient<IOgloszenieRepository, OgloszenieRepository>();
-
             services.AddScoped<IManageRepository, ManageRepository>();
         }
 
