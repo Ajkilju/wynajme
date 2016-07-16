@@ -39,6 +39,20 @@
 
             <div class="col-md-2">
                 <h3>Witaj @Model.Name </h3>
+                @{
+                    if (User.IsInRole("Admin"))
+                    {
+                        <h3>Admin</h3>
+                    }
+                    else if(User.IsInRole("User"))
+                    {
+                        <h3>User</h3>
+                    }
+                    else
+                    {
+                        <h3>No Role</h3>
+                    }
+                }
             </div>
 
             @{

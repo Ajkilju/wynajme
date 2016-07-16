@@ -46,6 +46,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
         //
         // GET: /Manage/Index
         [HttpGet]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index(ManageMessageId? message = null, int page = 1)
         {
             ViewData["StatusMessage"] =

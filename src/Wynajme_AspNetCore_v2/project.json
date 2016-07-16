@@ -41,7 +41,8 @@
     },
     "Sakura.AspNetCore.PagedList": "1.0.2",
     "Sakura.AspNetCore.PagedList.Abstractions": "1.0.1",
-    "Sakura.AspNetCore.Mvc.PagedList": "2.0.5"
+    "Sakura.AspNetCore.Mvc.PagedList": "2.0.5",
+    "Microsoft.AspNetCore.Identity": "1.0.0"
   },
 
   "tools": {

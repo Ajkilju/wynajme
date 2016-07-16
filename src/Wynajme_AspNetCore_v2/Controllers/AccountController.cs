@@ -14,6 +14,8 @@ using Wynajme_AspNetCore_v2.Services;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Wynajme_AspNetCore_v2.Repository;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Wynajme_AspNetCore_v2.Data;
 
 namespace Wynajme_AspNetCore_v2.Controllers
 {
@@ -25,7 +27,8 @@ namespace Wynajme_AspNetCore_v2.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
-        private IOgloszenieRepository _repository;
+        private IOgloszenieRepository _ogloszeniaRepo;
+        private IManageRepository _manageRepo;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -33,15 +36,16 @@ namespace Wynajme_AspNetCore_v2.Controllers
             IEmailSender emailSender,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory,
-            IOgloszenieRepository repository
-            )
+            IOgloszenieRepository ogloszeniaRepo,
+            IManageRepository manageRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
-            _repository = repository;
+            _ogloszeniaRepo = ogloszeniaRepo;
+            _manageRepo = manageRepo;
         }
 
         //
@@ -53,7 +57,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             LoginViewModel model = new LoginViewModel
             {
-                Ogloszenia = _repository.GetOgloszenia(9)
+                Ogloszenia = _ogloszeniaRepo.GetOgloszenia(9)
             };
             return View(model);
         }
@@ -110,7 +114,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             RegisterViewModel model = new RegisterViewModel
             {
-                Ogloszenia = _repository.GetOgloszenia(9)
+                Ogloszenia = _ogloszeniaRepo.GetOgloszenia(9)
             };
             return View(model);
         }
@@ -136,16 +140,22 @@ namespace Wynajme_AspNetCore_v2.Controllers
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
-                    // Send an email with this link
-                   // var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                    //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
                     await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    if (_manageRepo.GetRegisterdeUsersCount() == 1)
+                    {                   
+                       await _userManager.AddToRoleAsync(user, "Admin");
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, "User");
+                    }
+
                     _logger.LogInformation(3, "User created a new account with password.");
+                    await _signInManager.RefreshSignInAsync(user);
                     return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);

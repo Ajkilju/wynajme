@@ -19,6 +19,7 @@ namespace Wynajme_AspNetCore_v2.Repository
         public OgloszenieRepository(ApplicationDbContext context)
         {            
             _context = context;
+            
         }
 
         public IQueryable<Ogloszenie> PobierzOgloszenia (

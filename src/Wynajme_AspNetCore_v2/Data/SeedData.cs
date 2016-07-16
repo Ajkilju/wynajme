@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Wynajme_AspNetCore_v2.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Wynajme_AspNetCore_v2.Data
 {
@@ -173,8 +176,6 @@ namespace Wynajme_AspNetCore_v2.Data
                 {
                     DodatkoweWyp += DodatkoweWyposazenie[r.Next(1, 5)] + " ";
                 }
-                
-                
 
                 oglList.Add(
                     new Ogloszenie
@@ -216,5 +217,43 @@ namespace Wynajme_AspNetCore_v2.Data
                 context.SaveChanges();
             }
         }
+
+        public static async Task CreateRoles(IServiceProvider serviceProvider, ILoggerFactory loggerFactory)
+        {
+            ILogger logger = loggerFactory.CreateLogger<Startup>();
+            RoleManager<IdentityRole> roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
+
+            string[] roleNames = { "Admin", "User" };
+
+            foreach (string roleName in roleNames)
+            {
+                bool roleExists = await roleManager.RoleExistsAsync(roleName);
+                if (!roleExists)
+                {
+                    logger.LogInformation(String.Format("!roleExists for roleName {0}", roleName));
+                    IdentityRole identityRole = new IdentityRole(roleName);
+                    IdentityResult identityResult = await roleManager.CreateAsync(identityRole);
+                    if (!identityResult.Succeeded)
+                    {
+                        logger.LogCritical(
+                            String.Format(
+                                "!identityResult.Succeeded after roleManager.CreateAsync(identityRole) for identityRole with roleName { 0}",
+                                roleName));
+                        foreach (var error in identityResult.Errors)
+                        {
+                            logger.LogCritical(
+                                String.Format(
+                                    "identityResult.Error.Description: {0}",
+                                    error.Description));
+                            logger.LogCritical(
+                                String.Format(
+                                    "identityResult.Error.Code: {0}",
+                                 error.Code));
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }

@@ -23,8 +23,6 @@
 
     <div class="row" style="margin-top:100px;">
 
-        
-
         <div class="col-md-offset-3 col-md-6">
 
             <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
@@ -63,26 +61,33 @@
                 </div>
 
             </form>
-
-
         </div>
-
-
     </div>
 
-    <div class="row" style="margin-top:100px;">
+    @if (Model.Ogloszenia != null)
+    {
+        <div class="row" style="margin-top:100px;">
+            <div style="text-align:center">
+                <h2><strong>Ostatnio dodane ogłoszenia</strong></h2>
+                <div style="height:50px;"></div>
+            </div>
 
-        <div style="text-align:center">
-            <h2><strong>Ostatnio dodane ogłoszenia</strong></h2>
-            <div style="height:50px;"></div>
+            @foreach (var item in Model.Ogloszenia)
+            {
+                @Html.Partial("_OgloszenieTilePartial", item)
+            }
         </div>
+    }
+    else
+    {
+        <div class="row" style="height:500px;"></div>
+    }
 
-        @foreach (var item in Model.Ogloszenia)
-        {
-            @Html.Partial("_OgloszenieTilePartial", item)
-        }
-    </div>
 </div>
+
+
+
+
 
 
 

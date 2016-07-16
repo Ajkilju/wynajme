@@ -17,6 +17,25 @@ namespace Wynajme_AspNetCore_v2.Repository
             _context = context;
         }
 
+        public bool IsAnyUserRegistered()
+        {
+            var user = _context.Users.FirstOrDefault();
+
+            if(user == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public int GetRegisterdeUsersCount()
+        {
+            return _context.Users.Count();
+        }
+
         public ApplicationUser GetUser(string Id)
         {
             return  _context.Users
