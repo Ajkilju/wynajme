@@ -281,6 +281,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
                 repoUser.Obserwowane.Add(obs);
                 _repository.SaveChages();
                 _managerRepo.UpdateUser(repoUser);
+                _managerRepo.SaveChanges();
 
                 return RedirectToAction("Details", new { id = id } );
             }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Wynajme_AspNetCore_v2.Data;
 using Wynajme_AspNetCore_v2.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Wynajme_AspNetCore_v2.Repository
 {
@@ -53,9 +54,30 @@ namespace Wynajme_AspNetCore_v2.Repository
                 .Single(m => m.Id == Id);
         }
 
+        public IQueryable<ApplicationUser> GetUsers()
+        {
+            return _context.Users;
+        }
+
+        public IQueryable<ApplicationUser> GetAdmins()
+        {
+            //return _context.Users.Where(x => x.Roles.Select(role => role.RoleId).Contains("Admin"));
+
+            return _context.Users;
+        }
+
+        public void DeleteUser(ApplicationUser user)
+        {
+            _context.Remove(user);
+        }
+
         public void UpdateUser(ApplicationUser user)
         {
             _context.Update(user);
+        }
+
+        public void SaveChanges()
+        {
             _context.SaveChanges();
         }
 

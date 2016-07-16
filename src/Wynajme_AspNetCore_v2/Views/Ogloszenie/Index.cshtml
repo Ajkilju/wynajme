@@ -4,7 +4,17 @@
 @using Sakura.AspNetCore
 
 
+
+
 <div class="container">
+
+@if (User.IsInRole("Admin"))
+{
+    <div class="row admin-panel">
+        <h3 class="admin-panel-text">Opcje administratora</h3>
+        <a asp-controller="Ogloszenie" asp-action="Edit" class="btn button-purpleBack" style="width:250px;">Usun wszystkie</a>
+    </div>
+}
 
     @* ----------- top navbar ------------- *@
     <div class="LightGrayConteiner">

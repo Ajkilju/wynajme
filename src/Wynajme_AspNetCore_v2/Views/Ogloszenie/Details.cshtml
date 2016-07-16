@@ -8,6 +8,14 @@
 
     @* ------------ Top navbar -------------- *@
     <div class="row">
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="row admin-panel">
+                <h3 class="admin-panel-text">Opcje administratora</h3>
+                <a asp-controller="Ogloszenie" asp-action="Edit" asp-route-id="@Model.OgloszenieId" class="btn button-purpleBack" style="width:250px;">Edytuj</a>
+                <a asp-controller="Ogloszenie" asp-action="Delete" asp-route-id="@Model.OgloszenieId" class="btn button-purpleBack" style="width:250px;">Usun</a>
+            </div>
+        }
         <h2>@Model.Tytul</h2>
         <hr />
         <div class="col-md-1">

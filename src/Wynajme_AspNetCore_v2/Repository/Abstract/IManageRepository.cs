@@ -12,6 +12,11 @@ namespace Wynajme_AspNetCore_v2.Repository
         int GetRegisterdeUsersCount();
         ApplicationUser GetUser(string Id);
         ApplicationUser GetUserAllData(string Id);
+        IQueryable<ApplicationUser> GetUsers();
+        IQueryable<ApplicationUser> GetAdmins();
+
+        void DeleteUser(ApplicationUser user);
         void UpdateUser(ApplicationUser user);
+        void SaveChanges();
     }
 }

@@ -1,0 +1,89 @@
+﻿@model Wynajme_AspNetCore_v2.Models.AdminViewModels.AdminIndexViewModel
+
+<div style="background-color:#116597;">
+    <div class="container">
+        <div class="col-md-7" style="padding-top:30px; padding-bottom:30px; text-align: left">
+            <div class="header"><strong>Panel administratora</strong></div>
+        </div>
+        <div class="col-md-5" style="padding-top:30px;text-align: center">
+          
+        </div>
+    </div>
+</div>
+
+<div class="container" style="height:700px;">
+
+ <div class="row">
+     <h3>Użytkownicy</h3>
+     <hr />
+
+     <div class="row">
+         <div class="col-md-2 col-md-offset-1">
+             Zarejestrowanych użytkowników:
+         </div>
+         <div class="col-md-1">
+             @Model.UsersCount
+         </div>
+         <div class="col-md-2">
+             <a asp-controller="Admin" asp-action="Users">Zarządzaj</a>
+         </div>
+     </div>
+
+     <div class="row" style="margin-top:5px;">
+         <div class="col-md-2 col-md-offset-1">
+             Administratorzy:
+         </div>
+         <div class="col-md-1">
+             @Model.AdminsCount
+         </div>
+         <div class="col-md-2">
+             <a asp-controller="Admin" asp-action="Users">Zarządzaj</a>
+         </div>
+     </div>
+
+ </div>
+
+    <div class="row">
+        <h3>Ogłoszenia</h3>
+        <hr />
+
+        <div class="row">
+            <div class="col-md-2 col-md-offset-1">
+                Dodanych ogłoszeń:
+            </div>
+            <div class="col-md-1">
+                @Model.OgloszeniaCount
+            </div>
+            <div class="col-md-2">
+                <a asp-controller="Ogloszenie" asp-action="Index">Zarządzaj</a>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top:5px;">
+            <div class="col-md-2 col-md-offset-1">
+                Kategoriie:
+            </div>
+            <div class="col-md-1">
+                @Model.KategorieCount
+            </div>
+            <div class="col-md-2">
+                <a asp-controller="Admin" asp-action="Users">Zarządzaj</a>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top:5px;">
+            <div class="col-md-2 col-md-offset-1">
+                Lokalizacje:
+            </div>
+            <div class="col-md-1">
+                @Model.LokalizacjeCount
+            </div>
+            <div class="col-md-2">
+                <a asp-controller="Admin" asp-action="Users">Zarządzaj</a>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

@@ -23,6 +23,15 @@
 
 <div class="container">
 
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="row admin-panel" style="margin-top:5px;">
+            <h3 class="admin-panel-text">Opcje administratora</h3>
+            <a asp-controller="User" asp-action="Edit" class="btn button-purpleBack" style="width:250px;">Edytuj</a>
+            <a asp-controller="User" asp-action="Delete" asp-route-userid="@Model.UserId" class="btn button-purpleBack" style="width:250px;">Usun</a>
+        </div>
+    }
+
     <div class="LightGrayConteiner">
         <div class="row">
             <h3 class="col-md-2">@Model.Name @Model.LastName</h3>

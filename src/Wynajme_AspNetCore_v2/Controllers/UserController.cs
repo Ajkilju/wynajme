@@ -28,5 +28,13 @@ namespace Wynajme_AspNetCore_v2.Controllers
             var model = new UserIndexViewModel(user, page);
             return View(model);
         }
+
+        public IActionResult Delete(string UserId)
+        {
+            var user = _managerRepo.GetUserAllData(UserId);
+            _managerRepo.DeleteUser(user);
+            _managerRepo.SaveChanges();
+            return RedirectToAction("Users", "Admin");
+        }
     }
 }

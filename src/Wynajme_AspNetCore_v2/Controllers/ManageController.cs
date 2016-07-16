@@ -159,6 +159,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
                 }
 
                 _repository.UpdateUser(user);
+                _repository.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(model);

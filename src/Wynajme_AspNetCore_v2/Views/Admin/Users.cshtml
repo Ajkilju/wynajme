@@ -1,0 +1,83 @@
+﻿@model Wynajme_AspNetCore_v2.Models.AdminViewModels.UsersViewModel
+
+<div style="background-color:#116597;">
+    <div class="container">
+        <div class="col-md-7" style="padding-top:30px; padding-bottom:30px; text-align: left">
+            <div class="header"><strong>Panel administratora</strong></div>
+        </div>
+        <div class="col-md-5" style="padding-top:30px;text-align: center">
+
+        </div>
+    </div>
+</div>
+
+<div class="container" style="min-height:700px;">
+
+    <div class="row" style="margin-bottom:10px; margin-top:10px;">
+        <a asp-controller="Admin" asp-action="Index">Panel administratora</a> > 
+        <a asp-controller="Admin" asp-action="Users">Użytkownicy</a>
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>
+
+            </th>
+            <th>
+                E-mail
+            </th>
+            <th>
+                Imie
+            </th>
+            <th>
+                Telefon
+            </th>
+            <th>
+                Data rejestracji
+            </th>
+            <th>
+                Ostatnie logowanie
+            </th>
+            <th>
+                Profil
+            </th>
+
+        </tr>
+
+        @{
+            int i = 0;
+
+            foreach (var user in Model.Users)
+            {
+                i++;
+                <tr>
+                    <td>                       
+                      @i  
+                    </td>
+                    <td>
+                        @user.Email
+                    </td>
+                    <td>
+                        @user.Name
+                    </td>
+                    <td>
+                        @user.PhoneNumber
+                    </td>
+                    <td>
+                        @user.RegisterDate
+                    </td>
+                    <td>
+                        @user.LastLogIn
+                    </td>
+                    <td>
+                        <a asp-controller="User" asp-action="Index" asp-route-userid="@user.Id"><p>Zobacz</p></a>
+                    </td>
+                </tr>
+            }
+        }
+
+    </table>
+
+</div>
+
+

@@ -42,5 +42,6 @@ namespace Wynajme_AspNetCore_v2.Repository
 
         IQueryable<Kategoria> GetKategorie();
         IQueryable<Miasto> GetMiasta();
+        IQueryable<Ogloszenie> GetOgloszenia();
     }
 }

@@ -264,5 +264,11 @@ namespace Wynajme_AspNetCore_v2.Repository
         {
             return _context.Miasto;
         }
+
+        public IQueryable<Ogloszenie> GetOgloszenia()
+        {
+            return _context.Ogloszenie;
+        }
+
     }
 }

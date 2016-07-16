@@ -38,21 +38,7 @@
         <div class="row">
 
             <div class="col-md-2">
-                <h3>Witaj @Model.Name </h3>
-                @{
-                    if (User.IsInRole("Admin"))
-                    {
-                        <h3>Admin</h3>
-                    }
-                    else if(User.IsInRole("User"))
-                    {
-                        <h3>User</h3>
-                    }
-                    else
-                    {
-                        <h3>No Role</h3>
-                    }
-                }
+                <h3>@Model.Name </h3>
             </div>
 
             @{
@@ -76,7 +62,7 @@
             <div class="col-md-7" style="text-align:center; padding-top:30px">
                 <a asp-controller="Manage" asp-action="Index" class="btn button-purple-selected" style="margin-bottom:5px; margin-top:5px"><strong>Moje ogloszenia</strong></a>
                 <a asp-controller="Manage" asp-action="Obserwowane" class="btn button-purple" style="margin-bottom:5px; margin-top:5px"><strong>Obserwowane</strong></a>
-                <a asp-action="Ustawienia" class="btn button-purple"><strong>Ustawienia</strong></a>
+                <a asp-action="Ustawienia" class="btn button-purple"><strong>Ustawienia</strong></a>                          
             </div>
 
         </div>
