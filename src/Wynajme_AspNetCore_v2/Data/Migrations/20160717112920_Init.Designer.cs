@@ -8,13 +8,13 @@ using Wynajme_AspNetCore_v2.Data;
 namespace Wynajme_AspNetCore_v2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160703163843_UserModelUpdate")]
-    partial class UserModelUpdate
+    [Migration("20160717112920_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.0-rc2-20901")
+                .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
@@ -179,6 +179,7 @@ namespace Wynajme_AspNetCore_v2.Migrations
                         .HasName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
+                        .IsUnique()
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
@@ -315,7 +316,7 @@ namespace Wynajme_AspNetCore_v2.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
-                        .WithMany()
+                        .WithMany("Claims")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -323,7 +324,7 @@ namespace Wynajme_AspNetCore_v2.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
                 {
                     b.HasOne("Wynajme_AspNetCore_v2.Models.ApplicationUser")
-                        .WithMany()
+                        .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -331,7 +332,7 @@ namespace Wynajme_AspNetCore_v2.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
                 {
                     b.HasOne("Wynajme_AspNetCore_v2.Models.ApplicationUser")
-                        .WithMany()
+                        .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -339,50 +340,50 @@ namespace Wynajme_AspNetCore_v2.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Wynajme_AspNetCore_v2.Models.ApplicationUser")
-                        .WithMany()
+                        .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Wynajme_AspNetCore_v2.Models.Image", b =>
                 {
-                    b.HasOne("Wynajme_AspNetCore_v2.Models.Ogloszenie")
-                        .WithMany()
+                    b.HasOne("Wynajme_AspNetCore_v2.Models.Ogloszenie", "Ogloszenie")
+                        .WithMany("Image")
                         .HasForeignKey("OgloszenieId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Wynajme_AspNetCore_v2.Models.Obserwowane", b =>
                 {
-                    b.HasOne("Wynajme_AspNetCore_v2.Models.Ogloszenie")
-                        .WithMany()
+                    b.HasOne("Wynajme_AspNetCore_v2.Models.Ogloszenie", "Ogloszenie")
+                        .WithMany("Obserwowane")
                         .HasForeignKey("OgloszenieId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Wynajme_AspNetCore_v2.Models.ApplicationUser")
-                        .WithMany()
+                    b.HasOne("Wynajme_AspNetCore_v2.Models.ApplicationUser", "User")
+                        .WithMany("Obserwowane")
                         .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Wynajme_AspNetCore_v2.Models.Ogloszenie", b =>
                 {
-                    b.HasOne("Wynajme_AspNetCore_v2.Models.Kategoria")
-                        .WithMany()
+                    b.HasOne("Wynajme_AspNetCore_v2.Models.Kategoria", "Kategoria")
+                        .WithMany("Ogloszenia")
                         .HasForeignKey("KategoriaId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Wynajme_AspNetCore_v2.Models.Miasto")
-                        .WithMany()
+                    b.HasOne("Wynajme_AspNetCore_v2.Models.Miasto", "Miasto")
+                        .WithMany("Ogloszenia")
                         .HasForeignKey("MiastoId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Wynajme_AspNetCore_v2.Models.ApplicationUser")
-                        .WithMany()
+                    b.HasOne("Wynajme_AspNetCore_v2.Models.ApplicationUser", "User")
+                        .WithMany("Ogloszenia")
                         .HasForeignKey("UserId");
                 });
         }

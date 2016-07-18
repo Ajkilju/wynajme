@@ -34,18 +34,18 @@
 
     <div class="LightGrayConteiner">
         <div class="row">
-            <h3 class="col-md-2">@Model.Name @Model.LastName</h3>
+            <h3 class="col-md-2"> @*@Model.Name @Model.LastName*@</h3>
             <div class="col-md-2">
                 @{
                     if (Model.UserImage.Length < 10)
                     {
-                        <img src="~/images/DefaultUserPhoto.png" class="img-circle" style="width:100px; height:100px;" />
+                        <img src="~/images/DefaultUserPhoto.png" class="img-circle" style="width:130px; height:130px;" />
                     }
                     else
                     {
                         var base64 = Convert.ToBase64String(Model.UserImage);
                         var patch = String.Format("data:image/gif;base64,{0}", base64);
-                        <img src='@patch' class="img-circle" style="width:100px; height:100px;" />
+                        <img src='@patch' class="img-circle" style="width:130px; height:130px;" />
                     }
                 }
             </div>

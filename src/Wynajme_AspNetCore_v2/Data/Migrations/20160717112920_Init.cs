@@ -15,8 +15,8 @@ namespace Wynajme_AspNetCore_v2.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    NormalizedName = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -44,22 +44,24 @@ namespace Wynajme_AspNetCore_v2.Migrations
                     Id = table.Column<string>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
                     Image = table.Column<byte[]>(nullable: true),
                     ImageMimeType = table.Column<string>(nullable: true),
+                    LastLogIn = table.Column<DateTime>(nullable: false),
                     LastName = table.Column<string>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     Name = table.Column<string>(nullable: true),
-                    NormalizedEmail = table.Column<string>(nullable: true),
-                    NormalizedUserName = table.Column<string>(nullable: true),
+                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     PasswordHash = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    RegisterDate = table.Column<DateTime>(nullable: false),
                     SecurityStamp = table.Column<string>(nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    UserName = table.Column<string>(nullable: true)
+                    UserName = table.Column<string>(maxLength: 256, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -72,7 +74,7 @@ namespace Wynajme_AspNetCore_v2.Migrations
                 {
                     KategoriaId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Nazwa = table.Column<string>(nullable: false)
+                    Nazwa = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -85,7 +87,7 @@ namespace Wynajme_AspNetCore_v2.Migrations
                 {
                     MiastoId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Nazwa = table.Column<string>(nullable: false)
+                    Nazwa = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -186,7 +188,7 @@ namespace Wynajme_AspNetCore_v2.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Cena = table.Column<int>(nullable: false),
                     DataDodania = table.Column<DateTime>(nullable: false),
-                    DodatkoweWyposazenie = table.Column<string>(nullable: true),
+                    DodatkoweWyposazenie = table.Column<string>(maxLength: 100, nullable: true),
                     Email = table.Column<string>(nullable: false),
                     KategoriaId = table.Column<int>(nullable: false),
                     KuchniaEl = table.Column<bool>(nullable: false),
@@ -200,8 +202,8 @@ namespace Wynajme_AspNetCore_v2.Migrations
                     Pralka = table.Column<bool>(nullable: false),
                     Prysznic = table.Column<bool>(nullable: false),
                     Telefon = table.Column<string>(nullable: true),
-                    Tresc = table.Column<string>(nullable: false),
-                    Tytul = table.Column<string>(nullable: false),
+                    Tresc = table.Column<string>(maxLength: 4000, nullable: false),
+                    Tytul = table.Column<string>(maxLength: 50, nullable: false),
                     UserId = table.Column<string>(nullable: true),
                     Wanna = table.Column<bool>(nullable: false),
                     Zmywarka = table.Column<bool>(nullable: false)
@@ -314,7 +316,8 @@ namespace Wynajme_AspNetCore_v2.Migrations
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
-                column: "NormalizedUserName");
+                column: "NormalizedUserName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Image_OgloszenieId",

@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Wynajme_AspNetCore_v2.Models.AdminViewModels;
 using Wynajme_AspNetCore_v2.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Wynajme_AspNetCore_v2.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly IOgloszenieRepository _ogloszenieRepo;

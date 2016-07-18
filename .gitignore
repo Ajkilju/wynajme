@@ -243,3 +243,7 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/src/Wynajme_AspNetCore_v2/Properties/PublishProfiles/piotr.hostingasp.pl - Web Deploy-publish.ps1
+/src/Wynajme_AspNetCore_v2/Properties/PublishProfiles/piotr.hostingasp.pl - Web Deploy.pubxml
+/src/Wynajme_AspNetCore_v2/Properties/PublishProfiles/publish-module.psm1
+/appsetings.txt
