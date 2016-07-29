@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Sakura.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
 
 namespace Wynajme_AspNetCore_v2.Controllers
 {
@@ -156,7 +157,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
             return View(model);
         }
 
-        // GET: Ogloszenies/Create
+
         public async Task<IActionResult> Create()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -187,7 +188,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
         {
             if (ModelState.IsValid)
             {
-               ogloszenie.UserId  = _userManager.GetUserId(HttpContext.User);
+                ogloszenie.UserId = _userManager.GetUserId(HttpContext.User);
                 _repository.DodajOgloszenie(ogloszenie, images);
                 return RedirectToAction("Index");
             }
@@ -312,6 +313,10 @@ namespace Wynajme_AspNetCore_v2.Controllers
 
             return RedirectToAction("Index");
         }
+
+
+
+
 
     }
 }

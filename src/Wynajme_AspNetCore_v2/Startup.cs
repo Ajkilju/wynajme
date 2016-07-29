@@ -92,18 +92,8 @@ namespace Wynajme_AspNetCore_v2
             }
 
             app.UseApplicationInsightsExceptionTelemetry();
-
             app.UseStaticFiles();
-
             app.UseIdentity();
-
-            /*
-            #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            // Ensure roles are in DB - OK not to await this for now
-            EnsureRoles(app, loggerFactory);
-            #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            */
-
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 
@@ -121,10 +111,11 @@ namespace Wynajme_AspNetCore_v2
             #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             SeedData.CreateRoles(app.ApplicationServices, loggerFactory);
             #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-
-                      
+                     
             //SeedData.DelateOlgloszenia(app.ApplicationServices);
             //SeedData.AddDatabaseData(app.ApplicationServices, 20000);
+
+            Pinger.StartPinging("http://ogloszenia.phdev.pl", 50);
         }
     }
 }

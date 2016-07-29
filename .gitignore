@@ -247,3 +247,5 @@ ModelManifest.xml
 /src/Wynajme_AspNetCore_v2/Properties/PublishProfiles/piotr.hostingasp.pl - Web Deploy.pubxml
 /src/Wynajme_AspNetCore_v2/Properties/PublishProfiles/publish-module.psm1
 /appsetings.txt
+/src/Wynajme_AspNetCore_v2/Properties/PublishProfiles/ogloszenia.phdev.pl - Web Deploy-publish.ps1
+/src/Wynajme_AspNetCore_v2/Properties/PublishProfiles/ogloszenia.phdev.pl - Web Deploy.pubxml

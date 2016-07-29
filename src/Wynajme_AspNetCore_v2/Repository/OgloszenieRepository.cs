@@ -207,7 +207,7 @@ namespace Wynajme_AspNetCore_v2.Repository
         public void DodajOgloszenie(Ogloszenie ogloszenie, IList<IFormFile> images)
         {
             ogloszenie.DataDodania = DateTime.Now;
-           
+
             if (images.Count > 0)
             {
                 int imagesCount = images.Count;
