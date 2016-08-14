@@ -47,22 +47,12 @@
                 </div>
             </div>
 
-            <div class="row admin-panel">
-                <h3 class="admin-panel-text">Dodawanie zdjec nie aktywne!!</h3>
-                <h5 class="admin-panel-text">Prace w toku... ;)</h5>
-            </div>
+            <div class="col-md-offset-2">
+                <div id="image-holder"> </div>
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-5">
-                    <div class="input-group">
-                        <span class="input-group-btn">
-                            <label class="btn btn-default btn-file" for="multiple_input_group">
-                                <input id="multiple_input_group" type="file" name="images" multiple disabled /> Dodaj zdjecia
-                            </label>
-                        </span>
-                        <span class="file-input-label"></span>
-                    </div>
-                </div>
+                <label class="btn button-purpleBack btn-file" for="miniatureInput" style="width:250px;">
+                    <input id="images" type="file" name="images" multiple /> <strong>Dodaj zdjecia</strong>
+                </label>
             </div>
 
             <h3>Szczegoly</h3>
@@ -205,7 +195,7 @@
             <div class="form-group">
                 <div class="LightGrayConteiner" style="text-align:center">
                     <input type="submit" value="Dodaj ogloszenie" class="btn button-purpleBack" style="width:250px;" />
-                    <a asp-action="Index" class="btn button-purpleBack" style="width:250px;">Wroc do listy ogloszen</a>
+                    @*<a asp-action="Index" class="btn button-purpleBack" style="width:250px;">Wroc do listy ogloszen</a>*@
                 </div>
             </div>
         </div>
@@ -216,4 +206,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/Ogloszenie/Create.js"></script>
 }

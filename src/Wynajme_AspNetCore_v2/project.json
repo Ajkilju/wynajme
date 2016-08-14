@@ -39,10 +39,11 @@
       "version": "1.0.0-preview2-final",
       "type": "build"
     },
-    "Sakura.AspNetCore.PagedList": "1.0.2",
-    "Sakura.AspNetCore.PagedList.Abstractions": "1.0.1",
-    "Sakura.AspNetCore.Mvc.PagedList": "2.0.5",
-    "Microsoft.AspNetCore.Identity": "1.0.0"
+    "Microsoft.AspNetCore.Identity": "1.0.0",
+    "Sakura.AspNetCore.Mvc.PagedList": "2.0.6",
+    "Sakura.AspNetCore.PagedList": "2.0.0",
+    "Sakura.AspNetCore.PagedList.Abstractions": "2.0.0",
+    "Sakura.AspNetCore.PagedList.Async": "1.0.0"
   },
 
   "tools": {

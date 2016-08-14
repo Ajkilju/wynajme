@@ -8,10 +8,11 @@ namespace Wynajme_AspNetCore_v2.Repository
 {
     public interface IManageRepository
     {
+        Task<ApplicationUser> PobierzUzytkownika(string Id, DaneUzytkownika dane, TrackingManage tracking);
+
+
         bool IsAnyUserRegistered();
         int GetRegisterdeUsersCount();
-        ApplicationUser GetUser(string Id);
-        ApplicationUser GetUserAllData(string Id);
         IQueryable<ApplicationUser> GetUsers();
         IQueryable<ApplicationUser> GetAdmins();
 

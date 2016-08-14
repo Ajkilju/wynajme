@@ -57,7 +57,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             LoginViewModel model = new LoginViewModel
             {
-                Ogloszenia = _ogloszeniaRepo.GetOgloszenia(9)
+                Ogloszenia = _ogloszeniaRepo.PobierzOgloszenia(9)
             };
             return View(model);
         }
@@ -114,7 +114,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             RegisterViewModel model = new RegisterViewModel
             {
-                Ogloszenia = _ogloszeniaRepo.GetOgloszenia(9)
+                Ogloszenia = _ogloszeniaRepo.PobierzOgloszenia(9)
             };
             return View(model);
         }

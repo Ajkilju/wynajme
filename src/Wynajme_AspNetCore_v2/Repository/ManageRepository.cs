@@ -9,6 +9,18 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Wynajme_AspNetCore_v2.Repository
 {
+    public enum TrackingManage
+    {
+        AsNoTracking,
+        Tracking
+    }
+
+    public enum DaneUzytkownika
+    {
+        Wszystko,
+        Podstawowe
+    }
+
     public class ManageRepository : IManageRepository
     {
         private ApplicationDbContext _context;
@@ -17,6 +29,49 @@ namespace Wynajme_AspNetCore_v2.Repository
         {
             _context = context;
         }
+
+        public async Task<ApplicationUser> PobierzUzytkownika(string Id, DaneUzytkownika dane, TrackingManage tracking)
+        {
+            if (dane == DaneUzytkownika.Podstawowe)
+            {
+                if (tracking == TrackingManage.AsNoTracking)
+                {
+                    return await _context.Users.AsNoTracking().SingleAsync(m => m.Id == Id);
+                }
+                return await _context.Users.SingleAsync(m => m.Id == Id);
+            }
+            else
+            {
+                if (tracking == TrackingManage.AsNoTracking)
+                {
+                    return await _context.Users
+                        .Include(m => m.Ogloszenia).ThenInclude(k => k.Kategoria)
+                        .Include(m => m.Ogloszenia).ThenInclude(k => k.Miasto)
+                        .Include(m => m.Obserwowane).ThenInclude(k => k.Ogloszenie)
+                        .AsNoTracking().SingleAsync(m => m.Id == Id);
+                }
+                return await _context.Users
+                        .Include(m => m.Ogloszenia).ThenInclude(k => k.Kategoria)
+                        .Include(m => m.Ogloszenia).ThenInclude(k => k.Miasto)
+                        .Include(m => m.Obserwowane).ThenInclude(k => k.Ogloszenie)
+                        .SingleAsync(m => m.Id == Id);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         public bool IsAnyUserRegistered()
         {
@@ -35,23 +90,6 @@ namespace Wynajme_AspNetCore_v2.Repository
         public int GetRegisterdeUsersCount()
         {
             return _context.Users.Count();
-        }
-
-        public ApplicationUser GetUser(string Id)
-        {
-            return  _context.Users
-                .Include(m => m.Ogloszenia).ThenInclude(k => k.Kategoria)
-                .Include(m => m.Ogloszenia).ThenInclude(k => k.Miasto)
-                .Single(m => m.Id == Id);
-        }
-
-        public ApplicationUser GetUserAllData(string Id)
-        {
-            return _context.Users
-                .Include(m => m.Ogloszenia).ThenInclude(k => k.Kategoria)
-                .Include(m => m.Ogloszenia).ThenInclude(k => k.Miasto)
-                .Include(m => m.Obserwowane).ThenInclude(k => k.Ogloszenie)
-                .Single(m => m.Id == Id);
         }
 
         public IQueryable<ApplicationUser> GetUsers()

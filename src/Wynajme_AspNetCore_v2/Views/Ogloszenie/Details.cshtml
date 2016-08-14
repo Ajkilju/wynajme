@@ -1,7 +1,8 @@
 @model Wynajme_AspNetCore_v2.Models.OgloszenieViewModel.OgloszenieDetailsViewModel
 
 @{
-    ViewData["Title"] = "Szczegoly";
+    ViewData["Title"] = Model.Ogloszenie.Tytul;
+    string imageString = "";
 }
 
 <div class="container" style="padding-top:10px">
@@ -12,19 +13,19 @@
         {
             <div class="row admin-panel">
                 <h3 class="admin-panel-text">Opcje administratora</h3>
-                <a asp-controller="Ogloszenie" asp-action="Edit" asp-route-id="@Model.OgloszenieId" class="btn button-purpleBack" style="width:250px;">Edytuj</a>
-                <a asp-controller="Ogloszenie" asp-action="Delete" asp-route-id="@Model.OgloszenieId" class="btn button-purpleBack" style="width:250px;">Usun</a>
+                <a asp-controller="Ogloszenie" asp-action="Edit" asp-route-id="@Model.Ogloszenie.OgloszenieId" class="btn button-purpleBack" style="width:250px;">Edytuj</a>
+                <a asp-controller="Ogloszenie" asp-action="Delete" asp-route-id="@Model.Ogloszenie.OgloszenieId" class="btn button-purpleBack" style="width:250px;">Usun</a>
             </div>
         }
-        <h2>@Model.Tytul</h2>
+        <h2>@Model.Ogloszenie.Tytul</h2>
         <hr />
         <div class="col-md-1">
             <p>Lokalizacja:</p>
             <p>Kategoria:</p>
         </div>
         <div class="col-md-3">
-            <p><a asp-controller="Ogloszenie" asp-action="Index" asp-route-miasto="@Model.Miasto.Nazwa">@Model.Miasto.Nazwa</a></p>
-            <p><a asp-controller="Ogloszenie" asp-action="Index" asp-route-kategoria="@Model.Kategoria.Nazwa">@Model.Kategoria.Nazwa</a></p>
+            <p><a asp-controller="Ogloszenie" asp-action="Index" asp-route-miasto="@Model.Ogloszenie.Miasto.Nazwa">@Model.Ogloszenie.Miasto.Nazwa</a></p>
+            <p><a asp-controller="Ogloszenie" asp-action="Index" asp-route-kategoria="@Model.Ogloszenie.Kategoria.Nazwa">@Model.Ogloszenie.Kategoria.Nazwa</a></p>
         </div>
         <div class="col-md-4">
             @{
@@ -34,23 +35,23 @@
                 }
                 else if(Model.LogInUserId != null)
                 {
-                    <p><a asp-controller="Ogloszenie" asp-action="Obserwuj" asp-route-id="@Model.OgloszenieId"> Obserwuj</a></p>
+                    <p><a asp-controller="Ogloszenie" asp-action="Obserwuj" asp-route-id="@Model.Ogloszenie.OgloszenieId"> Obserwuj</a></p>
                 }
                 else if (Model.LogInUserId == null)
                 {
                     <p><a asp-controller="Account" asp-action="Login"> Obserwuj</a></p>
                 }
             }         
-            <p><a asp-controller="Ogloszenie" asp-route-miasto="@Model.Miasto.Nazwa" asp-route-kategoria="@Model.Kategoria.Nazwa" asp-action="Index">Podobne ogloszenia</a></p>
+            <p><a asp-controller="Ogloszenie" asp-route-miasto="@Model.Ogloszenie.Miasto.Nazwa" asp-route-kategoria="@Model.Ogloszenie.Kategoria.Nazwa" asp-action="Index">Podobne ogloszenia</a></p>
             <p><a asp-controller="Ogloszenie" asp-action="Create">Dodaj ogloszenie</a></p>
         </div>
         <div class="col-md-1">
             @{
-                if (Model.UserId != null)
+                if (Model.Ogloszenie.UserId != null)
                 {
-                    <h4>@Model.UserName</h4>
-                    <a asp-controller="User" asp-action="Index" asp-route-userid="@Model.UserId"><p>Profil</p></a>
-                    <a asp-controller="User" asp-action="Index" asp-route-userid="@Model.UserId"><p>Ogloszenia</p></a>
+                    <h4>@Model.Ogloszenie.User.Name</h4>
+                    <a asp-controller="User" asp-action="Index" asp-route-userid="@Model.Ogloszenie.UserId"><p>Profil</p></a>
+                    <a asp-controller="User" asp-action="Index" asp-route-userid="@Model.Ogloszenie.UserId"><p>Ogloszenia</p></a>
                 }
                 else
                 {
@@ -64,7 +65,28 @@
             
         </div>
         <div class="col-md-2" style="text-align:center">
-            <img src=@Model.UserImageString class="img-circle" style="width:100px; height:100px;" />
+
+            @{ 
+                if (Model.Ogloszenie.UserId == null)
+                {
+                    imageString = "/images/DefaultUserPhoto.png";
+                }
+                else
+                {
+                    if (Model.Ogloszenie.User.Image.Length < 10)
+                    {
+                        imageString = "/images/DefaultUserPhoto.png";
+                    }
+                    else
+                    {
+                        var base64 = Convert.ToBase64String(Model.Ogloszenie.User.Image);
+                        imageString = String.Format("data:image/gif;base64,{0}", base64);
+                    }
+                }
+            }
+            <a asp-controller="User" asp-action="Index" asp-route-userid="@Model.Ogloszenie.UserId">
+                <img src=@imageString class="img-circle" style="width:100px; height:100px;" />
+            </a>
         </div>
         <div class="col-md-1"></div>
     </div>
@@ -84,39 +106,26 @@
              data-width="100%"
              data-ratio="800/600">
 
-            @foreach (var img in Model.ImageString)
+            @foreach (var img in Model.Ogloszenie.Image)
             {
-                <img src="@img" />
+                var base64 = Convert.ToBase64String(img.ImageContent);
+                imageString = String.Format("data:image/gif;base64,{0}", base64);
+
+                <img src="@imageString" />
             }
 
         </div>
 
         <div class="LightGrayConteiner LightGrayConteiner-text">
-            @Model.Tresc
+            @Model.Ogloszenie.Tresc
         </div>
 
         <div class="LightGrayConteiner LightGrayConteiner-text">
-            <p><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> Telefon: <span style="color:#1f5660">@Model.Telefon</span></p>
-            <p><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> E-mail: <span style="color:#1f5660">@Model.Email</span></p>
+            <p><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> Telefon: <span style="color:#1f5660">@Model.Ogloszenie.Telefon</span></p>
+            <p><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> E-mail: <span style="color:#1f5660">@Model.Ogloszenie.Email</span></p>
         </div>
 
         <hr />
-        @*
-        <div class="row">
-            <div class="col-md-1"> </div>
-            <div class="col-md-10" style="text-align:center">
-                <h3>Zapytaj o szczegoly!</h3>
-                <input type="text" placeholder="Twoj E-mail" class="form-control" />
-                <div style="padding-top:10px;"></div>
-                <input type="text" placeholder="Tytul wiadomosci" class="form-control" />
-                <div style="padding-top:10px;"></div>
-                <textarea style="height:250px;" placeholder="Tresc wiadomosci" class="form-control"></textarea>
-                <div style="padding-top:10px;"></div>
-                <a asp-controller="Ogloszenie" asp-action="Index" class="btn button-purple-lg" style="width:50%">Wyslij</a>
-            </div>
-            <div class="col-md-1"> </div>
-        </div>
-         *@
 
     </div>
 
@@ -124,39 +133,37 @@
     <div class="col-md-4">
 
         <div>
-            <p><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> @Html.DisplayFor(modelItem => Model.DataDodania)</p>
+            <p><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> @Html.DisplayFor(modelItem => Model.Ogloszenie.DataDodania)</p>
         </div>
 
         <div class="LightGrayConteiner LightGrayConteiner-text">
-            <h1 style="text-align:center"><strong>@Model.Cena zl</strong></h1>
+            <h1 style="text-align:center"><strong>@Model.Ogloszenie.Cena zl</strong></h1>
         </div>
 
         <div class="LightGrayConteiner LightGrayConteiner-text">
-            <p><span class="glyphicon glyphicon-home" aria-hidden="true"></span>    Powierzchnia: @Model.Powierzchnia mkw</p>
+            <p><span class="glyphicon glyphicon-home" aria-hidden="true"></span>    Powierzchnia: @Model.Ogloszenie.Powierzchnia mkw</p>
             @{
-                if (Model.Zmywarka == true)
+                if (Model.Ogloszenie.Zmywarka == true)
                 {<p><span class="glyphicon glyphicon-glass" aria-hidden="true"></span>  Zmywarka</p>}
-                if (Model.Lodowka == true)
+                if (Model.Ogloszenie.Lodowka == true)
                 {<p><span class="glyphicon glyphicon-apple" aria-hidden="true"></span>  Lodowka</p>}
-                if (Model.Mikrofala == true)
+                if (Model.Ogloszenie.Mikrofala == true)
                 {<p><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>  Mikrofalowka</p>}
-                if (Model.KuchniaGaz == true)
+                if (Model.Ogloszenie.KuchniaGaz == true)
                 {<p><span class="glyphicon glyphicon-flash" aria-hidden="true"></span>  Kuchnia gazowa</p>}
-                if (Model.KuchniaEl == true)
+                if (Model.Ogloszenie.KuchniaEl == true)
                 {<p><span class="glyphicon glyphicon-flash" aria-hidden="true"></span>  Kuchnia elektryczna</p>}
-                if (Model.Pralka == true)
+                if (Model.Ogloszenie.Pralka == true)
                 {<p><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>  Pralka</p>}
-                if (Model.Wanna == true)
+                if (Model.Ogloszenie.Wanna == true)
                 {<p><span class="glyphicon glyphicon-tint" aria-hidden="true"></span>  Wanna</p>}
-                if (Model.Prysznic == true)
+                if (Model.Ogloszenie.Prysznic == true)
                 {<p><span class="glyphicon glyphicon-tint" aria-hidden="true"></span>  Prysznic</p>}
 
-                if (@Model.DodatkoweWyposazenie != null)
+                if (@Model.Ogloszenie.DodatkoweWyposazenie != null)
                 {
-                    <p><span class="glyphicon glyphicon-star" aria-hidden="true"></span> @Model.DodatkoweWyposazenie</p>
+                    <p><span class="glyphicon glyphicon-star" aria-hidden="true"></span> @Model.Ogloszenie.DodatkoweWyposazenie</p>
                 }
-
-
             }
         </div>
 
@@ -172,10 +179,13 @@
 
         @foreach (var item in Model.PodobneOgloszenia)
         {
+            var base64 = Convert.ToBase64String(item.Miniature);
+            imageString = String.Format("data:image/gif;base64,{0}", base64);
+
             <div class="col-md-12" style="text-align:center">
-                <div style="height:175px;">
-                    <img src='@item.MiniatureString' class="img-rounded" style="height:inherit;" asp-append-version="true" />
-                </div>
+                <a asp-controller="Ogloszenie" asp-action="Details" asp-route-id="@item.OgloszenieId" style="height:175px;">
+                    <img src='@imageString' class="img-rounded" style="height:inherit;" asp-append-version="true" />
+                </a>
                 <div>
                     <a asp-controller="Ogloszenie" asp-action="Details" asp-route-id="@item.OgloszenieId"><h4 style="color:#358796;">@item.Tytul</h4></a>
                 </div>
@@ -183,10 +193,10 @@
                 <div>
                     <p>
                         Lokalizacja:
-                        <a asp-controller="Ogloszenie" asp-action="Index" asp-route-miasto="@Model.Miasto.Nazwa">@item.Miasto.Nazwa</a>
+                        <a asp-controller="Ogloszenie" asp-action="Index" asp-route-miasto="@Model.Ogloszenie.Miasto.Nazwa">@item.Miasto.Nazwa</a>
                         <br />
                         Kategoria:
-                        <a asp-controller="Ogloszenie" asp-action="Index" asp-route-kategoria="@Model.Kategoria.Nazwa">@item.Kategoria.Nazwa</a>
+                        <a asp-controller="Ogloszenie" asp-action="Index" asp-route-kategoria="@Model.Ogloszenie.Kategoria.Nazwa">@item.Kategoria.Nazwa</a>
                         <br />
                         <br />
                     </p>
@@ -200,22 +210,4 @@
 
 </div> @* main conteiner *@
 
-
-
-@*
-<div style="height:200px;"></div>
-
-<div style="background-color:#f0f0f0; height:120px;">
-    <div class="container" style="padding-top:20px">
-        <div class="row">
-            <div class="col-md-1" style="padding-top:10px;">
-            </div>
-            <div>
-                <h5 style="color:#a89999">Wynajme.pl</h5>
-                <h5 style="color:#a89999">2016 - Gann Projects</h5>
-            </div>
-        </div>
-    </div>
-</div>
-*@
 

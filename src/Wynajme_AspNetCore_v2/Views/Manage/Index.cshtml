@@ -3,6 +3,10 @@
 @using Sakura.AspNetCore.Mvc
 @using Sakura.AspNetCore
 
+@{
+    ViewData["Title"] = "Moje ogloszenia";
+}
+
 @if (Model.Image.Length < 10 || Model.PhoneNumber == null)
 {
     <div style="background-color:#116597;">

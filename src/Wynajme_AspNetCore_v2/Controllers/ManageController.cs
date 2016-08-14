@@ -62,7 +62,8 @@ namespace Wynajme_AspNetCore_v2.Controllers
             if (page == 0) page = 1;
 
             var user = await GetCurrentUserAsync();
-            var repoUser = _repository.GetUser(user.Id);
+            var repoUser = await _repository.PobierzUzytkownika(user.Id,
+                    DaneUzytkownika.Wszystko, TrackingManage.Tracking);
 
             var model = new IndexViewModel
             {
@@ -98,7 +99,8 @@ namespace Wynajme_AspNetCore_v2.Controllers
             if (page == 0) page = 1;
 
             var user = await GetCurrentUserAsync();
-            var repoUser = _repository.GetUserAllData(user.Id);
+            var repoUser = await _repository.PobierzUzytkownika(user.Id,
+                    DaneUzytkownika.Wszystko, TrackingManage.Tracking);
 
             var model = new IndexViewModel
             {

@@ -115,7 +115,7 @@ namespace Wynajme_AspNetCore_v2
             //SeedData.DelateOlgloszenia(app.ApplicationServices);
             //SeedData.AddDatabaseData(app.ApplicationServices, 20000);
 
-            Pinger.StartPinging("http://ogloszenia.phdev.pl", 50);
+            Pinger.StartPinging("http://ogloszenia.phdev.pl", 10);
         }
     }
 }

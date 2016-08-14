@@ -7,9 +7,6 @@ using System.Threading.Tasks;
 
 namespace Wynajme_AspNetCore_v2.Models
 {
-    
-
-
     public class Ogloszenie
     {
         //w tabeli "ogloszenie" przechowywany jest klucz obcy 

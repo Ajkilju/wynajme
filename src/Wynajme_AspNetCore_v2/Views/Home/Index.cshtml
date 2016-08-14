@@ -1,7 +1,7 @@
 ﻿@model Wynajme_AspNetCore_v2.Models.HomeViewModels.NewHomeViewModel
 
 @{
-    ViewData["Title"] = "New Home";
+    ViewData["Title"] = "Znajdź już dziś!";
 }
 
 
@@ -20,23 +20,30 @@
     </div>
 </div>
 
+
 <div class="container" style="padding-top:200px">
 
     <div class="row">
         <div class="col-md-4" style="text-align: center">
-            <img src="~/images/miasta/torun.png" class="img-circle" style="height:175px; width:175px;" asp-append-version="true" />
+            <a asp-action="Index" asp-controller="Ogloszenie" asp-route-miasto="Toruń">
+                <img src="~/images/miasta/torun.png" class="img-circle" style="height:175px; width:175px;" asp-append-version="true" />
+            </a>
             <div style="padding-top:10px">
                 <a asp-action="Index" asp-controller="Ogloszenie" asp-route-miasto="Toruń" class="btn MainPageButton2"><strong>Toruń</strong></a>
             </div>
         </div>
         <div class="col-md-4" style="text-align: center">
-            <img src="~/images/miasta/warszawa.png" class="img-circle" style="height:175px; width:175px;" asp-append-version="true" />
+            <a asp-action="Index" asp-controller="Ogloszenie" asp-route-miasto="Warszawa">
+                <img src="~/images/miasta/warszawa.png" class="img-circle" style="height:175px; width:175px;" asp-append-version="true" />
+            </a>
             <div style="padding-top:10px">
                 <a asp-action="Index" asp-controller="Ogloszenie" asp-route-miasto="Warszawa" class="btn MainPageButton2"><strong>Warszawa</strong></a>
             </div>
         </div>
         <div class="col-md-4" style="text-align: center">
-            <img src="~/images/miasta/gdansk.png" class="img-circle" style="height:175px; width:175px;" asp-append-version="true" />
+            <a asp-action="Index" asp-controller="Ogloszenie" asp-route-miasto="Gdańsk">
+                <img src="~/images/miasta/gdansk.png" class="img-circle" style="height:175px; width:175px;" asp-append-version="true" />
+            </a>
             <div style="padding-top:10px">
                 <a asp-action="Index" asp-controller="Ogloszenie" asp-route-miasto="Gdańsk" class="btn MainPageButton2"><strong>Gdańsk</strong></a>
             </div>
@@ -45,19 +52,25 @@
 
     <div class="row" style="padding-top:100px">
         <div class="col-md-4" style="text-align: center">
-            <img src="~/images/miasta/zakopane.png" class="img-circle" style="height:175px; width:175px;" asp-append-version="true" />
+            <a asp-action="Index" asp-controller="Ogloszenie" asp-route-miasto="Zakopane">
+                <img src="~/images/miasta/zakopane.png" class="img-circle" style="height:175px; width:175px;" asp-append-version="true" />
+            </a>
             <div style="padding-top:10px">
                 <a asp-action="Index" asp-controller="Ogloszenie" asp-route-miasto="Zakopane" class="btn MainPageButton2"><strong>Zakopane</strong></a>
             </div>
         </div>
         <div class="col-md-4" style="text-align: center">
-            <img src="~/images/miasta/krakow.png" class="img-circle" style="height:175px; width:175px;" asp-append-version="true" />
+            <a asp-action="Index" asp-controller="Ogloszenie" asp-route-miasto="Kraków">
+                <img src="~/images/miasta/krakow.png" class="img-circle" style="height:175px; width:175px;" asp-append-version="true" />
+            </a>
             <div style="padding-top:10px">
                 <a asp-action="Index" asp-controller="Ogloszenie" asp-route-miasto="Kraków" class="btn MainPageButton2"><strong>Kraków</strong></a>
             </div>
         </div>
         <div class="col-md-4" style="text-align: center">
-            <img src="~/images/miasta/wroclaw.png" class="img-circle" style="height:175px; width:175px;" asp-append-version="true" />
+            <a asp-action="Index" asp-controller="Ogloszenie" asp-route-miasto="Wrocław">
+                <img src="~/images/miasta/wroclaw.png" class="img-circle" style="height:175px; width:175px;" asp-append-version="true" />
+            </a>
             <div style="padding-top:10px">
                 <a asp-action="Index" asp-controller="Ogloszenie" asp-route-miasto="Wrocław" class="btn MainPageButton2"><strong>Wrocław</strong></a>
             </div>

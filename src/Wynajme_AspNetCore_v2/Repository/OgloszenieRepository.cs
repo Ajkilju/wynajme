@@ -11,15 +11,25 @@ using Wynajme_AspNetCore_v2.Models;
 
 namespace Wynajme_AspNetCore_v2.Repository
 {
+    public enum TrackingOgloszenia
+    {
+        AsNoTracking,
+        Tracking
+    }
+
+    public enum DaneOgloszenia
+    {
+        Wszystko,
+        Podstawowe
+    }
+
     public class OgloszenieRepository : IOgloszenieRepository
     {
         private ApplicationDbContext _context;
         
-
         public OgloszenieRepository(ApplicationDbContext context)
         {            
-            _context = context;
-            
+            _context = context;           
         }
 
         public IQueryable<Ogloszenie> PobierzOgloszenia (
@@ -37,7 +47,8 @@ namespace Wynajme_AspNetCore_v2.Repository
             Boolean? pralka,
             Boolean? wanna,
             Boolean? prysznic,
-            string UserId)
+            string UserId,
+            int? howMany = null)
         {
             if (cenaOd == null) cenaOd = 0;
             if (cenaDo == null) cenaDo = int.MaxValue;
@@ -129,46 +140,14 @@ namespace Wynajme_AspNetCore_v2.Repository
                     break;
             }
 
+            if(howMany != null)
+            {
+                ogloszenia = ogloszenia.Take((int)howMany);
+            }
             return ogloszenia.AsNoTracking();
         }
 
-        public ApplicationUser GetUser(string Id)
-        {
-            return _context.Users.Single(i => i.Id == Id);
-        }
-
-        public Ogloszenie GetNakedOgloszenie(int? id)
-        {
-            Ogloszenie ogloszenie = _context.Ogloszenie
-                .Single(m => m.OgloszenieId == id);
-
-            return ogloszenie;
-        }
-
-        public Ogloszenie GetOgloszenie(int? id)
-        {
-            Ogloszenie ogloszenie = _context.Ogloszenie
-                .Include(o => o.Kategoria)
-                .Include(o => o.Miasto)
-                .Include(o => o.Image)
-                .Include(o => o.User)
-                .Single(m => m.OgloszenieId == id);
-            return ogloszenie;
-        }
-
-        public Ogloszenie GetOgloszenieAsNoTracking(int? id)
-        {
-            Ogloszenie ogloszenie = _context.Ogloszenie
-                .Include(o => o.Kategoria)
-                .Include(o => o.Miasto)
-                .Include(o => o.Image)
-                .Include(o => o.User)
-                .AsNoTracking()
-                .Single(m => m.OgloszenieId == id);
-            return ogloszenie;
-        }
-
-        public IQueryable<Ogloszenie> GetOgloszenia (int howMany)
+        public IQueryable<Ogloszenie> PobierzOgloszenia(int howMany)
         {
             return _context.Ogloszenie
                 .Include(m => m.Miasto)
@@ -176,6 +155,106 @@ namespace Wynajme_AspNetCore_v2.Repository
                 .OrderByDescending(o => o.DataDodania)
                 .AsNoTracking()
                 .Take(howMany);
+        }
+
+        public IQueryable<Ogloszenie> PobierzOgloszenia()
+        {
+            return _context.Ogloszenie.AsNoTracking();
+        }
+
+        public async Task<List<Ogloszenie>> PobierzOgloszeniaAsync(int howMany)
+        {
+            return await PobierzOgloszenia(howMany).ToListAsync();
+        }
+
+        public async Task<List<Ogloszenie>> PobierzOgloszeniaAsync()
+        {
+            return await _context.Ogloszenie.ToListAsync();
+        }
+
+        public async Task<Ogloszenie> PobierzOgloszenieAsync(int? id, DaneOgloszenia dane, TrackingOgloszenia tracking)
+        {
+            if(dane == DaneOgloszenia.Podstawowe)
+            {
+                var ogl = _context.Ogloszenie
+                .Include(o => o.Kategoria)
+                .Include(o => o.Miasto);
+
+                if(tracking == TrackingOgloszenia.AsNoTracking)
+                {
+                    return await ogl.AsNoTracking()
+                        .SingleAsync(m => m.OgloszenieId == id);
+                }
+                else
+                {
+                    return await ogl.SingleAsync(m => m.OgloszenieId == id);
+                }
+            }
+            else 
+            {
+                var ogl = _context.Ogloszenie
+                .Include(o => o.Kategoria)
+                .Include(o => o.Miasto)
+                .Include(o => o.Image)
+                .Include(o => o.User);
+
+                if (tracking == TrackingOgloszenia.AsNoTracking)
+                {
+                    return await ogl.AsNoTracking()
+                        .SingleAsync(m => m.OgloszenieId == id);
+                }
+                else
+                {
+                    return await ogl.SingleAsync(m => m.OgloszenieId == id);
+                }
+            }                
+        }
+
+        public async Task<List<Ogloszenie>> PobierzPodobneOgloszenia(int howMany, Ogloszenie ogloszenie)
+        {
+            return await _context.Ogloszenie
+                .Include(m => m.Miasto)
+                .Include(k => k.Kategoria)
+                .Where(s => s.Kategoria.Nazwa == ogloszenie.Kategoria.Nazwa)
+                .Where(s => s.Miasto.Nazwa == ogloszenie.Miasto.Nazwa)
+                .Where(s => s.OgloszenieId != ogloszenie.OgloszenieId)
+                .OrderByDescending(o => o.DataDodania)
+                .AsNoTracking()
+                .Take(howMany)
+                .ToListAsync();
+        }
+
+        public IQueryable<Kategoria> PobierzKategorie()
+        {
+            return _context.Kategoria.AsNoTracking();
+        }
+
+        public async Task<List<Kategoria>> PobierzKategorieAsync()
+        {
+            return await _context.Kategoria.ToListAsync();
+        }
+
+        public IQueryable<Miasto> PobierzMiasta()
+        {
+            return _context.Miasto.AsNoTracking();
+        }
+
+        public async Task<List<Miasto>> PobierzMiastaAsync()
+        {
+            return await _context.Miasto.ToListAsync();
+        }
+
+        
+
+
+
+
+
+
+
+        public ApplicationUser GetUser(string Id)
+        {
+            return _context.Users.Single(i => i.Id == Id);
         }
 
         public IQueryable<Ogloszenie> GetOgloszenia(int howMany, string kategoria, string miasto)
@@ -190,18 +269,7 @@ namespace Wynajme_AspNetCore_v2.Repository
                 .Take(howMany);
         }
 
-        public IQueryable<Ogloszenie> GetSimmlarOgloszenia(int howMany, Ogloszenie ogloszenie)
-        {
-            return _context.Ogloszenie
-                .Include(m => m.Miasto)
-                .Include(k => k.Kategoria)
-                .Where(s => s.Kategoria.Nazwa == ogloszenie.Kategoria.Nazwa)
-                .Where(s => s.Miasto.Nazwa == ogloszenie.Miasto.Nazwa)
-                .Where(s => s.OgloszenieId != ogloszenie.OgloszenieId)
-                .OrderByDescending(o => o.DataDodania)
-                .AsNoTracking()
-                .Take(howMany);
-        }
+        
 
 
         public void DodajOgloszenie(Ogloszenie ogloszenie, IList<IFormFile> images)
@@ -255,20 +323,7 @@ namespace Wynajme_AspNetCore_v2.Repository
             _context.SaveChanges();
         }
 
-        public IQueryable<Kategoria> GetKategorie()
-        {
-            return _context.Kategoria;
-        }
-
-        public IQueryable<Miasto> GetMiasta()
-        {
-            return _context.Miasto;
-        }
-
-        public IQueryable<Ogloszenie> GetOgloszenia()
-        {
-            return _context.Ogloszenie;
-        }
+       
 
     }
 }

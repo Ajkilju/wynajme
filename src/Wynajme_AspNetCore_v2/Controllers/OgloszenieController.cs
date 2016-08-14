@@ -19,24 +19,25 @@ namespace Wynajme_AspNetCore_v2.Controllers
 {
     public class OgloszenieController : Controller
     {
-        private readonly IOgloszenieRepository _repository;
+        private readonly IOgloszenieRepository _ogloszenieRepo;
         private readonly UserManager<ApplicationUser> _userManager;
-        private IManageRepository _managerRepo;
+        private IManageRepository _manageRepo;
 
         public OgloszenieController (
             UserManager<ApplicationUser> userManager, 
-            IOgloszenieRepository repository,
-            IManageRepository managerRepo)
+            IOgloszenieRepository ogloszenieRepo,
+            IManageRepository manageRepo)
         {
             _userManager = userManager;
-            _repository = repository;
-            _managerRepo = managerRepo;
+            _ogloszenieRepo = ogloszenieRepo;
+            _manageRepo = manageRepo;
         }
 
         // GET: Ogloszenies
         //[ResponseCache(Location = ResponseCacheLocation.Client, Duration = 120)]
-        public IActionResult Index(
-            int? cenaOd, int? cenaDo, 
+        public async Task<IActionResult> Index(
+            int? cenaOd, 
+            int? cenaDo, 
             int? sortOrder, 
             Boolean? zmywarka,
             Boolean? lodowka,
@@ -58,7 +59,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
 
             OgloszenieIndexViewModel model = new OgloszenieIndexViewModel
             {
-                Ogloszenia = _repository.PobierzOgloszenia(
+                Ogloszenia = await _ogloszenieRepo.PobierzOgloszenia(
                     miasto, 
                     kategoria, 
                     searchString, 
@@ -74,10 +75,10 @@ namespace Wynajme_AspNetCore_v2.Controllers
                     wanna,
                     prysznic,
                     UserId)
-                    .ToPagedList(pageSize, page),
+                    .ToPagedListAsync(pageSize, page),
 
-                Kategorie = _repository.GetKategorie(),
-                Miasta = _repository.GetMiasta(),
+                Kategorie = await _ogloszenieRepo.PobierzKategorieAsync(),
+                Miasta = await _ogloszenieRepo.PobierzMiastaAsync(),
                 AktualnaKategoria = kategoria,
                 AktualneMiasto = miasto,
                 SearchString = searchString == null ? "" : searchString,
@@ -120,31 +121,26 @@ namespace Wynajme_AspNetCore_v2.Controllers
         }
 
         // GET: Ogloszenies/Details/5
-        //[ResponseCache(Location = ResponseCacheLocation.Client, Duration = 120)]
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            var ogloszenie = await _ogloszenieRepo.PobierzOgloszenieAsync(id, 
+                DaneOgloszenia.Wszystko, TrackingOgloszenia.AsNoTracking);
+            var loginUserId = _userManager.GetUserId(HttpContext.User); 
+
+            OgloszenieDetailsViewModel model = new OgloszenieDetailsViewModel
             {
-                //return HttpNotFound();
-            }
+                Ogloszenie = ogloszenie,
+                PodobneOgloszenia = await _ogloszenieRepo.PobierzPodobneOgloszenia(3,ogloszenie),
+                LogInUserId = loginUserId,
+                Obserwowane = false
+            };
 
-            var ogloszenie = _repository.GetOgloszenieAsNoTracking(id);
-
-            if (ogloszenie == null)
+            if (loginUserId != null)
             {
-                // return HttpNotFound();
-            }
+                var loginUser = await _manageRepo.PobierzUzytkownika(loginUserId,
+                    DaneUzytkownika.Wszystko, TrackingManage.AsNoTracking);
 
-            OgloszenieDetailsViewModel model = new OgloszenieDetailsViewModel(ogloszenie);
-            model.SetSimmlarOgloszenia(_repository.GetSimmlarOgloszenia(3, ogloszenie));
-
-            var logInUserId = _userManager.GetUserId(HttpContext.User);
-            model.LogInUserId = logInUserId;
-
-            if (logInUserId != null)
-            {
-                var user = _managerRepo.GetUserAllData(logInUserId);
-                foreach (var item in user.Obserwowane)
+                foreach (var item in loginUser.Obserwowane)
                 {
                     if (item.OgloszenieId == ogloszenie.OgloszenieId)
                     {
@@ -152,8 +148,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
                         break;
                     }
                 }
-            } 
-
+            }
             return View(model);
         }
 
@@ -175,8 +170,8 @@ namespace Wynajme_AspNetCore_v2.Controllers
                 ViewData["UserPhone"] = "";
             }
 
-            ViewData["KategoriaId"] = new SelectList(_repository.GetKategorie(), "KategoriaId", "Nazwa");
-            ViewData["MiastoId"] = new SelectList(_repository.GetMiasta(), "MiastoId", "Nazwa");
+            ViewData["KategoriaId"] = new SelectList(await _ogloszenieRepo.PobierzKategorieAsync(), "KategoriaId", "Nazwa");
+            ViewData["MiastoId"] = new SelectList(await _ogloszenieRepo.PobierzMiastaAsync(), "MiastoId", "Nazwa");
 
             return View();
         }
@@ -184,37 +179,38 @@ namespace Wynajme_AspNetCore_v2.Controllers
         // POST: Ogloszenies/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Ogloszenie ogloszenie, IList<IFormFile> images)
+        public async Task<IActionResult> Create(Ogloszenie ogloszenie, IList<IFormFile> images)
         {
             if (ModelState.IsValid)
             {
                 ogloszenie.UserId = _userManager.GetUserId(HttpContext.User);
-                _repository.DodajOgloszenie(ogloszenie, images);
+                _ogloszenieRepo.DodajOgloszenie(ogloszenie, images);
                 return RedirectToAction("Index");
             }
-            ViewData["KategoriaId"] = new SelectList(_repository.GetKategorie(), "KategoriaId", "Nazwa", ogloszenie.KategoriaId);
-            ViewData["MiastoId"] = new SelectList(_repository.GetMiasta(), "MiastoId", "Nazwa", ogloszenie.MiastoId);
+            ViewData["KategoriaId"] = new SelectList(await _ogloszenieRepo.PobierzKategorieAsync(), "KategoriaId", "Nazwa", ogloszenie.KategoriaId);
+            ViewData["MiastoId"] = new SelectList(await _ogloszenieRepo.PobierzMiastaAsync(), "MiastoId", "Nazwa", ogloszenie.MiastoId);
             return View(ogloszenie);
         }
 
         // GET: Ogloszenies/Edit/5
         [Authorize]
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                // return HttpNotFound();
             }
 
-            Ogloszenie ogloszenie = _repository.GetOgloszenie(id);
+            Ogloszenie ogloszenie = await _ogloszenieRepo.PobierzOgloszenieAsync(id, 
+                DaneOgloszenia.Wszystko, TrackingOgloszenia.Tracking);
 
             if (ogloszenie == null)
             {
                // return HttpNotFound();
             }
 
-            ViewData["KategoriaId"] = new SelectList(_repository.GetKategorie(), "KategoriaId", "Nazwa", ogloszenie.KategoriaId);
-            ViewData["MiastoId"] = new SelectList(_repository.GetMiasta(), "MiastoId", "Nazwa", ogloszenie.MiastoId);
+            ViewData["KategoriaId"] = new SelectList(await _ogloszenieRepo.PobierzKategorieAsync(), "KategoriaId", "Nazwa", ogloszenie.KategoriaId);
+            ViewData["MiastoId"] = new SelectList(await _ogloszenieRepo.PobierzMiastaAsync(), "MiastoId", "Nazwa", ogloszenie.MiastoId);
 
             return View(ogloszenie);
         }
@@ -223,30 +219,31 @@ namespace Wynajme_AspNetCore_v2.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Ogloszenie ogloszenie)
+        public async Task<IActionResult> Edit(Ogloszenie ogloszenie)
         {
             if (ModelState.IsValid)
             {
                 ogloszenie.DataDodania = DateTime.Now;
                 ogloszenie.UserId = _userManager.GetUserId(HttpContext.User);
-                _repository.UpdateOgloszenie(ogloszenie);
+                _ogloszenieRepo.UpdateOgloszenie(ogloszenie);
                 return RedirectToAction("Index");
             }
-            ViewData["KategoriaId"] = new SelectList(_repository.GetKategorie(), "KategoriaId", "Nazwa", ogloszenie.KategoriaId);
-            ViewData["MiastoId"] = new SelectList(_repository.GetMiasta(), "MiastoId", "Nazwa", ogloszenie.MiastoId);
+            ViewData["KategoriaId"] = new SelectList(await _ogloszenieRepo.PobierzKategorieAsync(), "KategoriaId", "Nazwa", ogloszenie.KategoriaId);
+            ViewData["MiastoId"] = new SelectList(await _ogloszenieRepo.PobierzMiastaAsync(), "MiastoId", "Nazwa", ogloszenie.MiastoId);
             return View(ogloszenie);
         }
 
         // GET: Ogloszenies/Delete/5
         [ActionName("Delete")]
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                // return HttpNotFound();
             }
 
-            Ogloszenie ogloszenie = _repository.GetOgloszenie(id);
+            Ogloszenie ogloszenie = await _ogloszenieRepo.PobierzOgloszenieAsync(id,
+                DaneOgloszenia.Wszystko, TrackingOgloszenia.Tracking);
             if (ogloszenie == null)
             {
                // return HttpNotFound();
@@ -260,7 +257,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            _repository.DeleteOgloszenie(id);
+            _ogloszenieRepo.DeleteOgloszenie(id);
             return RedirectToAction("Index");
         }
 
@@ -268,6 +265,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
         //[HttpPost]
         public async Task<IActionResult> Obserwuj(int id)
         {
+            /*
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var repoUser = _managerRepo.GetUserAllData(user.Id);
 
@@ -286,7 +284,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
 
                 return RedirectToAction("Details", new { id = id } );
             }
-
+            */
             return RedirectToAction("Index");
         }
 
@@ -294,6 +292,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
         //[HttpPost]
         public async Task<IActionResult> NieObserwuj(int id)
         {
+            /*
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var repoUser = _managerRepo.GetUserAllData(user.Id);
 
@@ -302,15 +301,9 @@ namespace Wynajme_AspNetCore_v2.Controllers
 
                 _repository.NieObserwuj(id);
 
-                /*
-                repoUser.Obserwowane.Remove()
-                _repository.SaveChages();
-                _managerRepo.UpdateUser(repoUser);
-                */
-
                 return RedirectToAction("Obserwowane","Manage");
             }
-
+            */
             return RedirectToAction("Index");
         }
 

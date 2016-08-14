@@ -21,17 +21,19 @@ namespace Wynajme_AspNetCore_v2.Controllers
             _managerRepo = managerRepo;
         }
 
-        public IActionResult Index(string UserId, int page = 1)
+        public async Task<IActionResult> Index(string UserId, int page = 1)
         {
             if (page == 0) page = 1;
-            var user = _managerRepo.GetUserAllData(UserId);
+            var user = await _managerRepo.PobierzUzytkownika(UserId,
+                    DaneUzytkownika.Wszystko, TrackingManage.Tracking);
             var model = new UserIndexViewModel(user, page);
             return View(model);
         }
 
-        public IActionResult Delete(string UserId)
+        public async Task<IActionResult> Delete(string UserId)
         {
-            var user = _managerRepo.GetUserAllData(UserId);
+            var user = await _managerRepo.PobierzUzytkownika(UserId,
+                    DaneUzytkownika.Wszystko, TrackingManage.Tracking);
             _managerRepo.DeleteUser(user);
             _managerRepo.SaveChanges();
             return RedirectToAction("Users", "Admin");

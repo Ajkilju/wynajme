@@ -7,38 +7,29 @@ using Wynajme_AspNetCore_v2.Data;
 using Wynajme_AspNetCore_v2.Models.HomeViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Wynajme_AspNetCore_v2.Repository;
 
 namespace Wynajme_AspNetCore_v2.Controllers
 {
     public class HomeController : Controller
     {
-        private ApplicationDbContext _context;
+        private IOgloszenieRepository _ogloszenieRepo;
 
-        public HomeController(ApplicationDbContext context)
+        public HomeController(IOgloszenieRepository ogloszenieRepo)
         {
-            _context = context;
+            _ogloszenieRepo = ogloszenieRepo;
         }
 
         // GET: /<controller>/
-        public IActionResult Index()
-        { 
-
-            NewHomeViewModel viewModel = new NewHomeViewModel
+        public async Task<IActionResult> Index()
+        {
+            NewHomeViewModel model = new NewHomeViewModel
             {
-                Kategorie = _context.Kategoria,
-                Miasta = _context.Miasto,
-                Ogloszenia = _context.Ogloszenie
-                             .Include(m => m.Miasto)
-                             .Include(k => k.Kategoria)
-                             .OrderByDescending(o => o.DataDodania)
-                             .AsNoTracking()
-                             .Take(9)
+                Kategorie = await _ogloszenieRepo.PobierzKategorieAsync(),
+                Miasta = await _ogloszenieRepo.PobierzMiastaAsync(),
+                Ogloszenia = await _ogloszenieRepo.PobierzOgloszeniaAsync(9)
             };
-
-            ViewData["kategoria"] = new SelectList(_context.Kategoria, "Nazwa", "Nazwa");
-            ViewData["miasto"] = new SelectList(_context.Miasto, "Nazwa", "Nazwa");
-
-            return View(viewModel);
+            return View(model);
         }
     }
 }

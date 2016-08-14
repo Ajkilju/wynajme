@@ -27,9 +27,9 @@ namespace Wynajme_AspNetCore_v2.Controllers
             {
                 UsersCount = _manageRepo.GetUsers().Count(),
                 AdminsCount = _manageRepo.GetAdmins().Count(),
-                KategorieCount = _ogloszenieRepo.GetKategorie().Count(),
-                LokalizacjeCount = _ogloszenieRepo.GetMiasta().Count(),
-                OgloszeniaCount = _ogloszenieRepo.GetOgloszenia().Count()
+                KategorieCount = _ogloszenieRepo.PobierzKategorie().Count(),
+                LokalizacjeCount = _ogloszenieRepo.PobierzMiasta().Count(),
+                OgloszeniaCount = _ogloszenieRepo.PobierzOgloszenia().Count()
             };
 
             return View(model);

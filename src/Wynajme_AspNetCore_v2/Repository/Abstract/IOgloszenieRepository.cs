@@ -24,24 +24,31 @@ namespace Wynajme_AspNetCore_v2.Repository
             Boolean? pralka,
             Boolean? wanna,
             Boolean? prysznic,
-            string UserId);
+            string UserId,
+            int? howMany = null);
 
-        Ogloszenie GetOgloszenie(int? id);
-        Ogloszenie GetNakedOgloszenie(int? id);
-        Ogloszenie GetOgloszenieAsNoTracking(int? id);
+        IQueryable<Ogloszenie> PobierzOgloszenia(int howMany);
+        IQueryable<Ogloszenie> PobierzOgloszenia();
+        Task<List<Ogloszenie>> PobierzOgloszeniaAsync(int howMany);
+        Task<List<Ogloszenie>> PobierzOgloszeniaAsync();
+        Task<Ogloszenie> PobierzOgloszenieAsync(int? id, DaneOgloszenia dane, TrackingOgloszenia tracking);
+        Task<List<Ogloszenie>> PobierzPodobneOgloszenia(int howMany, Ogloszenie ogloszenie);
 
-        IQueryable<Ogloszenie> GetOgloszenia(int howMany);
+        IQueryable<Kategoria> PobierzKategorie();
+        Task<List<Kategoria>> PobierzKategorieAsync();
+
+        IQueryable<Miasto> PobierzMiasta();
+        Task<List<Miasto>> PobierzMiastaAsync();
+
+
+
+        
         IQueryable<Ogloszenie> GetOgloszenia(int howMany, string kategoria, string miasto);
-        IQueryable<Ogloszenie> GetSimmlarOgloszenia(int howMany, Ogloszenie ogloszenie);
 
         void DodajOgloszenie(Ogloszenie ogloszenie, IList<IFormFile> images);
         void UpdateOgloszenie(Ogloszenie ogloszenie);
         void DeleteOgloszenie(int? id);
         void NieObserwuj(int? id);
-        void SaveChages();
-
-        IQueryable<Kategoria> GetKategorie();
-        IQueryable<Miasto> GetMiasta();
-        IQueryable<Ogloszenie> GetOgloszenia();
+        void SaveChages();   
     }
 }
