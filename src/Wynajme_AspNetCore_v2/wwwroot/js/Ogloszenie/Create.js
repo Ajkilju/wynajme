@@ -43,6 +43,7 @@ $("#images").on('change', function () {
                 }
 
                 image_holder.show();
+                $("#existing-images-holder").hide();
                 reader.readAsDataURL($(this)[0].files[i]);
             }
 

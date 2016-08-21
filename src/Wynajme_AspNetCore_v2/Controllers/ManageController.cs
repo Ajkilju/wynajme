@@ -25,7 +25,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
-        private IManageRepository _repository;
+        private IManageRepository _manageRepo;
 
         public ManageController(
         UserManager<ApplicationUser> userManager,
@@ -33,14 +33,14 @@ namespace Wynajme_AspNetCore_v2.Controllers
         IEmailSender emailSender,
         ISmsSender smsSender,
         ILoggerFactory loggerFactory,
-        IManageRepository repository)
+        IManageRepository manageRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<ManageController>();
-            _repository = repository;
+            _manageRepo = manageRepo;
         }
 
         //
@@ -62,17 +62,18 @@ namespace Wynajme_AspNetCore_v2.Controllers
             if (page == 0) page = 1;
 
             var user = await GetCurrentUserAsync();
-            var repoUser = await _repository.PobierzUzytkownika(user.Id,
+            var repoUser = await _manageRepo.PobierzUzytkownikaAsync(user.Id,
                     DaneUzytkownika.Wszystko, TrackingManage.Tracking);
 
             var model = new IndexViewModel
             {
+                //-- z szablonu --
                 HasPassword = await _userManager.HasPasswordAsync(user),
                 PhoneNumber = await _userManager.GetPhoneNumberAsync(user),
                 TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),
                 Logins = await _userManager.GetLoginsAsync(user),
                 BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user),
-
+                //----------------
                 Name = user.Name,
                 LastName = user.LastName,
                 Ogloszenia = repoUser.Ogloszenia.ToPagedList(pageSize, page),
@@ -99,22 +100,22 @@ namespace Wynajme_AspNetCore_v2.Controllers
             if (page == 0) page = 1;
 
             var user = await GetCurrentUserAsync();
-            var repoUser = await _repository.PobierzUzytkownika(user.Id,
+            var repoUser = await _manageRepo.PobierzUzytkownikaAsync(user.Id,
                     DaneUzytkownika.Wszystko, TrackingManage.Tracking);
 
             var model = new IndexViewModel
             {
+                //-- z szablonu --
                 HasPassword = await _userManager.HasPasswordAsync(user),
                 PhoneNumber = await _userManager.GetPhoneNumberAsync(user),
                 TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),
                 Logins = await _userManager.GetLoginsAsync(user),
                 BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user),
-
+                //-----------------
                 Name = user.Name,
                 LastName = user.LastName,
                 Obserwowane = repoUser.Obserwowane.ToPagedList(pageSize, page),
-                Image = user.Image,
-                
+                Image = user.Image,             
             };
 
             return View(model);
@@ -144,7 +145,6 @@ namespace Wynajme_AspNetCore_v2.Controllers
             if (ModelState.IsValid)
             {
                 var user = await GetCurrentUserAsync();
-                //var repoUser = _repository.GetUser(user.Id);
 
                 user.Name = model.Name;
                 user.LastName = model.LastName;
@@ -160,8 +160,8 @@ namespace Wynajme_AspNetCore_v2.Controllers
                     }
                 }
 
-                _repository.UpdateUser(user);
-                _repository.SaveChanges();
+                _manageRepo.AktualizujUzytkownika(user);
+                _manageRepo.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(model);

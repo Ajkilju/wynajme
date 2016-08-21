@@ -24,7 +24,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
         public async Task<IActionResult> Index(string UserId, int page = 1)
         {
             if (page == 0) page = 1;
-            var user = await _managerRepo.PobierzUzytkownika(UserId,
+            var user = await _managerRepo.PobierzUzytkownikaAsync(UserId,
                     DaneUzytkownika.Wszystko, TrackingManage.Tracking);
             var model = new UserIndexViewModel(user, page);
             return View(model);
@@ -32,9 +32,9 @@ namespace Wynajme_AspNetCore_v2.Controllers
 
         public async Task<IActionResult> Delete(string UserId)
         {
-            var user = await _managerRepo.PobierzUzytkownika(UserId,
+            var user = await _managerRepo.PobierzUzytkownikaAsync(UserId,
                     DaneUzytkownika.Wszystko, TrackingManage.Tracking);
-            _managerRepo.DeleteUser(user);
+            _managerRepo.UsunUzytkownika(user);
             _managerRepo.SaveChanges();
             return RedirectToAction("Users", "Admin");
         }

@@ -55,11 +55,8 @@ namespace Wynajme_AspNetCore_v2.Repository
 
             var ogloszenia = _context.Ogloszenie
                 .Include(o => o.Kategoria)
-                //.Include(o => o.Image)
-                //.Include(o => o.User)
                 .Include(o => o.Miasto)
                 .Where(c => c.Cena >= cenaOd && c.Cena <= cenaDo);
-                //.AsNoTracking();
 
             if (UserId != null) 
             {
@@ -244,34 +241,6 @@ namespace Wynajme_AspNetCore_v2.Repository
             return await _context.Miasto.ToListAsync();
         }
 
-        
-
-
-
-
-
-
-
-        public ApplicationUser GetUser(string Id)
-        {
-            return _context.Users.Single(i => i.Id == Id);
-        }
-
-        public IQueryable<Ogloszenie> GetOgloszenia(int howMany, string kategoria, string miasto)
-        {
-            return _context.Ogloszenie
-                .Include(m => m.Miasto)
-                .Include(k => k.Kategoria)
-                .Where(s => s.Kategoria.Nazwa == kategoria)
-                .Where(s => s.Miasto.Nazwa == miasto)
-                .OrderByDescending(o => o.DataDodania)
-                .AsNoTracking()
-                .Take(howMany);
-        }
-
-        
-
-
         public void DodajOgloszenie(Ogloszenie ogloszenie, IList<IFormFile> images)
         {
             ogloszenie.DataDodania = DateTime.Now;
@@ -298,13 +267,31 @@ namespace Wynajme_AspNetCore_v2.Repository
             _context.SaveChanges();
         }
 
-        public void UpdateOgloszenie(Ogloszenie ogloszenie)
+        public void AktualizujOgloszenie(Ogloszenie ogloszenie, IList<IFormFile> images)
         {
+            if (images.Count > 0)
+            {
+                int imagesCount = images.Count;
+                ogloszenie.Image = new List<Image>();
+                Image[] img = new Image[imagesCount];
+
+                for (int i = 0; i < imagesCount; i++)
+                {
+                    using (var reader = new BinaryReader(images[i].OpenReadStream()))
+                    {
+                        var fileContent = reader.ReadBytes((int)images[i].Length);
+                        img[i] = new Image();
+                        img[i].ImageContent = fileContent;
+                    }
+                    ogloszenie.Image.Add(img[i]);
+                }
+                ogloszenie.Miniature = img[0].ImageContent;
+            }
             _context.Update(ogloszenie);
             _context.SaveChanges();
         }
 
-        public void DeleteOgloszenie(int? id)
+        public void UsunOgloszenie(int? id)
         {
             Ogloszenie ogloszenie = _context.Ogloszenie.Single(m => m.OgloszenieId == id);
             _context.Ogloszenie.Remove(ogloszenie);
@@ -322,8 +309,5 @@ namespace Wynajme_AspNetCore_v2.Repository
         {
             _context.SaveChanges();
         }
-
-       
-
     }
 }

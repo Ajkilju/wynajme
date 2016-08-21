@@ -30,8 +30,13 @@ namespace Wynajme_AspNetCore_v2.Repository
             _context = context;
         }
 
-        public async Task<ApplicationUser> PobierzUzytkownika(string Id, DaneUzytkownika dane, TrackingManage tracking)
+        public async Task<ApplicationUser> PobierzUzytkownikaAsync(string Id, DaneUzytkownika dane, TrackingManage tracking)
         {
+            if(Id == null)
+            {
+                return null;
+            }
+
             if (dane == DaneUzytkownika.Podstawowe)
             {
                 if (tracking == TrackingManage.AsNoTracking)
@@ -58,60 +63,31 @@ namespace Wynajme_AspNetCore_v2.Repository
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public bool IsAnyUserRegistered()
+        public void AktualizujUzytkownika(ApplicationUser user)
         {
-            var user = _context.Users.FirstOrDefault();
-
-            if(user == null)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            _context.Update(user);
         }
 
-        public int GetRegisterdeUsersCount()
+        public int LiczbaZarejestrowanychUzytkownikow()
         {
             return _context.Users.Count();
         }
 
-        public IQueryable<ApplicationUser> GetUsers()
+        public IQueryable<ApplicationUser> PobierzUzytkownikow()
         {
             return _context.Users;
         }
 
-        public IQueryable<ApplicationUser> GetAdmins()
+        public IQueryable<ApplicationUser> PobierzAdministratorow()
         {
             //return _context.Users.Where(x => x.Roles.Select(role => role.RoleId).Contains("Admin"));
 
             return _context.Users;
         }
 
-        public void DeleteUser(ApplicationUser user)
+        public void UsunUzytkownika(ApplicationUser user)
         {
             _context.Remove(user);
-        }
-
-        public void UpdateUser(ApplicationUser user)
-        {
-            _context.Update(user);
         }
 
         public void SaveChanges()

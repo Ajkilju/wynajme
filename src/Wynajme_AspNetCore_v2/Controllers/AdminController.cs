@@ -25,8 +25,8 @@ namespace Wynajme_AspNetCore_v2.Controllers
         {
             var model = new AdminIndexViewModel
             {
-                UsersCount = _manageRepo.GetUsers().Count(),
-                AdminsCount = _manageRepo.GetAdmins().Count(),
+                UsersCount = _manageRepo.PobierzUzytkownikow().Count(),
+                AdminsCount = _manageRepo.PobierzAdministratorow().Count(),
                 KategorieCount = _ogloszenieRepo.PobierzKategorie().Count(),
                 LokalizacjeCount = _ogloszenieRepo.PobierzMiasta().Count(),
                 OgloszeniaCount = _ogloszenieRepo.PobierzOgloszenia().Count()
@@ -39,7 +39,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
         {
             var model = new UsersViewModel
             {
-                Users = _manageRepo.GetUsers()
+                Users = _manageRepo.PobierzUzytkownikow()
             };
 
             return View(model);

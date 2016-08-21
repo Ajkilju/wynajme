@@ -145,7 +145,7 @@ namespace Wynajme_AspNetCore_v2.Controllers
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
-                    if (_manageRepo.GetRegisterdeUsersCount() == 1)
+                    if (_manageRepo.LiczbaZarejestrowanychUzytkownikow() == 1)
                     {                   
                        await _userManager.AddToRoleAsync(user, "Admin");
                     }

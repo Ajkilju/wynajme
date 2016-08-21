@@ -40,15 +40,11 @@ namespace Wynajme_AspNetCore_v2.Repository
         IQueryable<Miasto> PobierzMiasta();
         Task<List<Miasto>> PobierzMiastaAsync();
 
-
-
-        
-        IQueryable<Ogloszenie> GetOgloszenia(int howMany, string kategoria, string miasto);
-
         void DodajOgloszenie(Ogloszenie ogloszenie, IList<IFormFile> images);
-        void UpdateOgloszenie(Ogloszenie ogloszenie);
-        void DeleteOgloszenie(int? id);
+        void AktualizujOgloszenie(Ogloszenie ogloszenie, IList<IFormFile> images);
+        void UsunOgloszenie(int? id);
         void NieObserwuj(int? id);
-        void SaveChages();   
+        void SaveChages();          
+          
     }
 }

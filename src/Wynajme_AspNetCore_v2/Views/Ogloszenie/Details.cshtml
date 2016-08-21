@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = Model.Ogloszenie.Tytul;
-    string imageString = "";
+    string imageString = "~/images/DefaultOglPhoto.png";
 }
 
 <div class="container" style="padding-top:10px">
@@ -179,8 +179,13 @@
 
         @foreach (var item in Model.PodobneOgloszenia)
         {
-            var base64 = Convert.ToBase64String(item.Miniature);
-            imageString = String.Format("data:image/gif;base64,{0}", base64);
+            imageString = "~/images/DefaultOglPhoto.png";
+
+            if(item.Miniature != null)
+            {
+                var base64 = Convert.ToBase64String(item.Miniature);
+                imageString = String.Format("data:image/gif;base64,{0}", base64);
+            }
 
             <div class="col-md-12" style="text-align:center">
                 <a asp-controller="Ogloszenie" asp-action="Details" asp-route-id="@item.OgloszenieId" style="height:175px;">

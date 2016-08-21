@@ -8,16 +8,12 @@ namespace Wynajme_AspNetCore_v2.Repository
 {
     public interface IManageRepository
     {
-        Task<ApplicationUser> PobierzUzytkownika(string Id, DaneUzytkownika dane, TrackingManage tracking);
-
-
-        bool IsAnyUserRegistered();
-        int GetRegisterdeUsersCount();
-        IQueryable<ApplicationUser> GetUsers();
-        IQueryable<ApplicationUser> GetAdmins();
-
-        void DeleteUser(ApplicationUser user);
-        void UpdateUser(ApplicationUser user);
+        Task<ApplicationUser> PobierzUzytkownikaAsync(string Id, DaneUzytkownika dane, TrackingManage tracking);
+        void AktualizujUzytkownika(ApplicationUser user);
+        int LiczbaZarejestrowanychUzytkownikow();
+        IQueryable<ApplicationUser> PobierzUzytkownikow();
+        IQueryable<ApplicationUser> PobierzAdministratorow();
+        void UsunUzytkownika(ApplicationUser user);
         void SaveChanges();
     }
 }

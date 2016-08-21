@@ -1,26 +1,29 @@
-@model Wynajme_AspNetCore_v2.Models.Ogloszenie
-
+@model Wynajme_AspNetCore_v2.Models.OgloszenieViewModel.OgloszenieCreateViewModel
 @{
-    ViewData["Title"] = "Dodaj";
-    var kategorie = (IEnumerable<SelectListItem>)ViewData["KategoriaId"];
-    var miasta = (IEnumerable<SelectListItem>)ViewData["MiastoId"];
-    var IsUserIn = (int)ViewData["IsUserLoggIn"];
-}
+    ViewData["Title"] = "Dodaj ogloszenie";
+    string Email = "";
+    string Phone = "";
 
-@if (IsUserIn == 0)
-{
-    <div style="background-color:#116597;">
-        <div class="container">
-            <div class="col-md-7" style="padding-top:30px;text-align: left">
-                <div class="header"><strong>Nie jestes zalogowany!</strong></div>
-                <div class="paragraph">Zaloguj sie aby moc pozniej edytowac swoje ogloszenia!</div>
-            </div>
-            <div class="col-md-5" style="padding-top:30px;text-align: center">
-                <a asp-action="Login" asp-controller="Account" class="btn button-blueBack-lg" style="margin:5px; width:260px;"><strong>ZALOGUJ</strong></a>
-                <a asp-action="Register" asp-controller="Account" class="btn button-purpleBack-lg" style="margin:5px; margin-bottom:20px; width:260px;"><strong>REJESTRUJ</strong></a>
+    if (Model.LoggedUser == null)
+    {
+        <div style="background-color:#116597;">
+            <div class="container">
+                <div class="col-md-7" style="padding-top:30px;text-align: left">
+                    <div class="header"><strong>Nie jestes zalogowany!</strong></div>
+                    <div class="paragraph">Zaloguj sie aby moc pozniej edytowac swoje ogloszenia!</div>
+                </div>
+                <div class="col-md-5" style="padding-top:30px;text-align: center">
+                    <a asp-action="Login" asp-controller="Account" class="btn button-blueBack-lg" style="margin:5px; width:260px;"><strong>ZALOGUJ</strong></a>
+                    <a asp-action="Register" asp-controller="Account" class="btn button-purpleBack-lg" style="margin:5px; margin-bottom:20px; width:260px;"><strong>REJESTRUJ</strong></a>
+                </div>
             </div>
         </div>
-    </div>
+    }
+    else
+    {
+        Email = Model.LoggedUser.Email;
+        Phone = Model.LoggedUser.PhoneNumber;
+    }
 }
 
 <div class="container">
@@ -31,27 +34,32 @@
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
 
+            <input asp-for="Ogloszenie.UserId" class="form-control" Type="hidden"/>
+
             <div class="form-group">
-                <label asp-for="Tytul" class="col-md-2 control-label"></label>
+                <label asp-for="Ogloszenie.Tytul" class="col-md-2 control-label"></label>
                 <div class="col-md-5">
-                    <input asp-for="Tytul" placeholder="Tytul ogloszenia..." class="form-control" />
-                    <span asp-validation-for="Tytul" class="text-danger" />
+                    <input asp-for="Ogloszenie.Tytul" class="form-control" />
+                    <span asp-validation-for="Ogloszenie.Tytul" class="text-danger" />
                 </div>
             </div>
 
             <div class="form-group">
-                <label asp-for="Tresc" class="col-md-2 control-label"></label>
+                <label asp-for="Ogloszenie.Tresc" class="col-md-2 control-label"></label>
                 <div class="col-md-5">
-                    <textarea asp-for="Tresc" style="height:250px;" placeholder="Tresc ogloszenia..." class="form-control"></textarea>
-                    <span asp-validation-for="Tresc" class="text-danger" />
+                    <textarea asp-for="Ogloszenie.Tresc" style="min-height:250px;" placeholder="Tresc ogloszenia..." class="form-control"></textarea>
+                    <span asp-validation-for="Ogloszenie.Tresc" class="text-danger" />
                 </div>
             </div>
+
+            <h3>Zdjecia</h3>
+            <hr />
 
             <div class="col-md-offset-2">
                 <div id="image-holder"> </div>
 
-                <label class="btn button-purpleBack btn-file" for="miniatureInput" style="width:250px;">
-                    <input id="images" type="file" name="images" multiple /> <strong>Dodaj zdjecia</strong>
+                <label class="btn button-purpleBack btn-file" for="miniatureInput" style="width:200px;">
+                    <input id="images" type="file" name="images" multiple /> Dodaj zdjecia
                 </label>
             </div>
 
@@ -59,32 +67,32 @@
             <hr />
 
             <div class="form-group">
-                <label asp-for="Cena" class="col-md-2 control-label"></label>
+                <label asp-for="Ogloszenie.Cena" class="col-md-2 control-label"></label>
                 <div class="col-md-2">
-                    <input asp-for="Cena" class="form-control" />
-                    <span asp-validation-for="Cena" class="text-danger" />
+                    <input asp-for="Ogloszenie.Cena" class="form-control" />
+                    <span asp-validation-for="Ogloszenie.Cena" class="text-danger" />
                 </div>
             </div>
 
             <div class="form-group">
-                <label asp-for="KategoriaId" class="col-md-2 control-label"></label>
+                <label asp-for="Ogloszenie.KategoriaId" class="col-md-2 control-label"></label>
                 <div class="col-md-2">
-                    <select asp-for="KategoriaId" asp-items="kategorie" class="form-control"></select>
+                    <select asp-for="Ogloszenie.KategoriaId" asp-items="Model.KategorieId" class="form-control"></select>
                 </div>
             </div>
 
             <div class="form-group">
-                <label asp-for="MiastoId" class="col-md-2 control-label"></label>
+                <label asp-for="Ogloszenie.MiastoId" class="col-md-2 control-label"></label>
                 <div class="col-md-2">
-                    <select asp-for="MiastoId" asp-items="miasta" class="form-control"></select>
+                    <select asp-for="Ogloszenie.MiastoId" asp-items="Model.MiastaId" class="form-control"></select>
                 </div>
             </div>
 
             <div class="form-group">
-                <label asp-for="Powierzchnia" class="col-md-2 control-label"></label>
+                <label asp-for="Ogloszenie.Powierzchnia" class="col-md-2 control-label"></label>
                 <div class="col-md-2">
-                    <input asp-for="Powierzchnia" class="form-control" />
-                    <span asp-validation-for="Powierzchnia" class="text-danger" />
+                    <input asp-for="Ogloszenie.Powierzchnia" class="form-control" />
+                    <span asp-validation-for="Ogloszenie.Powierzchnia" class="text-danger" />
                 </div>
             </div>
 
@@ -96,37 +104,37 @@
                 <div class="col-md-2">
 
                     <div class="checkbox">
-                        <label asp-for="Zmywarka">
-                            <input asp-for="Zmywarka" />
-                            @Html.DisplayNameFor(m => m.Zmywarka)
+                        <label asp-for="Ogloszenie.Zmywarka">
+                            <input asp-for="Ogloszenie.Zmywarka" />
+                            @Html.DisplayNameFor(m => m.Ogloszenie.Zmywarka)
                         </label>
                     </div>
 
                     <div class="checkbox">
-                        <label asp-for="Lodowka">
-                            <input asp-for="Lodowka" />
-                            @Html.DisplayNameFor(m => m.Lodowka)
+                        <label asp-for="Ogloszenie.Lodowka">
+                            <input asp-for="Ogloszenie.Lodowka" />
+                            @Html.DisplayNameFor(m => m.Ogloszenie.Lodowka)
                         </label>
                     </div>
 
                     <div class="checkbox">
-                        <label asp-for="Mikrofala">
-                            <input asp-for="Mikrofala" />
-                            @Html.DisplayNameFor(m => m.Mikrofala)
+                        <label asp-for="Ogloszenie.Mikrofala">
+                            <input asp-for="Ogloszenie.Mikrofala" />
+                            @Html.DisplayNameFor(m => m.Ogloszenie.Mikrofala)
                         </label>
                     </div>
 
                     <div class="checkbox">
-                        <label asp-for="KuchniaGaz">
-                            <input asp-for="KuchniaGaz" />
-                            @Html.DisplayNameFor(m => m.KuchniaGaz)
+                        <label asp-for="Ogloszenie.KuchniaGaz">
+                            <input asp-for="Ogloszenie.KuchniaGaz" />
+                            @Html.DisplayNameFor(m => m.Ogloszenie.KuchniaGaz)
                         </label>
                     </div>
 
                     <div class="checkbox">
-                        <label asp-for="KuchniaEl">
-                            <input asp-for="KuchniaEl" />
-                            @Html.DisplayNameFor(m => m.KuchniaEl)
+                        <label asp-for="Ogloszenie.KuchniaEl">
+                            <input asp-for="Ogloszenie.KuchniaEl" />
+                            @Html.DisplayNameFor(m => m.Ogloszenie.KuchniaEl)
                         </label>
                     </div>
 
@@ -138,23 +146,23 @@
                 <div class="col-md-2">
 
                     <div class="checkbox">
-                        <label asp-for="Pralka">
-                            <input asp-for="Pralka" />
-                            @Html.DisplayNameFor(m => m.Pralka)
+                        <label asp-for="Ogloszenie.Pralka">
+                            <input asp-for="Ogloszenie.Pralka" />
+                            @Html.DisplayNameFor(m => m.Ogloszenie.Pralka)
                         </label>
                     </div>
 
                     <div class="checkbox">
-                        <label asp-for="Wanna">
-                            <input asp-for="Wanna" />
-                            @Html.DisplayNameFor(m => m.Wanna)
+                        <label asp-for="Ogloszenie.Wanna">
+                            <input asp-for="Ogloszenie.Wanna" />
+                            @Html.DisplayNameFor(m => m.Ogloszenie.Wanna)
                         </label>
                     </div>
 
                     <div class="checkbox">
-                        <label asp-for="Prysznic">
-                            <input asp-for="Prysznic" />
-                            @Html.DisplayNameFor(m => m.Prysznic)
+                        <label asp-for="Ogloszenie.Prysznic">
+                            <input asp-for="Ogloszenie.Prysznic" />
+                            @Html.DisplayNameFor(m => m.Ogloszenie.Prysznic)
                         </label>
                     </div>
 
@@ -163,10 +171,10 @@
 
 
             <div class="form-group">
-                <label asp-for="DodatkoweWyposazenie" class="col-md-2 control-label"></label>
+                <label asp-for="Ogloszenie.DodatkoweWyposazenie" class="col-md-2 control-label"></label>
                 <div class="col-md-5">
-                    <input asp-for="DodatkoweWyposazenie" class="form-control" />
-                    <span asp-validation-for="DodatkoweWyposazenie" class="text-danger" />
+                    <input asp-for="Ogloszenie.DodatkoweWyposazenie" class="form-control" />
+                    <span asp-validation-for="Ogloszenie.DodatkoweWyposazenie" class="text-danger" />
                 </div>
             </div>
 
@@ -175,18 +183,18 @@
             <hr />
 
             <div class="form-group">
-                <label asp-for="Email" class="col-md-2 control-label"></label>
+                <label asp-for="Ogloszenie.Email" class="col-md-2 control-label"></label>
                 <div class="col-md-5">
-                    <input asp-for="Email" value="@ViewData["UserEmail"]" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger" />
+                    <input asp-for="Ogloszenie.Email" value="@Email" class="form-control" />
+                    <span asp-validation-for="Ogloszenie.Email" class="text-danger" />
                 </div>
             </div>
 
             <div class="form-group">
-                <label asp-for="Telefon" class="col-md-2 control-label"></label>
+                <label asp-for="Ogloszenie.Telefon" class="col-md-2 control-label"></label>
                 <div class="col-md-2">
-                    <input asp-for="Telefon" value="@ViewData["UserPhone"]" class="form-control" />
-                    <span asp-validation-for="Telefon" class="text-danger"></span>
+                    <input asp-for="Ogloszenie.Telefon" value="@Phone" class="form-control" />
+                    <span asp-validation-for="Ogloszenie.Telefon" class="text-danger"></span>
                 </div>
             </div>
 
